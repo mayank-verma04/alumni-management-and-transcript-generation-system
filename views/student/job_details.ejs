@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Job Details</title>
+    <link rel="stylesheet" href="/css/job-details.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #f7f7f7;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      #add-details-h1 {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: grid;
+        gap: 15px;
+      }
+      label {
+        font-weight: bold;
+      }
+      input[type="text"],
+      input[type="date"],
+      textarea,
+      input[type="file"] {
+        font-family: Arial, sans-serif;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      textarea {
+        font-family: Arial, sans-serif;
+        height: 50px;
+      }
+      button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      button[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+      .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #007bff;
+        text-decoration: none;
+        font-size: 16px;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      #message p {
+        color: #dc3545;
+        font-size: 0.9rem;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      #add-details-h3 h3 {
+        margin-top: 5px;
+        text-align: center;
+        line-height: 28px;
+        font-weight: 500;
+      }
+      #date-div {
+        display: flex;
+        gap: 30px;
+      }
+      #star-span {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include ("../header.ejs") %>
+    <h1 id="add-details-h1">Add Job Details</h1>
+    <div class="container">
+      <div id="message">
+        <% if (message) { %>
+        <p><%= message %></p>
+        <% } %>
+      </div>
+      <div id="add-details-h3">
+        <% if (student.student_name == null) { %>
+
+        <h3><b>Roll No.:</b> <%= student.rollno %></h3>
+
+        <% } else {%>
+
+        <h3>
+          <b>Roll No.:</b> <%= student.rollno %> | <b>Name:</b> <%=
+          student.student_name %>
+          <br />
+          <b>Department:</b> <%= student.department %> (<%=
+          student.year_of_admission %>)
+        </h3>
+
+        <% } %>
+      </div>
+      <form
+        action="/student/job-details"
+        method="POST"
+        enctype="multipart/form-data"
+        id="formSubmit"
+      >
+        <label for="rollno" hidden>Roll Number:</label>
+        <input
+          type="text"
+          id="rollno"
+          name="rollno"
+          required
+          readonly
+          value="<%= student.rollno %>"
+          hidden
+        />
+
+        <label for="company_name"
+          ><span id="star-span">*</span>Company Name:</label
+        >
+        <input type="text" name="company_name" required />
+
+        <label for="address_of_company"
+          ><span id="star-span">*</span>Address of Company:</label
+        >
+        <textarea name="address_of_company" required></textarea>
+
+        <div id="date-div">
+          <div>
+            <label for="date_of_joining"
+              ><span id="star-span">*</span>Date of Joining:</label
+            >
+            <input type="date" name="date_of_joining" required />
+          </div>
+
+          <div>
+            <label for="date_of_leaving">Date of Leaving:</label>
+            <input type="date" name="date_of_leaving" />
+          </div>
+        </div>
+
+        <label for="offer_letter"
+          ><span id="star-span">*</span>Offer Letter:</label
+        >
+        <input type="file" name="offer_letter" accept="image/*,.pdf" required />
+
+        <button type="submit">Add Job Details</button>
+      </form>
+      <a href="/student/dashboard" class="back-link">Back to Dashboard</a>
+    </div>
+    <script>
+      const form = document.getElementById("formSubmit");
+
+      form.addEventListener("submit", function (event) {
+        // Prevent the form from submitting by default
+        event.preventDefault();
+
+        // Ask for confirmation
+        const confirmation = confirm(
+          "Are you sure you want to submit this form?"
+        );
+
+        // If user confirms, submit the form
+        if (confirmation) {
+          form.submit(); // This submits the form
+        } else {
+          // Optionally, you can handle if the user cancels the submission
+          console.log("Submission cancelled.");
+        }
+      });
+    </script>
+  </body>
+</html>

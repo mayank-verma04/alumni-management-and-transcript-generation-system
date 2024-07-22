@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: "Open Sans", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .job-container h1 {
+        margin: 25px 10px;
+      }
+
+      .job-container h3 {
+        max-width: 1100px;
+        margin: 40px auto;
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: 500;
+        font-family: sans-serif;
+        word-spacing: 3px;
+        padding: 2px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid rgb(23, 23, 23);
+      }
+      .job-details table {
+        border-collapse: collapse;
+        width: 90%;
+        margin: auto;
+        font-size: large;
+      }
+
+      .job-details td,
+      .job-details th {
+        border: 1px solid #aeaeae;
+        text-align: left;
+        padding: 9px;
+      }
+
+      .job-details th {
+        background-color: #f2f2f2;
+      }
+
+      .job-details tr:nth-child(odd) {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="job-container">
+      <h1>Job Details</h1>
+
+      <h3>
+        Roll No.: <%= studentDetails.rollno %> | Name: <%=
+        studentDetails.student_name %> | Father's Name: <%=
+        studentDetails.father_name %> | Dept.: <%= studentDetails.department %>
+        (<%= studentDetails.year_of_admission %>)
+      </h3>
+      <% if (jobDetails.length === 0) { %>
+      <p>No job details found.</p>
+      <% } else { %>
+
+      <div class="job-details">
+        <table>
+          <tr>
+            <th>S.No.</th>
+            <th>Company Name</th>
+            <th>Company Address</th>
+            <th>Date of Joining</th>
+            <th>Date of Leaving</th>
+            <th>Offer Letter</th>
+          </tr>
+          <tr>
+            <% let serialNo = 1; %> <% jobDetails.forEach((job) => { %>
+            <td style="width: 30px"><%= serialNo++ %>.</td>
+            <td><%= job.company_name %></td>
+            <td><%= job.address_of_company %></td>
+            <td><%= job.date_of_joining %></td>
+            <td><%= job.date_of_leaving ? job.date_of_leaving : 'N/A' %></td>
+            <td>
+              <a
+                href="/public/uploads/offer_letters/<%= job.offer_letter %>"
+                class="offer-letter-link"
+                target="_blank"
+                >View Your Offer Letter</a
+              >
+            </td>
+          </tr>
+          <% }) %> <% } %>
+        </table>
+      </div>
+
+      <hr />
+      <a href="/admin/students" class="back-link">Back to Dashboard</a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Job Details</title>
+    <link rel="stylesheet" href="/css/view-job-details.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+      }
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .container h2 {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 1.8rem;
+        color: #1b1b1b;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      h2 {
+        margin-top: 25px;
+        margin-bottom: 15px;
+
+        text-align: center;
+      }
+      .container h3 {
+        font-size: 1.1rem;
+        font-weight: 550;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .job-details {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border: 2px solid rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .job-details p {
+        display: inline-block;
+        margin: 0;
+        margin-right: 25px;
+      }
+      .job-details hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 0;
+        border-top: 1px solid #ddd;
+      }
+      .offer-letter-link {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .offer-letter-link:hover {
+        text-decoration: underline;
+      }
+      form {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+      }
+      label {
+        font-weight: bold;
+      }
+      input[type="date"] {
+        font-family: Arial, sans-serif;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #515151;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      button[type="submit"]:hover {
+        background-color: #0057b5;
+      }
+      .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #007bff;
+        text-decoration: none;
+        font-size: 16px;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      #message p {
+        color: #dc3545;
+        font-size: 0.875rem;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include ("../header.ejs") %>
+    <h2>Your Job Details</h2>
+    <div class="container">
+      <% if (jobDetails.length === 0) { %>
+      <p>No job details found.</p>
+      <% } else { %>
+
+      <h3>
+        Roll No.: <%= jobDetails[0].rollno %> | Name: <%=
+        studentDetails[0].student_name %> | Father's Name: <%=
+        studentDetails[0].father_name %> | Dept.: <%=
+        studentDetails[0].department %> (<%= studentDetails[0].year_of_admission
+        %>)
+      </h3>
+
+      <div id="message">
+        <% if (message) { %>
+        <p><%= message %></p>
+        <% } %>
+      </div>
+      <% jobDetails.forEach((job) => { %>
+      <div class="job-details">
+        <div class="job-column">
+          <p>Company Name: <b><%= job.company_name %></b></p>
+          <p>Date of Joining: <%= job.date_of_joining %></p>
+          <p>
+            Date of Leaving: <%= job.date_of_leaving ? job.date_of_leaving :
+            'N/A' %>
+          </p>
+        </div>
+        <div class="job-column">
+          <p>Address of Company: <%= job.address_of_company %></p>
+          <p>
+            Offer Letter:
+            <a
+              href="/public/uploads/offer_letters/<%= job.offer_letter %>"
+              class="offer-letter-link"
+              target="_blank"
+              >View Your Offer Letter</a
+            >
+          </p>
+        </div>
+
+        <% if (!job.date_of_leaving) { %>
+        <form
+          action="/student/update-date-of-leaving"
+          method="POST"
+          id="confirmSubmit"
+        >
+          <input type="hidden" name="rollno" value="<%= job.rollno %>" />
+          <input
+            type="hidden"
+            name="company_name"
+            value="<%= job.company_name %>"
+          />
+          <label for="date_of_leaving">Date of Leaving:</label>
+          <input
+            type="date"
+            id="date_of_leaving"
+            name="date_of_leaving"
+            required
+          />
+          <button type="submit">Add Date of Leaving</button>
+        </form>
+        <% } %>
+      </div>
+      <% }) %> <% } %>
+      <hr />
+      <a href="/student/dashboard" class="back-link">Back to Dashboard</a>
+    </div>
+    <script>
+      document
+        .getElementById("confirmSubmit")
+        .addEventListener("submit", function (event) {
+          var userConfirmed = confirm(
+            "Do you really want to Add the date of Leaving?"
+          );
+          if (!userConfirmed) {
+            event.preventDefault();
+          }
+        });
+    </script>
+  </body>
+</html>

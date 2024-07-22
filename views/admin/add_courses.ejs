@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Courses</title>
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .main-heading {
+        width: 100%;
+      }
+      .main-heading h1 {
+        margin: 5px 10px;
+      }
+
+      .main-heading a {
+        position: relative;
+        left: 84%;
+        margin-right: 10px;
+        text-decoration: underline;
+        color: #001939;
+        font-weight: 500;
+        padding: 5px;
+        transition: all 0.2 ease-in-out;
+      }
+      .main-heading a:hover {
+        text-decoration: none;
+        background-color: #8ab2da28;
+        border-radius: 1px;
+      }
+      .main-heading a i {
+        margin-right: 6px;
+      }
+
+      table {
+        width: auto;
+        border-collapse: collapse;
+        margin: 0 auto;
+        font-size: 1.1rem;
+      }
+      th,
+      td {
+        border: 1px solid #656565;
+        padding: 0;
+        text-align: center;
+        white-space: nowrap;
+      }
+      th {
+        background-color: #f2f2f2;
+        padding: 4px;
+      }
+      input {
+        height: 22px;
+        font-size: 1rem;
+        width: 94%;
+        border: transparent;
+        outline: transparent;
+      }
+      input:focus {
+        background-color: #d6e9ff7a;
+      }
+
+      th:hover,
+      td:hover {
+        border: 1px solid black;
+      }
+
+      .department-div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+      #department-label {
+        font-size: 1.2rem;
+      }
+      #department {
+        border: 1px solid black;
+        border-radius: 4px;
+        width: 240px;
+        font-size: 1rem;
+      }
+
+      .custom-heading {
+        width: 100px;
+      }
+
+      #message p {
+        color: #dc3545;
+        font-size: 0.875rem;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      /* Hide the default number input arrow */
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .btn-div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .btn {
+        background-color: #dfdfdf;
+        cursor: pointer;
+        width: 150px;
+        height: 26px;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 15px;
+      }
+      .btn:hover {
+        background-color: #c5c4c4;
+        border: 2px solid black;
+      }
+    </style>
+    <script>
+      function addRow() {
+        const table = document.getElementById("coursesTable");
+        const row = table.insertRow(-1);
+        row.innerHTML = `
+                <td><input type="text" name="course_code[]" required></td>
+                <td><input type="text" name="course_name[]" style="width: 98%" required></td>
+                <td><input type="text" name="course_type[]" required></td>
+                <td><input type="number" name="semester[]" required></td>
+                <td><input type="number" name="credits[]" step="0.01" required></td>
+                <td><input type="number" name="min_marks[]" required></td>
+                <td><input type="number" name="max_marks[]" value="100" required></td>
+            `;
+      }
+
+      function removeLastRow() {
+        const table = document.getElementById("coursesTable");
+        const rowCount = table.rows.length;
+        if (rowCount > 2) {
+          // Ensure that at least one row remains
+          table.deleteRow(rowCount - 1);
+        } else {
+          alert("You must have at least one course entry.");
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="main-heading">
+      <h1>Add Courses</h1>
+      <a href="/admin/dashboard" class="back-link"
+        ><i class="fa-solid fa-arrow-left"></i>Back</a
+      >
+    </div>
+
+    <div class="form-div">
+      <form action="/admin/add-courses" method="POST">
+        <div class="department-div">
+          <label for="department" id="department-label">Department: </label>
+          <select name="department" id="department" required>
+            <option value="" disabled selected>Select the Department</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Information Technology">
+              Information Technology
+            </option>
+            <option value="Computer Science">Electrical Engineering</option>
+            <option value="Electronics and Communication Engineering">
+              Electronics and Communication Engineering
+            </option>
+            <option value="Chemical Engineering">Chemical Engineering</option>
+            <option value="Mining Engineering">Mining Engineering</option>
+            <option value="Petroleum Engineering">Petroleum Engineering</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Mechanical Engineering">
+              Mechanical Engineering
+            </option>
+            <option value="Production and Industrial Engineering">
+              Production and Industrial Engineering
+            </option>
+            <option value="Department of Physics">Department of Physics</option>
+            <option value="Department of Chemistry">
+              Department of Chemistry
+            </option>
+            <option value="Department of Botany">Department of Botany</option>
+            <option value="Department of Mathematics">
+              Department of Mathematics
+            </option>
+            <option value="Department of Law">Department of Law</option>
+            <option value="Other">Any Other</option>
+          </select>
+        </div>
+        <table id="coursesTable">
+          <tr>
+            <th class="custom-heading">Course Code</th>
+            <th style="width: 40%">Course Name</th>
+            <th class="custom-heading">Course Type</th>
+            <th class="custom-heading">Semester</th>
+            <th class="custom-heading">Credits</th>
+            <th class="custom-heading">Min Marks</th>
+            <th class="custom-heading">Max Marks</th>
+          </tr>
+          <tr>
+            <td><input type="text" name="course_code[]" required /></td>
+            <td>
+              <input
+                type="text"
+                name="course_name[]"
+                required
+                style="width: 98%"
+              />
+            </td>
+            <td><input type="text" name="course_type[]" required /></td>
+            <td>
+              <input type="number" name="semester[]" required />
+            </td>
+            <td>
+              <input type="number" name="credits[]" step="0.01" required />
+            </td>
+            <td>
+              <input type="number" name="min_marks[]" required />
+            </td>
+            <td>
+              <input type="number" name="max_marks[]" value="100" required />
+            </td>
+          </tr>
+        </table>
+        <div class="btn-div">
+          <button type="button" class="btn" onclick="addRow()">
+            Add More Courses
+          </button>
+          <button type="button" class="btn" onclick="removeLastRow()">
+            Remove Last Course
+          </button>
+          <input class="btn" type="submit" value="Submit Courses" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

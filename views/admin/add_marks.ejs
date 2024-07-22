@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Student Marks</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .h1-div h1 {
+        margin: 10px;
+      }
+
+      table {
+        border-collapse: collapse;
+        border: 2px solid black;
+      }
+      th,
+      td {
+        padding: 5px;
+        height: 26px;
+      }
+      input {
+        width: 100%;
+        height: 100%;
+      }
+      /* Hide the default number input arrow */
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="h1-div">
+      <h1>
+        Add Marks for Roll Number: <%= rollno %>, Semester: <%= semester %>
+      </h1>
+    </div>
+    <form action="/admin/add-marks" method="POST" id="formSubmit">
+      <% if (courses.length === 0){ %>
+
+      <p style="text-align: center; margin-top: 46px; font-size: 20px">
+        No Course Found for Semester: <%= semester %>
+      </p>
+
+      <% } else { %>
+      <input type="hidden" name="rollno" value="<%= rollno %>" />
+      <input type="hidden" name="semester" value="<%= semester %>" />
+      <input
+        type="text"
+        name="session"
+        placeholder="Session (e.g., 2023-2024)"
+        required
+      />
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Min Marks</th>
+            <th>Max Marks</th>
+            <th>Credits</th>
+            <th>Marks Obtained</th>
+            <th>Marks Internal</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% courses.forEach(course => { %>
+          <tr>
+            <td><%= course.course_code %></td>
+            <td><%= course.course_name %></td>
+            <td><%= course.min_marks %></td>
+            <td><%= course.max_marks %></td>
+            <td><%= course.credits %></td>
+            <td>
+              <input
+                type="number"
+                name="marks[<%= course.course_code %>][marks_obtained]"
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                name="marks[<%= course.course_code %>][marks_internal]"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                name="marks[<%= course.course_code %>][grade]"
+                required
+              />
+            </td>
+
+            <input
+              type="hidden"
+              name="marks[<%= course.course_code %>][course_code]"
+              value="<%= course.course_code %>"
+            />
+            <input
+              type="hidden"
+              name="marks[<%= course.course_code %>][semester]"
+              value="<%= semester %>"
+            />
+          </tr>
+          <% }) %>
+          <tr>
+            <td colspan="2"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th colspan="2" rowspan="2">SEMESTER TOTAL:</th>
+            <th>Total Min Marks</th>
+            <th>Total Max Marks</th>
+            <th>Total Credits</th>
+            <th colspan="2">Total Obt. (Mks Obt. + Int. Mks):</th>
+
+            <th>SGPA:</th>
+          </tr>
+          <tr>
+            <td>
+              <input
+                type="number"
+                name="total_min_marks"
+                value="<%= total_min_marks %>"
+                readonly
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                name="total_max_marks"
+                value="<%= total_max_marks %>"
+                readonly
+                required
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                name="total_credits"
+                value="<%= total_credits %>"
+                step=".01"
+                readonly
+                required
+              />
+            </td>
+            <td colspan="2">
+              <input type="number" name="total_marks_obtained" required />
+            </td>
+            <td>
+              <input type="number" name="gpa" step=".01" required />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit">Submit</button>
+    </form>
+    <% } %>
+    <script>
+      const form = document.getElementById("formSubmit");
+
+      form.addEventListener("submit", function (event) {
+        // Prevent the form from submitting by default
+        event.preventDefault();
+
+        // Ask for confirmation
+        const confirmation = confirm("Are you sure you add to add Marks?");
+
+        // If user confirms, submit the form
+        if (confirmation) {
+          form.submit(); // This submits the form
+        } else {
+          // Optionally, you can handle if the user cancels the submission
+          console.log("Submission cancelled.");
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-image: url("/images/JU_CSE_IT_bg-img.jpg");
+      }
+    </style>
+  </head>
+  <body>
+    <%- include ("../header.ejs") %>
+    <div class="form-section">
+      <form
+        action="/student/registration"
+        method="POST"
+        onsubmit="return conifirmMe(event)"
+        class="registration-login-form"
+      >
+        <h2>Student Registration</h2>
+
+        <% if (typeof error !== 'undefined' && error === 'exists') { %>
+        <div class="alert alert-danger">
+          <i class="fa-regular fa-circle-xmark"></i>
+          Student with this roll number already exists.<br />Please log in using
+          your roll number.
+        </div>
+        <% } %>
+        <div>
+          <label for="rollno">Roll Number:</label>
+          <input
+            type="text"
+            name="rollno"
+            id="rollno"
+            pattern="\d{3}[A-Z]{3}\d{4}"
+            title="Enter correct Roll No. (Eg. 121CSE2024)"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="dob">Date of Birth (DD-MM-YYYY):</label>
+          <input
+            type="text"
+            id="dob"
+            name="dob"
+            pattern="\d{2}-\d{2}-\d{4}"
+            required
+          />
+        </div>
+
+        <div>
+          <button type="submit">
+            <i class="fa-solid fa-user-plus"></i>Register
+          </button>
+        </div>
+        <div class="register-link">
+          <a href="/student/login">Login</a>
+        </div>
+      </form>
+    </div>
+    <%- include ("../footer.ejs") %>
+    <script>
+      // TO UPPERCASE WHEN USER TYPE ROLL NO
+      document.addEventListener("DOMContentLoaded", function () {
+        const input = document.getElementById("rollno");
+        input.addEventListener("input", function () {
+          this.value = this.value.toUpperCase();
+        });
+      });
+
+      // Confirm Details before submission
+      function conifirmMe(event) {
+        // Get values entered by the user
+        let rollno = document.getElementById("rollno").value;
+        let dob = document.getElementById("dob").value;
+
+        let confirmationMessage = "Please review your details:\n\n";
+        confirmationMessage += "Roll Number: " + rollno + "\n";
+        confirmationMessage += "Date of Birth: " + dob + "\n";
+        confirmationMessage += "Do you want to proceed with registration?";
+
+        let confirmRegister = confirm(confirmationMessage);
+
+        return confirmRegister;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Student Details</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+    />
+    <link rel="stylesheet" href="/css/header.css" />
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f4f7f6;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      form {
+        position: relative;
+        margin: 0 auto;
+        background-color: #ededed;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 900px;
+        min-height: 520px;
+      }
+      form h2 {
+        color: #2a2a2a;
+        text-align: center;
+        margin: 0px;
+      }
+      table {
+        margin: 0 auto;
+      }
+      th,
+      td {
+        text-align: left;
+      }
+      input[type="text"],
+      input[type="number"],
+      input[type="tel"],
+      input[type="email"] {
+        margin-bottom: 3px;
+        margin-right: 25px;
+        width: 200px;
+        -moz-appearance: textfield;
+        appearance: textfield;
+        font-family: "Roboto", sans-serif;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      /* Hide the default number input arrow */
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      button {
+        position: absolute;
+        right: 20px;
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        align-self: flex-end; /* Align the button to the right */
+      }
+      button:hover {
+        background-color: #218838;
+      }
+      #imagePreview {
+        display: block;
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+        border-radius: 5px;
+      }
+      #imagePreview-caption {
+        display: block;
+      }
+      @media screen and (max-width: 700px) {
+        form {
+          height: 100%;
+        }
+        table {
+          display: block;
+          width: 100%;
+        }
+        tr,
+        td {
+          display: block;
+          width: 100%;
+          margin-bottom: 20px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="file"],
+        textarea,
+        select {
+          width: 100%;
+        }
+        button {
+          position: relative;
+          right: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("../header.ejs") %>
+
+    <div class="register-form">
+      <form
+        action="/admin/update-student"
+        autocomplete="off"
+        method="POST"
+        id="updateForm"
+      >
+        <h2>Update Student Details</h2>
+        <div class="form-container">
+          <table>
+            <tr>
+              <div class="form-column">
+                <div class="input-column">
+                  <th>
+                    <label for="rollno">Roll Number:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="rollno"
+                      name="rollno"
+                      required
+                      readonly
+                      value="<%= student.rollno %>"
+                    />
+                  </td>
+                </div>
+
+                <div class="input-column"></div>
+              </div>
+            </tr>
+            <!--*****************-->
+            <tr>
+              <div class="form-column">
+                <div class="input-column">
+                  <th>
+                    <label for="student_name">Student Name:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      name="student_name"
+                      value="<%= student.student_name %>"
+                      required
+                    />
+                  </td>
+                </div>
+
+                <div class="input-column">
+                  <th>
+                    <label for="father_name">Father's Name:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="father_name"
+                      name="father_name"
+                      value="<%= student.father_name %>"
+                      required
+                    />
+                  </td>
+                </div>
+              </div>
+            </tr>
+            <!--*****************-->
+            <tr>
+              <div class="form-column">
+                <div class="input-column">
+                  <th>
+                    <label for="dob">Date of Birth:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="dob"
+                      name="dob"
+                      value="<%= student.dob %>"
+                      required
+                    />
+                  </td>
+                </div>
+
+                <div class="input-column">
+                  <th>
+                    <label for="gender">Gender:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      name="gender"
+                      value="<%= student.gender %>"
+                    />
+                  </td>
+                </div>
+              </div>
+            </tr>
+            <!--*****************-->
+            <tr>
+              <div class="form-column">
+                <div class="input-column">
+                  <th>
+                    <label for="religion">Religion:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      name="religion"
+                      value="<%= student.religion %>"
+                    />
+                  </td>
+                </div>
+
+                <div class="input-column">
+                  <th>
+                    <label for="category">Admission Category:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      name="category"
+                      value="<%= student.category %>"
+                    />
+                  </td>
+                </div>
+              </div>
+            </tr>
+            <!--*****************-->
+            <tr>
+              <div class="form-column">
+                <div class="input-column">
+                  <th>
+                    <label for="phone_no">Phone Number:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="tel"
+                      id="phone_no"
+                      name="phone_no"
+                      minlength="10"
+                      maxlength="10"
+                      value="<%= student.phone_no %>"
+                      required
+                    />
+                  </td>
+                </div>
+
+                <div class="input-column">
+                  <th>
+                    <label for="email">Email:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value="<%= student.email %>"
+                      required
+                    />
+                  </td>
+                </div>
+              </div>
+            </tr>
+            <!--*****************-->
+            <tr>
+              <div class="form-column">
+                <div class="input-column">
+                  <th>
+                    <label for="department">Department:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="department"
+                      name="department"
+                      value="<%= student.department %>"
+                      required
+                    />
+                  </td>
+                </div>
+
+                <div class="input-column">
+                  <th>
+                    <label for="year_of_admission">Year of Admission:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="year_of_admission"
+                      name="year_of_admission"
+                      value="<%= student.year_of_admission %>"
+                      required
+                    />
+                  </td>
+                </div>
+              </div>
+            </tr>
+            <!--*****************-->
+            <tr>
+              <div class="form-column">
+                <div class="input-column">
+                  <th>
+                    <label for="nationality">Nationality:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="nationality"
+                      name="nationality"
+                      value="<%= student.nationality %>"
+                    />
+                  </td>
+                </div>
+
+                <div class="input-column">
+                  <th>
+                    <label for="domicile_state">Domicile State:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="domicile_state"
+                      name="domicile_state"
+                      value="<%= student.domicile_state %>"
+                      required
+                    />
+                  </td>
+                </div>
+              </div>
+            </tr>
+            <!--*****************-->
+            <tr>
+              <div class="form-column">
+                <div class="input-column">
+                  <th>
+                    <label for="district">District:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="district"
+                      name="district"
+                      value="<%= student.district %>"
+                      required
+                    />
+                  </td>
+                </div>
+
+                <div class="input-column">
+                  <th>
+                    <label for="pin_code">Pincode:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="number"
+                      id="pin_code"
+                      name="pin_code"
+                      value="<%= student.pin_code %>"
+                      required
+                    />
+                  </td>
+                </div>
+              </div>
+            </tr>
+            <!--*****************-->
+            <tr>
+              <div class="form-column">
+                <div class="input-column">
+                  <th>
+                    <label for="permanent_address">Permanent Address:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="permanent_address"
+                      name="permanent_address"
+                      value="<%= student.permanent_address %>"
+                      required
+                    />
+                  </td>
+                </div>
+
+                <div class="input-column">
+                  <th>
+                    <label for="correspondence_address"
+                      >Correspondence Address:</label
+                    >
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="correspondence_address"
+                      name="correspondence_address"
+                      value="<%= student.correspondence_address %>"
+                      rows="2"
+                      required
+                    />
+                  </td>
+                </div>
+              </div>
+            </tr>
+            <!--*****************-->
+            <tr>
+              <div class="form-column">
+                <!--
+
+
+
+                <div class="input-column">
+                  <th>
+                    <label for="profile_pic">Profile Picture:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="file"
+                      name="profile_pic"
+                      accept="image/*"
+                      id="fileInput"
+                      required
+                    />
+                  </td>
+                </div>
+
+                
+                -->
+
+                <div class="input-column">
+                  <th>
+                    <label for="marital_status">Marital Status:</label>
+                  </th>
+                  <td>
+                    <input
+                      type="text"
+                      id="married"
+                      name="marital_status"
+                      value="<%= student.marital_status %>"
+                    />
+                  </td>
+                </div>
+              </div>
+            </tr>
+            <!--
+
+
+
+                <tr>
+                  <figure>
+                    <td>
+                      <figcaption id="imagePreview-caption">
+                        Preview Profile Picture
+                      </figcaption>
+                    </td>
+                    <td>
+                      <img
+                        id="imagePreview"
+                        src=""
+                        alt="Selected Image"
+                        onerror="this.style.display='none'"
+                        ;
+                      />
+                    </td>
+                  </figure>
+                </tr>
+
+
+
+                -->
+          </table>
+        </div>
+        <button type="submit">Update</button>
+      </form>
+    </div>
+    <script>
+      function handleSubmit(event) {
+        event.preventDefault(); // Prevent form submission to handle it via JavaScript
+
+        const form = document.getElementById("updateForm");
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (response.ok) {
+              alert("Update successful!");
+              window.location.href = "/admin/dashboard";
+            } else {
+              alert("Update failed (Recheck Details).");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("An error occurred while submitting the form.");
+          });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>University Management System</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #b2cce8, #e1f5fe, #b2cce8);
+      }
+
+      a {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+
+      .container {
+        margin-top: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 15px 30px;
+        text-decoration: none;
+        background-color: #0057b3;
+        border-radius: 8px;
+        font-size: 1.2em;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease-in-out, transform 0.2s ease-in-out;
+      }
+
+      .btn:hover {
+        color: white;
+        background-color: #004494;
+        transform: scale(1.05);
+      }
+
+      marquee {
+        padding: 10px;
+        background-color: #004a72;
+        color: white;
+        font-size: 1.1em;
+      }
+
+      marquee a {
+        color: #a2c2e4;
+        text-decoration: none;
+      }
+
+      .glass-box {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #000000;
+      }
+
+      @media (min-width: 600px) {
+        .container h1 {
+          font-size: 2.5em;
+        }
+        .buttons {
+          flex-direction: row;
+        }
+        .btn {
+          margin: 0 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%- include ("./header.ejs") %>
+    <div class="notification-bar">
+      <marquee
+        >University of Jammu, Jammu Tawi (J&K)-180006 | Department of Computer
+        Science and I.T. | Official Website:
+        <a href="https://www.jammuuniversity.ac.in/" target="_blank"
+          >jammuuniversity.ac.in</a
+        ></marquee
+      >
+    </div>
+    <div class="container">
+      <div class="buttons">
+        <a href="/student/registration" class="btn glass-box"
+          >Student Registration</a
+        >
+        <a href="/student/login" class="btn glass-box">Student Login</a>
+        <a href="/admin/login" class="btn glass-box">Admin Login</a>
+      </div>
+    </div>
+    <%- include ("./footer.ejs") %>
+  </body>
+</html>

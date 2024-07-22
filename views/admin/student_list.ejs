@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Students List</title>
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/css/header.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .main-heading {
+        width: 100%;
+      }
+      .main-heading h1 {
+        margin: 5px 10px;
+      }
+
+      .main-heading a {
+        position: relative;
+        left: 84%;
+        margin-right: 10px;
+        text-decoration: underline;
+        color: #001939;
+        font-weight: 500;
+        padding: 5px;
+        transition: all 0.2 ease-in-out;
+      }
+      .main-heading a:hover {
+        text-decoration: none;
+        background-color: #8ab2da28;
+        border-radius: 1px;
+      }
+
+      .main-heading a i {
+        margin-right: 6px;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 90%;
+        margin: auto;
+        font-size: large;
+        margin-top: 40px;
+      }
+
+      td,
+      th {
+        border: 1px solid #000000;
+        text-align: left;
+        padding: 9px;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+
+      tr:nth-child(odd) {
+        background-color: #f2f2f2;
+      }
+
+      .form-div form {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+        margin: 16px;
+      }
+
+      .form-div input[type="text"] {
+        margin-bottom: 3px;
+        width: 320px;
+        height: 30px;
+        padding: 5px;
+        border: 2px solid #9a9a9a;
+        border-radius: 5px;
+        font-size: 18px;
+      }
+
+      .form-div input[type="text"]:focus {
+        box-shadow: 0px 0px 8px 0.5px rgba(12, 12, 12, 0.4);
+      }
+
+      .form-div button {
+        height: 35px;
+        border: 1px solid #585858;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.1s ease;
+      }
+      .form-div button:hover {
+        background-color: #d2d2d2;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include("../header.ejs") %>
+
+    <div class="main-heading">
+      <h1>Students List</h1>
+      <a href="/admin/dashboard" class="back-link"
+        ><i class="fa-solid fa-arrow-left"></i>Back</a
+      >
+    </div>
+
+    <div class="form-div">
+      <form action="/admin/students/search" method="POST">
+        <input
+          type="text"
+          name="search_query"
+          placeholder="Search by name, department, or rollno"
+        />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    <table>
+      <tr>
+        <th>S.No.</th>
+        <th>Roll Number</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Open Details</th>
+      </tr>
+      <tr>
+        <% let serialNo = 1; %> <% students.forEach(student => { %>
+        <td style="width: 30px"><%= serialNo++ %>.</td>
+        <td><%= student.rollno %></td>
+        <td><%= student.student_name %></td>
+        <td><%= student.department %></td>
+        <td>
+          <a href="/admin/student-details/<%= student.rollno %>">Click here</a>
+        </td>
+      </tr>
+      <% }) %> <% if (students.length === 0){ %>
+
+      <tr>
+        <td colspan="4" style="text-align: center">No Data Found</td>
+      </tr>
+
+      <% }%>
+    </table>
+  </body>
+</html>

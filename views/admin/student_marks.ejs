@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Marks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Noto Serif";
+      }
+      .h1-div h1 {
+        text-align: center;
+        margin: 20px;
+      }
+      .h1-div h2 {
+        margin: 16px;
+        margin-top: 20px;
+        font-size: 1.3rem;
+      }
+      .h2-div h2 {
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 16px;
+        margin-top: 20px;
+      }
+
+      .table-div {
+        margin: 16px;
+        overflow: auto;
+      }
+      table {
+        margin: 0 auto;
+        width: 85%;
+        max-width: 100%;
+        min-width: 85%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      tr {
+        text-align: center;
+      }
+      table,
+      th,
+      td {
+        font-size: 1.02rem;
+        border: 2px solid black;
+      }
+      th,
+      td {
+        padding: 6px;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="h1-div">
+      <h1>Student Marksheet</h1>
+      <h2>Roll No.: <%= rollno %></h2>
+    </div>
+
+    <% for (let semester in semesters) { %>
+    <div class="h2-div"></div>
+    <div class="table-div">
+      <table>
+        <thead>
+          <tr>
+            <th>CODE</th>
+            <th>SUBJECTS</th>
+            <th>TYPE</th>
+            <th>MIN MKS.</th>
+            <th>MAX MKS.</th>
+            <th>Credits</th>
+            <th>MARKS OBT.</th>
+            <th>INT. OBT.</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% semesters[semester].courses.forEach(course => { %>
+          <tr>
+            <td><%= course.course_code %></td>
+            <td><%= course.course_name %></td>
+            <td><%= course.course_type %></td>
+            <td><%= course.min_marks %></td>
+            <td><%= course.max_marks %></td>
+            <td><%= course.credits %></td>
+            <td><%= course.marks_obtained %></td>
+            <td><%= course.marks_internal %></td>
+            <td><%= course.grade %></td>
+          </tr>
+          <% }); %>
+
+          <tr>
+            <td colspan="3"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td colspan="3"></td>
+          </tr>
+          <tr>
+            <th colspan="3">SEMESTER TOTAL:</th>
+            <td><%= semesters[semester].total_min_marks %></td>
+            <td><%= semesters[semester].total_max_marks %></td>
+            <td><%= semesters[semester].total_credits %></td>
+            <th>Total OBT.:</th>
+            <td><%= semesters[semester].total_marks_obtained %></td>
+            <th>SGPA: <%= semesters[semester].gpa %></th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr style="border: 1px dashed black; width: 84vw; margin: 0 auto" />
+
+    <% } %>
+
+    <script>
+      function convertToRoman(num) {
+        const romanNumeralMap = [
+          { value: 10, numeral: "X" },
+          { value: 9, numeral: "IX" },
+          { value: 5, numeral: "V" },
+          { value: 4, numeral: "IV" },
+          { value: 1, numeral: "I" },
+        ];
+
+        let roman = "";
+
+        for (const { value, numeral } of romanNumeralMap) {
+          while (num >= value) {
+            roman += numeral;
+            num -= value;
+          }
+        }
+
+        return roman;
+      }
+      const semesters = "<%= semesters %>";
+      const semesterNumber = "<%= sem %>";
+      let sem = semesterNumber.split(",").map(Number);
+      var divs = document.getElementsByClassName("h2-div");
+      // Iterate through the numbers array
+      sem.forEach(function (number, index) {
+        let romanSem = convertToRoman(number);
+        // Create a new <h2> element
+        var h2 = document.createElement("h2");
+        h2.textContent = "Semester " + romanSem;
+        // Append <h2> to the corresponding div with class "h2-div"
+        if (index < divs.length) {
+          divs[index].appendChild(h2);
+        } else {
+          // Handle case where there are more numbers than divs
+          console.error(
+            "Not enough div elements with class 'h2div' for each number."
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
