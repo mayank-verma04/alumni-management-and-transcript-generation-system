@@ -251,15 +251,13 @@ router.post("/add-courses", (req, res) => {
   const minMarks = req.body.min_marks;
   const maxMarks = req.body.max_marks;
 
-  console.log("DEPEPEPEPEPEPEPEPEPEPEP", departments);
-
   for (let i = 0; i < courseCodes.length; i++) {
     const course = {
       course_code: courseCodes[i],
       course_name: courseNames[i],
       course_type: courseTypes[i],
       department: departments,
-      semester: semesters[i],
+      semester: semesters,
       credits: credits[i],
       min_marks: minMarks[i],
       max_marks: maxMarks[i],

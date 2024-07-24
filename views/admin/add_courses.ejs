@@ -8,6 +8,7 @@
       src="https://kit.fontawesome.com/9ca9aa7819.js"
       crossorigin="anonymous"
     ></script>
+    <link rel="stylesheet" href="/css/header.css" />
     <style>
       body {
         font-family: Arial, Helvetica, sans-serif;
@@ -17,7 +18,8 @@
         width: 100%;
       }
       .main-heading h1 {
-        margin: 5px 10px;
+        margin: 10px 0;
+        text-align: center;
       }
 
       .main-heading a {
@@ -39,23 +41,44 @@
         margin-right: 6px;
       }
 
-      table {
+      .course-table {
         width: auto;
         border-collapse: collapse;
         margin: 0 auto;
         font-size: 1.1rem;
       }
-      th,
-      td {
+      .course-table th,
+      .course-table td {
         border: 1px solid #656565;
         padding: 0;
         text-align: center;
         white-space: nowrap;
       }
-      th {
+      .course-table th {
         background-color: #f2f2f2;
         padding: 4px;
       }
+      .course-table th:hover,
+      .course-table td:hover {
+        border: 1px solid black;
+      }
+
+      .department-semester-table {
+        border-collapse: collapse;
+        margin: 15px auto;
+        font-size: 1.1rem;
+      }
+      .department-semester-table th,
+      .department-semester-table td {
+        border: none;
+        padding: 0;
+        text-align: left;
+      }
+      .department-semester-table th {
+        font-weight: 500;
+        padding: 5px;
+      }
+
       input {
         height: 22px;
         font-size: 1rem;
@@ -67,11 +90,6 @@
         background-color: #d6e9ff7a;
       }
 
-      th:hover,
-      td:hover {
-        border: 1px solid black;
-      }
-
       .department-div {
         display: flex;
         justify-content: center;
@@ -79,10 +97,12 @@
         gap: 8px;
         margin-bottom: 20px;
       }
-      #department-label {
+      #department-label,
+      #semester-label {
         font-size: 1.2rem;
       }
-      #department {
+      #department,
+      #semester {
         border: 1px solid black;
         border-radius: 4px;
         width: 240px;
@@ -134,7 +154,6 @@
                 <td><input type="text" name="course_code[]" required></td>
                 <td><input type="text" name="course_name[]" style="width: 98%" required></td>
                 <td><input type="text" name="course_type[]" required></td>
-                <td><input type="number" name="semester[]" required></td>
                 <td><input type="number" name="credits[]" step="0.01" required></td>
                 <td><input type="number" name="min_marks[]" required></td>
                 <td><input type="number" name="max_marks[]" value="100" required></td>
@@ -154,6 +173,7 @@
     </script>
   </head>
   <body>
+    <%- include ("../header.ejs") %>
     <div class="main-heading">
       <h1>Add Courses</h1>
       <a href="/admin/dashboard" class="back-link"
@@ -163,46 +183,87 @@
 
     <div class="form-div">
       <form action="/admin/add-courses" method="POST">
-        <div class="department-div">
-          <label for="department" id="department-label">Department: </label>
-          <select name="department" id="department" required>
-            <option value="" disabled selected>Select the Department</option>
-            <option value="Computer Science">Computer Science</option>
-            <option value="Information Technology">
-              Information Technology
-            </option>
-            <option value="Computer Science">Electrical Engineering</option>
-            <option value="Electronics and Communication Engineering">
-              Electronics and Communication Engineering
-            </option>
-            <option value="Chemical Engineering">Chemical Engineering</option>
-            <option value="Mining Engineering">Mining Engineering</option>
-            <option value="Petroleum Engineering">Petroleum Engineering</option>
-            <option value="Civil Engineering">Civil Engineering</option>
-            <option value="Mechanical Engineering">
-              Mechanical Engineering
-            </option>
-            <option value="Production and Industrial Engineering">
-              Production and Industrial Engineering
-            </option>
-            <option value="Department of Physics">Department of Physics</option>
-            <option value="Department of Chemistry">
-              Department of Chemistry
-            </option>
-            <option value="Department of Botany">Department of Botany</option>
-            <option value="Department of Mathematics">
-              Department of Mathematics
-            </option>
-            <option value="Department of Law">Department of Law</option>
-            <option value="Other">Any Other</option>
-          </select>
-        </div>
-        <table id="coursesTable">
+        <table class="department-semester-table">
+          <div class="department-div">
+            <tr>
+              <th>
+                <label for="department" id="department-label"
+                  >Department:
+                </label>
+              </th>
+              <td>
+                <select name="department" id="department" required>
+                  <option value="" disabled selected>
+                    Select a Department
+                  </option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Information Technology">
+                    Information Technology
+                  </option>
+                  <option value="Computer Science">
+                    Electrical Engineering
+                  </option>
+                  <option value="Electronics and Communication Engineering">
+                    Electronics and Communication Engineering
+                  </option>
+                  <option value="Chemical Engineering">
+                    Chemical Engineering
+                  </option>
+                  <option value="Mining Engineering">Mining Engineering</option>
+                  <option value="Petroleum Engineering">
+                    Petroleum Engineering
+                  </option>
+                  <option value="Civil Engineering">Civil Engineering</option>
+                  <option value="Mechanical Engineering">
+                    Mechanical Engineering
+                  </option>
+                  <option value="Production and Industrial Engineering">
+                    Production and Industrial Engineering
+                  </option>
+                  <option value="Department of Physics">
+                    Department of Physics
+                  </option>
+                  <option value="Department of Chemistry">
+                    Department of Chemistry
+                  </option>
+                  <option value="Department of Botany">
+                    Department of Botany
+                  </option>
+                  <option value="Department of Mathematics">
+                    Department of Mathematics
+                  </option>
+                  <option value="Department of Law">Department of Law</option>
+                  <option value="Other">Any Other</option>
+                </select>
+              </td>
+            </tr>
+          </div>
+          <div class="department-div">
+            <tr>
+              <th>
+                <label for="semester" id="semester-label">Semester: </label>
+              </th>
+              <td>
+                <select name="semester" id="semester" required>
+                  <option value="" disabled selected>Select a Semester</option>
+                  <option value="1">I</option>
+                  <option value="2">II</option>
+                  <option value="3">III</option>
+                  <option value="4">IV</option>
+                  <option value="5">V</option>
+                  <option value="6">VI</option>
+                  <option value="7">VII</option>
+                  <option value="8">VIII</option>
+                </select>
+              </td>
+            </tr>
+          </div>
+        </table>
+        <table id="coursesTable" class="course-table">
           <tr>
             <th class="custom-heading">Course Code</th>
             <th style="width: 40%">Course Name</th>
             <th class="custom-heading">Course Type</th>
-            <th class="custom-heading">Semester</th>
             <th class="custom-heading">Credits</th>
             <th class="custom-heading">Min Marks</th>
             <th class="custom-heading">Max Marks</th>
@@ -217,9 +278,8 @@
                 style="width: 98%"
               />
             </td>
-            <td><input type="text" name="course_type[]" required /></td>
             <td>
-              <input type="number" name="semester[]" required />
+              <input type="text" name="course_type[]" required />
             </td>
             <td>
               <input type="number" name="credits[]" step="0.01" required />
