@@ -1,7 +1,17 @@
 const express = require("express");
+const fs = require("fs");
 const router = express.Router();
 const db = require("../db");
 const path = require("path");
+
+// Helper function to delete a file if it exists
+function deleteFile(filePath) {
+  if (fs.existsSync(filePath)) {
+    fs.unlink(filePath, (err) => {
+      if (err) console.error(`Error deleting file: ${filePath}`, err);
+    });
+  }
+}
 
 // Admin Login
 router.get("/login", (req, res) => {
@@ -126,27 +136,74 @@ router.get("/students/delete/:rollno", (req, res) => {
   //else
   const rollno = req.params.rollno;
 
-  const deleteJob = "DELETE FROM job_details WHERE rollno = ?";
-  db.query(deleteJob, [rollno], (err, result) => {
+  const deleteStudent = "DELETE FROM students WHERE rollno = ?";
+  db.query(deleteStudent, [rollno], (err, result) => {
     if (err) throw err;
-    const deleteUser = "DELETE FROM users WHERE username = ?";
-    db.query(deleteUser, [rollno], (err, result) => {
-      if (err) throw err;
-      const deleteStudentMarks = "DELETE FROM student_marks WHERE rollno = ?";
-      db.query(deleteStudentMarks, [rollno], (err, result) => {
-        if (err) throw err;
-        const deleteStudentTotalMarks =
-          "DELETE FROM student_total_marks WHERE rollno = ?";
-        db.query(deleteStudentTotalMarks, [rollno], (err, result) => {
-          if (err) throw err;
-          const deleteStudent = "DELETE FROM students WHERE rollno = ?";
-          db.query(deleteStudent, [rollno], (err, result) => {
-            if (err) throw err;
-            res.redirect("/admin/students");
-          });
+
+    // Construct file paths
+    const profilePicPath = path.join(
+      __dirname,
+      "..",
+      "public",
+      "uploads",
+      "profile_pics",
+      `profile_pic_${rollno}`
+    );
+    const offerLetterPath = path.join(
+      __dirname,
+      "..",
+      "public",
+      "uploads",
+      "offer_letters",
+      `offer_letter_${rollno}`
+    );
+
+    // Delete profile picture files
+    fs.readdir(
+      path.join(__dirname, "..", "public", "uploads", "profile_pics"),
+      (err, files) => {
+        if (err)
+          console.error("Error reading profile pictures directory:", err);
+        files.forEach((file) => {
+          if (file.startsWith(`profile_pic_${rollno}`)) {
+            deleteFile(
+              path.join(
+                __dirname,
+                "..",
+                "public",
+                "uploads",
+                "profile_pics",
+                file
+              )
+            );
+          }
         });
-      });
-    });
+      }
+    );
+
+    // Delete offer letter files
+    fs.readdir(
+      path.join(__dirname, "..", "public", "uploads", "offer_letters"),
+      (err, files) => {
+        if (err) console.error("Error reading offer letters directory:", err);
+        files.forEach((file) => {
+          if (file.startsWith(`offer_letter_${rollno}`)) {
+            deleteFile(
+              path.join(
+                __dirname,
+                "..",
+                "public",
+                "uploads",
+                "offer_letters",
+                file
+              )
+            );
+          }
+        });
+      }
+    );
+
+    res.redirect("/admin/students");
   });
 });
 

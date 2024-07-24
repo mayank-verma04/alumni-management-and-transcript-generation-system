@@ -27,7 +27,7 @@ CREATE TABLE students (
 CREATE TABLE users (	
     username VARCHAR(50) NOT NULL PRIMARY KEY,
     password VARCHAR(50) NOT NULL,
-    FOREIGN KEY (username) REFERENCES students(rollno)
+    FOREIGN KEY (username) REFERENCES students(rollno) ON DELETE CASCADE
 );
 
 CREATE TABLE job_details (
@@ -38,7 +38,7 @@ CREATE TABLE job_details (
     date_of_leaving VARCHAR(12) DEFAULT NULL,
     offer_letter varchar(255) NOT NULL,
     PRIMARY KEY (rollno, company_name),
-    FOREIGN KEY (rollno) REFERENCES students(rollno)
+    FOREIGN KEY (rollno) REFERENCES students(rollno) ON DELETE CASCADE
 );
 
 CREATE TABLE admin_login (	
@@ -67,7 +67,7 @@ CREATE TABLE student_marks (
     grade VARCHAR(4) NOT NULL,
     attempts INT NOT NULL,
     PRIMARY KEY (rollno, course_code),
-    FOREIGN KEY (rollno) REFERENCES students(rollno),
+    FOREIGN KEY (rollno) REFERENCES students(rollno) ON DELETE CASCADE,
     FOREIGN KEY (course_code) REFERENCES courses(course_code)
 );
 
@@ -80,5 +80,5 @@ CREATE TABLE student_total_marks (
     total_credits DECIMAL(5, 2) NOT NULL,
     total_marks_obtained INT NOT NULL,
     gpa DECIMAL(5, 2),
-    FOREIGN KEY (rollno) REFERENCES students(rollno)
+    FOREIGN KEY (rollno) REFERENCES students(rollno) ON DELETE CASCADE
 );
