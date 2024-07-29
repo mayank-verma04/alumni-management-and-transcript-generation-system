@@ -15,25 +15,16 @@ function deleteFile(filePath) {
 
 // Admin Login
 router.get("/login", (req, res) => {
-  const successMessage = req.session.successMessage; // For Password Changes Successfully
-  req.session.successMessage = null; // Clear the message after displaying it once
-
   const message = req.session.message; // For Wrong Credentials or Wrong Password
   req.session.message = null; // Clear the message after displaying it once
 
-  res.render("admin/login", { successMessage, message });
+  res.render("admin/login", { message });
 });
 
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
   const query = "SELECT * FROM admin_login WHERE username = ? AND password = ?";
   db.query(query, [username, password], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error inserting into users table");
-      return;
-    }
-
     // When there is no data is found in mySQL that means wrong details filled
     if (result.length === 0) {
       req.session.message = "Wrong Credentials.";
@@ -420,7 +411,6 @@ router.post("/add-marks", (req, res) => {
     marks_obtained = VALUES(marks_obtained),
     marks_internal = VALUES(marks_internal),
     grade = VALUES(grade),
-    attempts = VALUES(attempts),
     semester = VALUES(semester)
 `;
 

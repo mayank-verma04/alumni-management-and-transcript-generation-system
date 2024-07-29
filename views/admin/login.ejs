@@ -43,11 +43,7 @@
     <div class="form-section">
       <form action="/admin/login" method="POST" class="registration-login-form">
         <h2>Admin Login</h2>
-        <% if (successMessage) { %>
-        <div class="alert alert-success">
-          <i class="fa-regular fa-circle-check"></i> <%= successMessage %>
-        </div>
-        <% } %> <% if (message) { %>
+        <% if (message) { %>
         <div class="alert alert-danger">
           <i class="fa-regular fa-circle-xmark"></i> <%= message %>
         </div>

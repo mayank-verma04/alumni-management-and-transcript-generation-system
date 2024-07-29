@@ -10,13 +10,12 @@ header {
   color: #fff;
 }
 .header {
-  height: 180px;
+  height: 140px;
   display: flex;
-  gap: 30px;
+  gap: 35px;
   justify-content: center;
   align-items: center;
-  border-bottom: 4px solid #000;
-  margin-bottom: 5px;
+  margin-bottom: 1px;
 }
 .header-left {
   width: 150px;
@@ -29,15 +28,15 @@ header {
 }
 .header-right h1 {
   margin: 5px;
-  font-size: 3rem;
+  font-size: 2.9rem;
   font-weight: bolder;
 }
 .header-right h2 {
   margin: 5px;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 700px) {
   .header {
     height: auto;
     flex-direction: column;

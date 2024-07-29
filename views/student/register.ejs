@@ -19,13 +19,12 @@
         padding: 0;
         box-sizing: border-box;
       }
+
       form {
-        position: relative;
-        margin: 0 auto;
+        margin: 5px auto;
         background-color: #ededed;
         border-radius: 10px;
         padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         max-width: 900px;
         min-height: 520px;
       }
@@ -62,6 +61,7 @@
         border-radius: 5px;
         box-sizing: border-box;
         font-size: 16px;
+        outline: none;
       }
 
       /* Hide the default number input arrow */
@@ -71,9 +71,14 @@
         margin: 0;
       }
 
+      .btn-div {
+        position: relative;
+      }
+
       button {
         position: absolute;
-        right: 20px;
+        right: 106px;
+        bottom: 8px;
         background-color: #28a745;
         color: #fff;
         padding: 10px 20px;
@@ -82,11 +87,19 @@
         cursor: pointer;
         font-size: 16px;
         transition: background-color 0.3s ease;
-        align-self: flex-end; /* Align the button to the right */
+        border: 1px solid #28a745;
       }
 
       button:hover {
         background-color: #218838;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus,
+      button:focus {
+        border: 1px solid black;
+        box-shadow: 0px 0px 5px 0.2px rgba(0, 0, 0, 0.4);
       }
 
       #imagePreview {
@@ -738,7 +751,9 @@
             </tr>
           </table>
         </div>
-        <button type="submit">Register</button>
+        <div class="btn-div">
+          <button type="submit">Register</button>
+        </div>
       </form>
     </div>
     <script>
