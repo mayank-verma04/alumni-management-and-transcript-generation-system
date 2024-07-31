@@ -22,18 +22,18 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
         max-width: 600px;
-        margin: 0 auto;
+        margin: 20px auto;
       }
       #add-details-h1 {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         color: #333;
         text-align: center;
-        margin-bottom: 20px;
+        margin: 10px;
+        margin-bottom: 16px;
       }
 
       form {
         display: grid;
-        gap: 15px;
+        gap: 5px;
       }
       label {
         font-weight: bold;
@@ -50,6 +50,7 @@
         border-radius: 4px;
         box-sizing: border-box;
         outline: none;
+        margin-bottom: 20px;
       }
 
       input:focus,
@@ -75,6 +76,22 @@
       button[type="submit"]:hover {
         background-color: #0056b3;
       }
+
+      #date-div {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      #date-div div {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      #date-div div input {
+        width: 280px;
+      }
+
       .back-link {
         display: block;
         text-align: center;
@@ -100,10 +117,7 @@
         line-height: 28px;
         font-weight: 500;
       }
-      #date-div {
-        display: flex;
-        gap: 30px;
-      }
+
       #star-span {
         color: red;
       }
@@ -111,13 +125,13 @@
   </head>
   <body>
     <%- include ("../header.ejs") %>
-    <h1 id="add-details-h1">Add Job Details</h1>
     <div class="container">
       <div id="message">
         <% if (message) { %>
         <p><%= message %></p>
         <% } %>
       </div>
+      <h1 id="add-details-h1">Add Job Details</h1>
       <div id="add-details-h3">
         <% if (student.student_name == null) { %>
 

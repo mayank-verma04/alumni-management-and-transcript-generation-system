@@ -12,66 +12,59 @@
       src="https://kit.fontawesome.com/9ca9aa7819.js"
       crossorigin="anonymous"
     ></script>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        background-image: url("/images/JU_CSE_IT_bg-img.jpg");
-      }
-    </style>
   </head>
   <body>
     <%- include ("../header.ejs") %>
-    <div class="form-section">
-      <form
-        action="/student/registration"
-        method="POST"
-        onsubmit="return conifirmMe(event)"
-        class="registration-login-form"
-      >
-        <h2>Student Registration</h2>
+    <div class="main-div">
+      <div class="form-section">
+        <form
+          action="/student/registration"
+          method="POST"
+          onsubmit="return conifirmMe(event)"
+          class="registration-login-form"
+        >
+          <h2>Student Registration</h2>
 
-        <% if (typeof error !== 'undefined' && error === 'exists') { %>
-        <div class="alert alert-danger">
-          <i class="fa-regular fa-circle-xmark"></i>
-          Student with this roll number already exists.<br />Please log in using
-          your roll number.
-        </div>
-        <% } %>
-        <div>
-          <label for="rollno">Roll Number:</label>
-          <input
-            type="text"
-            name="rollno"
-            id="rollno"
-            pattern="\d{3}[A-Z]{3}\d{4}"
-            title="Enter correct Roll No. (Eg. 121CSE2024)"
-            required
-          />
-        </div>
+          <% if (typeof error !== 'undefined' && error === 'exists') { %>
+          <div class="alert alert-danger">
+            <i class="fa-regular fa-circle-xmark"></i>
+            Student with this roll number already exists.<br />Please log in
+            using your roll number.
+          </div>
+          <% } %>
+          <div>
+            <label for="rollno">Roll Number:</label>
+            <input
+              type="text"
+              name="rollno"
+              id="rollno"
+              pattern="\d{3}[A-Z]{3}\d{4}"
+              title="Enter correct Roll No. (Eg. 121CSE2024)"
+              required
+            />
+          </div>
 
-        <div>
-          <label for="dob">Date of Birth (DD-MM-YYYY):</label>
-          <input
-            type="text"
-            id="dob"
-            name="dob"
-            pattern="\d{2}-\d{2}-\d{4}"
-            required
-          />
-        </div>
+          <div>
+            <label for="dob">Date of Birth (DD-MM-YYYY):</label>
+            <input
+              type="text"
+              id="dob"
+              name="dob"
+              pattern="\d{2}-\d{2}-\d{4}"
+              required
+            />
+          </div>
 
-        <div>
-          <button type="submit">
-            <i class="fa-solid fa-user-plus"></i>Register
-          </button>
-        </div>
-        <div class="register-link">
-          <a href="/student/login">Login</a>
-        </div>
-      </form>
+          <div>
+            <button type="submit">
+              <i class="fa-solid fa-user-plus"></i>Register
+            </button>
+          </div>
+          <div class="register-link">
+            <a href="/student/login">Login</a>
+          </div>
+        </form>
+      </div>
     </div>
     <%- include ("../footer.ejs") %>
     <script>
