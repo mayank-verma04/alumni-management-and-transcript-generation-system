@@ -17,3 +17,8 @@ footer {
   font-size: 1rem;
   font-weight: 500;
 }
+.fa {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
