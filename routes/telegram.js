@@ -6,7 +6,7 @@ const db = require("../db");
 const fs = require("fs");
 const path = require("path");
 
-const bot = new TelegramBot("7261049172:AAGcq5Gdc_ZOVF0S2fYVas7kdph8-0ikYao", {
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_KEY, {
   polling: true,
 });
 

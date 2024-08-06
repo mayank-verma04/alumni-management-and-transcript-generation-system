@@ -63,7 +63,7 @@ router.post("/registration", (req, res) => {
   }
 
   // Verify reCAPTCHA
-  const secretKey = "6Le_hiAqAAAAAOwNGGNQrY0zG3F7RtBbcm2JdEqK";
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
   const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
 
   axios
@@ -145,7 +145,7 @@ router.post("/login", (req, res) => {
   }
 
   // Verify reCAPTCHA
-  const secretKey = "6Le_hiAqAAAAAOwNGGNQrY0zG3F7RtBbcm2JdEqK";
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
   const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
 
   axios
