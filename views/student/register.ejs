@@ -4,22 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Registration</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-    />
     <link rel="stylesheet" href="/css/header.css" />
     <link rel="stylesheet" href="/css/footer.css" />
-
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Open Sans", sans-serif;
         background-color: #f4f7f6;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-
       form {
         margin: 5px auto;
         background-color: #ededed;
@@ -28,17 +26,14 @@
         max-width: 900px;
         min-height: 520px;
       }
-
       form h2 {
         color: #2a2a2a;
         text-align: center;
         margin: 0px;
       }
-
       table {
         margin: 0 auto;
       }
-
       th,
       td {
         text-align: left;
@@ -55,7 +50,7 @@
         width: 200px;
         -moz-appearance: textfield;
         appearance: textfield;
-        font-family: "Roboto", sans-serif;
+        font-family: "Open Sans", sans-serif;
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -63,14 +58,15 @@
         font-size: 16px;
         outline: none;
       }
-
+      textarea {
+        resize: vertical;
+      }
       /* Hide the default number input arrow */
       input[type="number"]::-webkit-outer-spin-button,
       input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
       }
-
       .btn-div {
         position: relative;
       }
@@ -89,11 +85,15 @@
         transition: background-color 0.3s ease;
         border: 1px solid #28a745;
       }
-
       button:hover {
         background-color: #218838;
       }
-
+      input:hover,
+      textarea:hover,
+      select:hover,
+      button:hover {
+        border: 1px solid #555555;
+      }
       input:focus,
       textarea:focus,
       select:focus,
@@ -101,7 +101,6 @@
         border: 1px solid black;
         box-shadow: 0px 0px 5px 0.2px rgba(0, 0, 0, 0.4);
       }
-
       #imagePreview {
         display: block;
         width: 100%;
