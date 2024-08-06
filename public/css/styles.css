@@ -5,7 +5,6 @@ body {
   box-sizing: border-box;
   background-color: #f4f4f9;
 }
-
 .form-section {
   margin-top: 30px;
   display: flex;
@@ -59,12 +58,10 @@ body {
   font-size: 16px;
   outline: none;
 }
-
 .registration-login-form input:focus {
-  border: 1px solid black;
-  box-shadow: 0px 0px 5px 0.2px rgba(0, 0, 0, 0.4);
+  border: 1px solid #000;
+  box-shadow: 0 0 5px 0.2px rgba(0, 0, 0, 0.4);
 }
-
 .registration-login-form a {
   color: #0169d8;
   text-decoration: none;
@@ -99,7 +96,6 @@ body {
   margin-right: 10px;
   font-size: 15px;
 }
-
 .registration-login-form .register-link {
   text-align: center;
   margin-top: 10px;

@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("../db");
 const multer = require("multer");
 const path = require("path");
+const axios = require("axios");
 
 // Multer setup for profile pics
 const storageProfilePic = multer.diskStorage({
@@ -52,60 +53,76 @@ router.get("/registration", (req, res) => {
 router.post("/registration", (req, res) => {
   let rollno = req.body.rollno;
   let dob = req.body.dob;
+  let captcha = req.body["g-recaptcha-response"];
 
-  db.connect(function (err) {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Database connection error");
-      return;
-    }
+  // Check if CAPTCHA is completed
+  if (!captcha) {
+    return res.render("student/registration", {
+      error: "Please complete the CAPTCHA.",
+    });
+  }
 
-    // Check if the roll number already exists
-    let checkRollno = "SELECT * FROM students WHERE rollno = ?";
-    db.query(checkRollno, [rollno], function (error, results) {
-      if (error) {
-        console.log(error);
-        res.status(500).send("Error checking roll number");
-        return;
-      } else if (results.length > 0) {
-        // Student already exists
-        res.render("student/registration", {
-          error: "exists",
+  // Verify reCAPTCHA
+  const secretKey = "6Le_hiAqAAAAAOwNGGNQrY0zG3F7RtBbcm2JdEqK";
+  const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
+
+  axios
+    .post(verifyURL)
+    .then((response) => {
+      if (response.data.success !== true) {
+        return res.render("student/registration", {
+          error: "Captcha verification failed.",
         });
-      } else {
-        // Roll number does not exist, proceed with registration
-        let insertInStudent =
-          "INSERT INTO students (rollno, dob) VALUES (?, ?)";
-        let insertInUsers =
-          "INSERT INTO users (username, password) VALUES (?, ?)";
-        let studentValues = [rollno, dob];
-        let userValues = [rollno, dob]; // Using dob as the password
+      }
 
-        db.query(insertInStudent, studentValues, function (error, result) {
-          if (error) {
-            console.log(error);
-            res.status(500).send("Error inserting into students table");
-            return;
-          }
+      let checkRollno = "SELECT * FROM students WHERE rollno = ?";
+      db.query(checkRollno, [rollno], function (error, results) {
+        if (error) {
+          console.log(error);
+          res.status(500).send("Error checking roll number");
+          return;
+        } else if (results.length > 0) {
+          // Student already exists
+          res.render("student/registration", {
+            error: "exists",
+          });
+        } else {
+          // Roll number does not exist, proceed with registration
+          let insertInStudent =
+            "INSERT INTO students (rollno, dob) VALUES (?, ?)";
+          let insertInUsers =
+            "INSERT INTO users (username, password) VALUES (?, ?)";
+          let studentValues = [rollno, dob];
+          let userValues = [rollno, dob]; // Using dob as the password
 
-          db.query(insertInUsers, userValues, function (error, result) {
+          db.query(insertInStudent, studentValues, function (error, result) {
             if (error) {
               console.log(error);
-              res.status(500).send("Error inserting into users table");
+              res.status(500).send("Error inserting into students table");
               return;
             }
 
-            console.log("New Student Registered");
-            req.session.successMessage =
-              "Registered successfully. Log in with your Date of Birth as password.";
-            res.redirect("/student/login");
-          });
-        });
-      }
-    });
-  });
-});
+            db.query(insertInUsers, userValues, function (error, result) {
+              if (error) {
+                console.log(error);
+                res.status(500).send("Error inserting into users table");
+                return;
+              }
 
+              console.log("New Student Registered");
+              req.session.successMessage =
+                "Registered successfully. Log in with your Date of Birth as password.";
+              res.redirect("/student/login");
+            });
+          });
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("Error verifying CAPTCHA:", error);
+      res.status(500).send("Captcha verification failed");
+    });
+});
 //
 
 // Student Login
@@ -120,44 +137,68 @@ router.get("/login", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  const { rollno, password } = req.body;
-  const query = "SELECT * FROM users WHERE username = ? AND password = ?";
-  db.query(query, [rollno, password], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error inserting into users table");
-      return;
-    }
+  const { rollno, password, "g-recaptcha-response": captcha } = req.body;
 
-    // When there is no data is found in mySQL that means wrong details filled
-    if (result.length === 0) {
-      req.session.message = "Wrong Credentials or Not Registered.";
-      return res.redirect("/student/login");
-    }
-    if (result.length > 0) {
-      const studentQuery = "SELECT * FROM students WHERE rollno = ?";
-      db.query(studentQuery, [rollno], (err, studentResult) => {
+  if (!captcha) {
+    req.session.message = "Please complete the CAPTCHA.";
+    return res.redirect("/student/login");
+  }
+
+  // Verify reCAPTCHA
+  const secretKey = "6Le_hiAqAAAAAOwNGGNQrY0zG3F7RtBbcm2JdEqK";
+  const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
+
+  axios
+    .post(verifyURL)
+    .then((response) => {
+      if (response.data.success !== true) {
+        req.session.message = "Captcha verification failed.";
+        return res.redirect("/student/login");
+      }
+
+      const query = "SELECT * FROM users WHERE username = ? AND password = ?";
+      db.query(query, [rollno, password], (err, result) => {
         if (err) {
           console.log(err);
-          res
-            .status(500)
-            .send("Error in SELECT * FROM students WHERE rollno = ?");
+          res.status(500).send("Error inserting into users table");
           return;
         }
-        req.session.student = studentResult[0]; // Store student data in session
 
-        const dob = req.session.student.dob;
+        if (result.length === 0) {
+          req.session.message = "Wrong Credentials or Not Registered.";
+          return res.redirect("/student/login");
+        }
 
-        if (password === dob) {
-          res.redirect("/student/change-password");
+        if (result.length > 0) {
+          const studentQuery = "SELECT * FROM students WHERE rollno = ?";
+          db.query(studentQuery, [rollno], (err, studentResult) => {
+            if (err) {
+              console.log(err);
+              res
+                .status(500)
+                .send("Error in SELECT * FROM students WHERE rollno = ?");
+              return;
+            }
+
+            req.session.student = studentResult[0]; // Store student data in session
+
+            const dob = req.session.student.dob;
+
+            if (password === dob) {
+              res.redirect("/student/change-password");
+            } else {
+              res.redirect("/student/dashboard");
+            }
+          });
         } else {
-          res.redirect("/student/dashboard");
+          res.redirect("/student/login");
         }
       });
-    } else {
-      res.redirect("/student/login");
-    }
-  });
+    })
+    .catch((error) => {
+      console.error("Error verifying CAPTCHA:", error);
+      res.status(500).send("Captcha verification failed");
+    });
 });
 
 // Password Change Route if password is DOB //
@@ -304,7 +345,6 @@ router.get("/profile", (req, res) => {
   //else
   const studentRollno = req.session.student.rollno;
 
-  // Example query to fetch student details from MySQL
   const query = "SELECT * FROM students WHERE rollno = ?";
   db.query(query, [studentRollno], (err, results) => {
     if (err) {

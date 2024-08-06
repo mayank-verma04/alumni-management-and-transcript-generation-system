@@ -31,9 +31,11 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 // Routes
 const studentRoutes = require("./routes/student");
 const adminRoutes = require("./routes/admin");
+const botRoutes = require("./routes/telegram");
 
 app.use("/student", studentRoutes);
 app.use("/admin", adminRoutes);
+app.use("/", botRoutes);
 
 // Home route
 app.get("/", (req, res) => {
