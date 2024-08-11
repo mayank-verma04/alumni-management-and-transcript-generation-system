@@ -35,7 +35,7 @@ const botRoutes = require("./routes/telegram");
 
 app.use("/student", studentRoutes);
 app.use("/admin", adminRoutes);
-app.use("/", botRoutes); // Telegram Bot
+// app.use("/", botRoutes); // Telegram Bot
 
 // Home route
 app.get("/", (req, res) => {

@@ -65,6 +65,14 @@
         background-color: #f2f2f2;
       }
 
+      td a {
+        color: #000092;
+        text-decoration: none;
+      }
+      td a:hover {
+        text-decoration: underline;
+      }
+
       tr:nth-child(odd) {
         background-color: #f2f2f2;
       }
@@ -131,7 +139,7 @@
         <th>Roll Number</th>
         <th>Name</th>
         <th>Department</th>
-        <th>Open Details</th>
+        <th>Action</th>
       </tr>
       <tr>
         <% let serialNo = 1; %> <% students.forEach(student => { %>
@@ -140,7 +148,9 @@
         <td><%= student.student_name %></td>
         <td><%= student.department %></td>
         <td>
-          <a href="/admin/student-details/<%= student.rollno %>">Click here</a>
+          <a href="/admin/student-details/<%= student.rollno %>"
+            >Open Details</a
+          >
         </td>
       </tr>
       <% }) %> <% if (students.length === 0){ %>
