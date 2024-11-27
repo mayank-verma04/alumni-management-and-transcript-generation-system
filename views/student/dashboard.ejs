@@ -4,190 +4,62 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="/css/header.css" />
-    <link rel="stylesheet" href="/css/footer.css" />
-    <script
-      rel="preload"
-      src="https://kit.fontawesome.com/9ca9aa7819.js"
-      crossorigin="anonymous"
-    ></script>
-    <style>
-      body {
-        user-select: none; /* text selection turn off */
-        font-family: "Open Sans", sans-serif;
-        color: #333;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        background-color: #ffffff;
-      }
 
-      .container h1 {
-        margin-top: 2px;
-        margin-bottom: 50px;
-        text-align: center;
-        color: #333;
-        text-transform: capitalize; /* Capitalize first letter of every word */
-      }
-      p {
-        text-align: center;
-      }
-
-      .links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 35px;
-      }
-
-      .links a {
-        width: 90px;
-        height: 120px;
-        min-height: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        padding: 30px 25px;
-        margin: 10px 0;
-        color: #00005c;
-        text-decoration: none;
-        border-radius: 8px;
-        transition: all 0.3s;
-        font-size: 20px;
-        text-align: center;
-      }
-      .links a i {
-        margin-bottom: 20px;
-        font-size: 40px;
-      }
-      .links a:hover {
-        box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.6);
-        scale: 1.05;
-      }
-
-      .logout-div {
-        position: relative;
-      }
-      #logout {
-        position: absolute;
-        right: 5px;
-        display: flex;
-      }
-      #logout a {
-        background-color: #e70000;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 80px;
-        box-sizing: border-box;
-        font-size: 17px;
-        font-weight: bold;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-        padding: 6px 50px;
-        text-decoration: none;
-        transition: background-color 0.2s ease;
-        border: 2px solid transparent;
-      }
-      #logout a:hover {
-        background-color: #9c0000;
-        border: 1px solid rgb(131, 0, 0);
-      }
-      marquee {
-        padding: 10px;
-        background-color: #004a72;
-        color: white;
-        font-size: 1.1em;
-      }
-      marquee a {
-        color: #a2c2e4;
-        text-decoration: none;
-      }
-      .glass-box {
-        background: rgba(255, 255, 255, 0.2); /* White with 20% opacity */
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px); /* Blurry effect */
-        -webkit-backdrop-filter: blur(10px); /* Safari support */
-        border: 1px solid rgba(255, 255, 255, 0.3); /* Optional: border to enhance the glass effect */
-        color: #fff;
-      }
-      .footer-div {
-        position: absolute;
-        width: 100vw;
-        bottom: 0px;
-      }
-      footer {
-        position: relative;
-      }
-
-      @media screen and (max-width: 750px) {
-        .container h1 {
-          margin-top: 42px;
-          margin-bottom: 16px;
-        }
-        .links {
-          gap: 20px;
-        }
-      }
-    </style>
+    <script src="https://kit.fontawesome.com/9ca9aa7819.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
+  <body class="bg-white text-gray-900 font-sans">
+
     <%- include ("../header.ejs") %>
+
     <div class="notification-bar">
-      <marquee
-        >University of Jammu, Jammu Tawi (J&K)-180006 | Department of Computer
-        Science and I.T. | Official Website:
-        <a href="https://www.jammuuniversity.ac.in/" target="_blank"
-          >jammuuniversity.ac.in</a
-        ></marquee
-      >
+      <marquee class="bg-blue-800 text-white p-2 text-xl">
+        University of Jammu, Jammu Tawi (J&K)-180006 | Department of Computer Science and I.T. | Official Website:
+        <a href="https://www.jammuuniversity.ac.in/" target="_blank" class="text-blue-200 hover:text-blue-400">jammuuniversity.ac.in</a>
+      </marquee>
     </div>
-    <div class="logout-div">
-      <div id="logout">
+
+    <div class="absolute top-4 right-4">
+      <div id="logout" class="relative">
         <a href="/student/logout"
-          ><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a
-        >
+           class="flex items-center bg-red-600 text-white py-2 px-4 rounded-md font-bold text-sm transition-all hover:bg-red-700 hover:border border-red-600">
+          <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Logout
+        </a>
       </div>
     </div>
-    <div class="container">
-      <% if (studentDetails) { %>
-      <h1>Welcome <%= studentDetails.student_name %></h1>
-      <% } else { %>
-      <h1>Welcome to the Student Dashboard</h1>
-      <p>
-        You need to complete your registration. Please
-        <a href="/student/register">click here</a> to register.
-      </p>
-      <% } %> <% if (studentDetails) { %>
-      <div class="links">
-        <a href="/student/profile" class="glass-box"
-          ><i class="fa-solid fa-user"></i>Profile Details</a
-        >
-        <a href="/student/job-details" class="glass-box"
-          ><i class="fa-solid fa-square-plus"></i>Add Job Details</a
-        >
-        <a href="/student/view-jobs" class="glass-box"
-          ><i class="fa-solid fa-rectangle-list"></i>View Job Details</a
-        >
 
-        <a href="/student/marks/<%= studentDetails.rollno %>" class="glass-box"
-          ><i class="fa-solid fa-square-poll-vertical"></i>View Marks
+    <div class="container mx-auto p-4">
+      <% if (studentDetails) { %>
+      <h1 class="text-center text-3xl font-semibold capitalize mb-6">Welcome <%= studentDetails.student_name %></h1>
+      <% } else { %>
+      <h1 class="text-center text-3xl font-semibold capitalize mb-6">Welcome to the Student Dashboard</h1>
+      <p class="text-center text-lg">
+        You need to complete your registration. Please
+        <a href="/student/register" class="text-blue-600 hover:underline">click here</a> to register.
+      </p>
+      <% } %>
+
+      <% if (studentDetails) { %>
+      <div class="links flex flex-wrap justify-center gap-8 mt-8 ">
+        <a href="/student/profile" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
+          <i class="fa-solid fa-user text-4xl mb-4"></i>Profile Details
+        </a>
+
+        <a href="/student/job-details" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
+          <i class="fa-solid fa-square-plus text-4xl mb-4"></i>Add Job Details
+        </a>
+
+        <a href="/student/view-jobs" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
+          <i class="fa-solid fa-rectangle-list text-4xl mb-4"></i>View Job Details
+        </a>
+
+        <a href="/student/marks/<%= studentDetails.rollno %>" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
+          <i class="fa-solid fa-square-poll-vertical text-4xl mb-4"></i>View Marks
         </a>
       </div>
       <% } %>
     </div>
+
   </body>
 </html>
