@@ -4,122 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alumni Management & Transcript Generation System</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/styles.css" />
+
     <link rel="stylesheet" href="/css/header.css" />
     <link rel="stylesheet" href="/css/footer.css" />
 
-    <style>
-      body {
-        user-select: none; /* text selection turn off */
-        height: 100vh;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Open Sans", sans-serif;
-        background: linear-gradient(135deg, #b2cce8, #e1f5fe, #b2cce8);
-      }
+    <script src="https://cdn.tailwindcss.com"></script>
 
-      a {
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      }
-
-      .container {
-        margin-top: 80px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-      }
-
-      .buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .btn {
-        display: inline-block;
-        padding: 15px 30px;
-        text-decoration: none;
-        background-color: #0057b3;
-        border-radius: 8px;
-        font-size: 1.2em;
-        font-weight: 600;
-        color: white;
-        transition: all 0.3s ease-in-out, transform 0.2s ease-in-out;
-      }
-
-      .btn:hover {
-        color: white;
-        background-color: #004494;
-        transform: scale(1.05);
-      }
-
-      marquee {
-        padding: 10px;
-        background-color: #004a72;
-        color: white;
-        font-size: 1.1em;
-      }
-
-      marquee a {
-        color: #a2c2e4;
-        text-decoration: none;
-      }
-
-      .glass-box {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        color: #000000;
-      }
-
-      @media (min-width: 650px) {
-        .container h1 {
-          font-size: 2.5em;
-        }
-        .buttons {
-          flex-direction: row;
-        }
-        .btn {
-          margin: 0 15px;
-        }
-      }
-    </style>
   </head>
-  <body>
+  <body class="font-sans bg-gradient-to-r from-blue-200 via-blue-100 to-blue-200 select-none h-screen m-0 p-0">
     <%- include ("./header.ejs") %>
+    
+    <!-- Notification Bar -->
     <div class="notification-bar">
-      <marquee
-        >University of Jammu, Jammu Tawi (J&K)-180006 | Department of Computer
-        Science and I.T. | Official Website:
-        <a href="https://www.jammuuniversity.ac.in/" target="_blank"
-          >jammuuniversity.ac.in</a
-        ></marquee
-      >
+      <marquee class="bg-blue-800 text-white text-lg p-2">
+        University of Jammu, Jammu Tawi (J&K)-180006 | Department of Computer Science and I.T. | Official Website:
+        <a href="https://www.jammuuniversity.ac.in/" target="_blank" class="text-blue-200 hover:underline">
+          jammuuniversity.ac.in
+        </a>
+      </marquee>
     </div>
-    <div class="main-div">
-      <div class="container">
-        <div class="buttons">
-          <a href="/student/registration" class="btn glass-box"
-            >Student Registration</a
-          >
-          <a href="/student/login" class="btn glass-box">Student Login</a>
-          <a href="/admin/login" class="btn glass-box">Admin Login</a>
+    
+    <!-- Main Content -->
+    <div class="main-div flex justify-center items-center mt-20">
+      <div class="container flex flex-col items-center text-center">
+        <div class="buttons flex flex-col gap-4 md:flex-row">
+          <a href="/student/registration" class="btn bg-blue-600 text-white py-3 px-8 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:bg-blue-700 hover:scale-105">
+            Student Registration
+          </a>
+          <a href="/student/login" class="btn bg-blue-600 text-white py-3 px-8 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:bg-blue-700 hover:scale-105">
+            Student Login
+          </a>
+          <a href="/admin/login" class="btn bg-blue-600 text-white py-3 px-8 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:bg-blue-700 hover:scale-105">
+            Admin Login
+          </a>
         </div>
       </div>
     </div>
+    
     <%- include ("./footer.ejs") %>
   </body>
 </html>
