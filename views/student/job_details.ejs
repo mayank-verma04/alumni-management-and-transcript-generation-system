@@ -4,164 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Job Details</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="/css/header.css" />
-    <style>
-      body {
-        font-family: "Open Sans", sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        background-color: #f7f7f7;
-      }
-
-      .container {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        max-width: 600px;
-        margin: 20px auto;
-      }
-      #add-details-h1 {
-        color: #333;
-        text-align: center;
-        margin: 10px;
-        margin-bottom: 16px;
-      }
-
-      form {
-        display: grid;
-        gap: 5px;
-      }
-      label {
-        font-weight: bold;
-      }
-      input[type="text"],
-      input[type="date"],
-      textarea,
-      input[type="file"] {
-        font-family: "Open Sans", sans-serif;
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        outline: none;
-        margin-bottom: 20px;
-      }
-
-      input:focus,
-      textarea:focus {
-        border: 1px solid black;
-        box-shadow: 0px 0px 5px 0.2px rgba(0, 0, 0, 0.4);
-      }
-      textarea {
-        font-family: "Open Sans", sans-serif;
-        height: 50px;
-        resize: vertical;
-      }
-      button[type="submit"] {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 100%;
-        font-size: 16px;
-        box-sizing: border-box;
-      }
-      button[type="submit"]:hover {
-        background-color: #0056b3;
-      }
-
-      #date-div {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-      #date-div div {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-      }
-
-      #date-div div input {
-        width: 280px;
-      }
-
-      .back-link {
-        display: block;
-        text-align: center;
-        margin-top: 20px;
-        color: #007bff;
-        text-decoration: none;
-        font-size: 16px;
-      }
-      .back-link:hover {
-        text-decoration: underline;
-      }
-
-      #message p {
-        color: #dc3545;
-        font-size: 0.9rem;
-        text-align: center;
-        margin-bottom: 1rem;
-      }
-
-      #add-details-h3 h3 {
-        margin-top: 5px;
-        text-align: center;
-        line-height: 28px;
-        font-weight: 500;
-      }
-
-      #star-span {
-        color: red;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/footer.css" />
+    
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
+  <body class="bg-gray-100 font-sans">
     <%- include ("../header.ejs") %>
-    <div class="container">
-      <div id="message">
+    <div class="container bg-white p-6 rounded-lg shadow-md mx-auto max-w-lg mt-6">
+      <div id="message" class="text-center mb-4">
         <% if (message) { %>
-        <p><%= message %></p>
+        <p class="text-red-500 text-sm"><%= message %></p>
         <% } %>
       </div>
-      <h1 id="add-details-h1">Add Job Details</h1>
-      <div id="add-details-h3">
+
+      <h1 id="add-details-h1" class="text-gray-800 text-2xl font-semibold text-center mb-4">
+        Add Job Details
+      </h1>
+
+      <div id="add-details-h3" class="text-center mb-6">
         <% if (student.student_name == null) { %>
-
-        <h3><b>Roll No.:</b> <%= student.rollno %></h3>
-
-        <% } else {%>
-
-        <h3>
-          <b>Roll No.:</b> <%= student.rollno %> | <b>Name:</b> <%=
-          student.student_name %>
-          <br />
-          <b>Department:</b> <%= student.department %> (<%=
-          student.year_of_admission %>)
+        <h3 class="text-gray-600 font-medium">
+          <b>Roll No.:</b> <%= student.rollno %>
         </h3>
-
+        <% } else {%>
+        <h3 class="text-gray-600 font-medium leading-6">
+          <b>Roll No.:</b> <%= student.rollno %> | <b>Name:</b>
+          <%= student.student_name %><br />
+          <b>Department:</b> <%= student.department %> (<%= student.year_of_admission %>)
+        </h3>
         <% } %>
       </div>
+
       <form
         action="/student/job-details"
         method="POST"
         enctype="multipart/form-data"
         id="formSubmit"
+        class="space-y-4"
       >
-        <label for="rollno" hidden>Roll Number:</label>
         <input
           type="text"
           id="rollno"
@@ -172,39 +53,84 @@
           hidden
         />
 
-        <label for="company_name"
-          ><span id="star-span">*</span>Company Name:</label
-        >
-        <input type="text" name="company_name" required />
+        <div>
+          <label for="company_name" class="block font-semibold text-gray-700">
+            <span class="text-red-500">*</span>Company Name:
+          </label>
+          <input
+            type="text"
+            name="company_name"
+            required
+            class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-400 focus:outline-none"
+          />
+        </div>
 
-        <label for="address_of_company"
-          ><span id="star-span">*</span>Address of Company:</label
-        >
-        <textarea name="address_of_company" required></textarea>
+        <div>
+          <label for="address_of_company" class="block font-semibold text-gray-700">
+            <span class="text-red-500">*</span>Address of Company:
+          </label>
+          <textarea
+            name="address_of_company"
+            required
+            class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-400 focus:outline-none resize-y"
+            rows="3"
+          ></textarea>
+        </div>
 
-        <div id="date-div">
-          <div>
-            <label for="date_of_joining"
-              ><span id="star-span">*</span>Date of Joining:</label
-            >
-            <input type="date" name="date_of_joining" required />
+        <div id="date-div" class="flex flex-wrap justify-between gap-4">
+          <div class="flex-1 min-w-[45%]">
+            <label for="date_of_joining" class="block font-semibold text-gray-700">
+              <span class="text-red-500">*</span>Date of Joining:
+            </label>
+            <input
+              type="date"
+              name="date_of_joining"
+              required
+              class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-400 focus:outline-none"
+            />
           </div>
 
-          <div>
-            <label for="date_of_leaving">Date of Leaving:</label>
-            <input type="date" name="date_of_leaving" />
+          <div class="flex-1 min-w-[45%]">
+            <label for="date_of_leaving" class="block font-semibold text-gray-700">
+              Date of Leaving:
+            </label>
+            <input
+              type="date"
+              name="date_of_leaving"
+              class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-400 focus:outline-none"
+            />
           </div>
         </div>
 
-        <label for="offer_letter"
-          ><span id="star-span">*</span>Offer Letter:</label
-        >
-        <input type="file" name="offer_letter" accept="image/*,.pdf" required />
+        <div>
+          <label for="offer_letter" class="block font-semibold text-gray-700">
+            <span class="text-red-500">*</span>Offer Letter:
+          </label>
+          <input
+            type="file"
+            name="offer_letter"
+            accept="image/*,.pdf"
+            required
+            class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-400 focus:outline-none"
+          />
+        </div>
 
-        <button type="submit">Add Job Details</button>
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+        >
+          Add Job Details
+        </button>
       </form>
-      <a href="/student/dashboard" class="back-link">Back to Dashboard</a>
+
+      <a
+        href="/student/dashboard"
+        class="block text-center mt-6 text-blue-600 hover:underline text-lg font-medium"
+      >
+        Back to Dashboard
+      </a>
     </div>
+
     <script>
       const form = document.getElementById("formSubmit");
 
