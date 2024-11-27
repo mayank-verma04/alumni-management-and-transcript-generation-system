@@ -5,121 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/header.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <script
       src="https://kit.fontawesome.com/9ca9aa7819.js"
       crossorigin="anonymous"
     ></script>
-    <style>
-      body {
-        background-color: #ffffff;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        height: 100vh;
-      }
-      .container h1 {
-        text-align: center;
-        color: #1f1f1f;
-      }
-      .links a {
-        width: 90px;
-        height: 120px;
-        min-height: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        padding: 30px 25px;
-        margin: 10px 0;
-        color: #00005c;
-        text-decoration: none;
-        border-radius: 8px;
-        transition: all 0.3s;
-        font-size: 20px;
-        text-align: center;
-      }
-      .links a i {
-        margin-bottom: 20px;
-        font-size: 40px;
-      }
-      .links a:hover {
-        box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.6);
-        scale: 1.05;
-      }
-      .links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 35px;
-      }
-      .glass-box {
-        background: rgba(255, 255, 255, 0.2); /* White with 20% opacity */
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px); /* Blurry effect */
-        -webkit-backdrop-filter: blur(10px); /* Safari support */
-        border: 1px solid rgba(255, 255, 255, 0.3); /* Optional: border to enhance the glass effect */
-        color: #fff;
-      }
-
-      .logout-div {
-        position: relative;
-      }
-      #logout {
-        position: absolute;
-        right: 10px;
-        bottom: -250px;
-        display: flex;
-      }
-      #logout a {
-        background-color: #e70000;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 80px;
-        box-sizing: border-box;
-        font-size: 17px;
-        font-weight: bold;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-        padding: 6px 50px;
-        text-decoration: none;
-        transition: background-color 0.2s ease;
-        border: 2px solid transparent;
-      }
-      #logout a:hover {
-        background-color: #9c0000;
-        border: 1px solid rgb(131, 0, 0);
-      }
-    </style>
+    
   </head>
   <body>
     <%- include ("../header.ejs") %>
-    <div class="container">
-      <h1>Admin Dashboard</h1>
-      <div class="links">
-        <a href="/admin/students" class="glass-box"
-          ><i class="fa-solid fa-user-graduate"></i>View Students</a
-        >
-        <a href="/admin/view-courses" class="glass-box"
-          ><i class="fa-solid fa-graduation-cap"></i>View Courses</a
-        >
-        <a href="/admin/add-courses" class="glass-box"
-          ><i class="fa-solid fa-square-plus"></i>Add Courses</a
-        >
+    <div class="container mx-auto p-4">
+      <h1 class="text-center text-3xl font-semibold capitalize mb-6">Admin Dashboard</h1>
+
+      <div class="links flex flex-wrap justify-center gap-8 mt-8 ">
+        <a href="/admin/students" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
+          <i class="fa-solid fa-user-graduate"></i>View Students
+        </a>
+
+        <a href="/admin/view-courses" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
+          <i class="fa-solid fa-graduation-cap"></i>View Courses
+        </a>
+
+        <a href="/admin/add-courses" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
+          <i class="fa-solid fa-square-plus"></i>Add Courses
+        </a>
       </div>
     </div>
-    <div class="logout-div">
-      <div id="logout">
+    <div class="absolute top-4 right-4">
+      <div id="logout" class="relative">
         <a href="/admin/logout"
-          ><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a
-        >
+           class="flex items-center bg-red-600 text-white py-2 px-4 rounded-md font-bold text-sm transition-all hover:bg-red-700 hover:border border-red-600">
+          <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Logout
+        </a>
       </div>
     </div>
   </body>
