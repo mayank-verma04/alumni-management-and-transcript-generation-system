@@ -3,227 +3,117 @@
   <head>
     <meta charset="UTF-8" />
     <title>View Courses</title>
-    <link rel="stylesheet" href="/css/header.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <script
       src="https://kit.fontawesome.com/9ca9aa7819.js"
       crossorigin="anonymous"
     ></script>
-    <style>
-      html {
-        scroll-behavior: smooth;
-      }
-      body {
-        font-family: "Open Sans", sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      td a {
-        text-decoration: underline;
-        color: #001939;
-        padding: 5px;
-      }
-      td a:hover,
-      td a:focus {
-        background-color: red;
-        color: #ffffff;
-        cursor: pointer;
-        text-decoration: none;
-      }
-
-      td button {
-        text-decoration: underline;
-        border: none;
-        color: black;
-        margin: 0;
-        padding: 5px;
-        font-size: 1rem;
-        background-color: transparent;
-        margin-left: 6px;
-      }
-      td button:hover {
-        text-decoration: none;
-        background-color: red;
-        color: #ffffff;
-        cursor: pointer;
-      }
-
-      .main-heading {
-        width: 100%;
-      }
-      .main-heading h1 {
-        margin: 5px 10px;
-        padding-top: 15px;
-      }
-
-      .main-heading a {
-        position: relative;
-        left: 84%;
-        margin-right: 10px;
-        text-decoration: underline;
-        color: #001939;
-        font-weight: 500;
-        padding: 5px;
-        transition: all 0.2 ease-in-out;
-      }
-      .main-heading a:hover {
-        text-decoration: none;
-        background-color: #8ab2da28;
-        border-radius: 1px;
-      }
-      .main-heading a i {
-        margin-right: 6px;
-      }
-
-      table {
-        margin: 0 auto;
-        width: 95%;
-        border-collapse: collapse;
-      }
-      th,
-      td {
-        padding: 5px 5px;
-        font-size: 1.05rem;
-        border: 1px solid #424242;
-        text-align: left;
-      }
-      th {
-        padding: 10px 0;
-        text-align: center;
-        background-color: #f2f2f2;
-      }
-      tr:hover {
-        background-color: #f2f2f2;
-      }
-      tr:nth-child(even) {
-        background-color: #f2f2f2;
-      }
-
-      .form-div form {
-        display: flex;
-        gap: 5px;
-        justify-content: center;
-        align-items: center;
-        margin: 16px;
-      }
-
-      .form-div input[type="text"] {
-        display: block;
-        width: 320px;
-        height: 30px;
-        padding: 5px;
-        border: 2px solid #9a9a9a;
-        border-radius: 5px;
-        font-size: 18px;
-      }
-
-      .form-div input[type="text"]:focus {
-        box-shadow: 0px 0px 8px 0.5px rgba(12, 12, 12, 0.4);
-      }
-
-      .form-div button {
-        height: 35px;
-        border: 1px solid #585858;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: all 0.1s ease;
-      }
-      .form-div button:hover {
-        background-color: #d2d2d2;
-      }
-    </style>
     <script>
       if ("<%= message %>") {
         alert("<%= message %>");
       }
     </script>
   </head>
-  <body>
+  <body class="font-sans">
     <%- include ("../header.ejs") %>
 
-    <div class="main-heading">
-      <h1>Courses List</h1>
-      <a href="/admin/dashboard" class="back-link"
-        ><i class="fa-solid fa-arrow-left"></i>Back</a
+    <div class="fixed top-4 right-4">
+      <a
+        href="/admin/dashboard"
+        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
       >
+        <i class="fa-solid fa-arrow-left mr-2"></i>Back
+      </a>
     </div>
 
-    <div class="form-div print-hidden">
-      <form action="/admin/view-courses/search" method="POST">
+    <div class="w-full text-center my-6">
+      <h1 class="text-2xl font-bold text-gray-800 mb-4">Courses List</h1>
+    </div>
+
+    <div class="my-4 flex justify-center">
+      <form
+        action="/admin/view-courses/search"
+        method="POST"
+        class="flex gap-4 items-center"
+      >
         <input
           type="text"
           name="search_query"
           placeholder="Search by Department or Semester"
+          class="w-80 px-4 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
         />
-        <button type="submit">Search</button>
+        <button
+          type="submit"
+          class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition font-medium focus:ring focus:ring-blue-500"
+        >
+          Search
+        </button>
       </form>
     </div>
+
     <% if (courses.length === 0){ %>
-
-    <p style="text-align: center; margin-top: 46px; font-size: 20px">
-      No Course Found
-    </p>
-
+    <p class="text-center text-lg mt-12">No Course Found</p>
     <% } else { %>
-    <table>
-      <thead>
-        <tr>
-          <th>S.No.</th>
-          <th>Course Code</th>
-          <th>Course Name</th>
-          <th>Course Type</th>
-          <th>Department</th>
-          <th>Semester</th>
-          <th>Credits</th>
-          <th>Min Marks</th>
-          <th>Max Marks</th>
-          <th class="print-hidden">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
+    <div class="overflow-x-auto">
+      <table class="w-11/12 mx-auto border-collapse border border-gray-400">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="border border-gray-400 px-2 py-2">S.No.</th>
+            <th class="border border-gray-400 px-2 py-2">Course Code</th>
+            <th class="border border-gray-400 px-2 py-2">Course Name</th>
+            <th class="border border-gray-400 px-2 py-2">Course Type</th>
+            <th class="border border-gray-400 px-2 py-2">Department</th>
+            <th class="border border-gray-400 px-2 py-2">Semester</th>
+            <th class="border border-gray-400 px-2 py-2">Credits</th>
+            <th class="border border-gray-400 px-2 py-2">Min Marks</th>
+            <th class="border border-gray-400 px-2 py-2">Max Marks</th>
+            <th class="border border-gray-400 px-2 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
           <% let serialNo = 1; %> <% courses.forEach(course => { %>
-          <td style="width: 30px"><%= serialNo++ %>.</td>
-          <td><%= course.course_code %></td>
-          <td><%= course.course_name %></td>
-          <td><%= course.course_type %></td>
-          <td><%= course.department %></td>
-          <td><%= course.semester %></td>
-          <td><%= course.credits %></td>
-          <td><%= course.min_marks %></td>
-          <td><%= course.max_marks %></td>
-          <td class="print-hidden">
-            <a href="/admin/edit-course/<%= course.course_code %>">Edit</a>
-            <form
-              action="/admin/delete/<%= course.course_code %>"
-              method="post"
-              style="display: inline"
-            >
-              <button type="submit" onclick="return confirmMessage()">
-                Delete
-              </button>
-            </form>
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
+          <tr class="<%= serialNo % 2 === 0 ? 'bg-gray-100' : '' %> hover:bg-gray-100">
+            <td class="border border-gray-400 px-4 py-2"><%= serialNo++ %>.</td>
+            <td class="border border-gray-400 px-4 py-2"><%= course.course_code %></td>
+            <td class="border border-gray-400 px-4 py-2"><%= course.course_name %></td>
+            <td class="border border-gray-400 px-4 py-2"><%= course.course_type %></td>
+            <td class="border border-gray-400 px-4 py-2"><%= course.department %></td>
+            <td class="border border-gray-400 px-4 py-2"><%= course.semester %></td>
+            <td class="border border-gray-400 px-4 py-2"><%= course.credits %></td>
+            <td class="border border-gray-400 px-4 py-2"><%= course.min_marks %></td>
+            <td class="border border-gray-400 px-4 py-2"><%= course.max_marks %></td>
+            <td class="border border-gray-400 px-4 py-2">
+              <a
+                href="/admin/edit-course/<%= course.course_code %>"
+                class="text-blue-700 underline hover:no-underline hover:text-blue-900"
+                >Edit</a
+              >
+              <form
+                action="/admin/delete/<%= course.course_code %>"
+                method="post"
+                class="inline-block"
+              >
+                <button
+                  type="submit"
+                  onclick="return confirmMessage()"
+                  class="text-red-700 underline hover:no-underline hover:text-red-900"
+                >
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
     <% } %>
 
     <script>
       function confirmMessage() {
-        const confirmation = confirm(
+        return confirm(
           "Are you sure to Delete all details related to this course?"
         );
-
-        // If user confirms, submit the form
-        if (confirmation) {
-          return true;
-        } else {
-          return false;
-        }
       }
     </script>
   </body>
