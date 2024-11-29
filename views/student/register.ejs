@@ -10,6 +10,8 @@
       href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
       rel="stylesheet"
     />
+
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/css/header.css" />
     <link rel="stylesheet" href="/css/footer.css" />
     <style>
@@ -63,43 +65,16 @@
       textarea {
         resize: vertical;
       }
-      /* Hide the default number input arrow */
-      input[type="number"]::-webkit-outer-spin-button,
-      input[type="number"]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-      .btn-div {
-        position: relative;
-      }
+    
 
-      button {
-        position: absolute;
-        right: 106px;
-        bottom: 8px;
-        background-color: #28a745;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-        border: 1px solid #28a745;
-      }
-      button:hover {
-        background-color: #218838;
-      }
       input:hover,
       textarea:hover,
-      select:hover,
-      button:hover {
+      select:hover{
         border: 1px solid #555555;
       }
       input:focus,
       textarea:focus,
-      select:focus,
-      button:focus {
+      select:focus{
         border: 1px solid black;
         box-shadow: 0px 0px 5px 0.2px rgba(0, 0, 0, 0.4);
       }
@@ -283,7 +258,7 @@
         id="registerForm"
         onsubmit="return handleSubmit(event)"
       >
-        <h2>Student Registration</h2>
+        <h2 class="text-2xl font-semibold mb-5 text-gray-800">Student Registration</h2>
         <div class="form-container">
           <table>
             <tr>
@@ -758,8 +733,8 @@
             </tr>
           </table>
         </div>
-        <div class="btn-div">
-          <button type="submit">Register</button>
+        <div class="btn-div relative">
+          <button type="submit" class="w-20 bg-green-600 text-white py-2 rounded-md font-medium hover:bg-green-700 focus:ring focus:ring-green-500 absolute right-24 bottom-2 cursor-pointer">Register</button>
         </div>
       </form>
     </div>
