@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <title>Edit Course</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
       /* Hide the default number input arrow */
       input[type="number"]::-webkit-outer-spin-button,
@@ -13,74 +15,146 @@
     </style>
   </head>
 
-  <body>
-    <h1>Edit Course</h1>
-    <form action="/admin/edit-course/<%= course.course_code %>" method="post">
-      <label for="course_name">Course Name:</label>
-      <input
-        type="text"
-        id="course_name"
-        name="course_name"
-        value="<%= course.course_name %>"
-        required
-      /><br />
+  <body class="bg-gray-100 font-sans">
 
-      <label for="course_type">Course Type:</label>
-      <input
-        type="text"
-        id="course_type"
-        name="course_type"
-        value="<%= course.course_type %>"
-        required
-      /><br />
+    <%- include ("../header.ejs") %>
+    <div class="flex items-center justify-center mt-4">
+      <div class="bg-white shadow-md rounded-lg p-6 max-w-md w-full">
+        <h1 class="text-2xl font-semibold mb-4 text-gray-800 text-center">Edit Course</h1>
+        <form
+          action="/admin/edit-course/<%= course.course_code %>"
+          method="post"
+          class="space-y-3"
+        >
 
-      <label for="department">Department:</label>
-      <input
-        type="text"
-        id="department"
-        name="department"
-        value="<%= course.department %>"
-        required
-      /><br />
 
-      <label for="semester">Semester:</label>
-      <input
-        type="number"
-        id="semester"
-        name="semester"
-        value="<%= course.semester %>"
-        required
-      /><br />
+        <div>
+          <label
+            for="course_name"
+            class="block font-medium text-gray-700"
+            >Course Name:</label
+          >
+          <input
+            type="text"
+            id="course_name"
+            name="course_name"
+            value="<%= course.course_name %>"
+            required
+            class="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+          />
+        </div>
 
-      <label for="credits">Credits:</label>
-      <input
-        type="number"
-        step="0.01"
-        id="credits"
-        name="credits"
-        value="<%= course.credits %>"
-        required
-      /><br />
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                for="course_type"
+                class="block font-medium text-gray-700"
+                >Course Type:</label
+              >
+              <input
+                type="text"
+                id="course_type"
+                name="course_type"
+                value="<%= course.course_type %>"
+                required
+                class="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+              />
+            </div>
 
-      <label for="min_marks">Min Marks:</label>
-      <input
-        type="number"
-        id="min_marks"
-        name="min_marks"
-        value="<%= course.min_marks %>"
-        required
-      /><br />
+            <div>
+              <label
+                for="semester"
+                class="block font-medium text-gray-700"
+                >Semester:</label
+              >
+              <input
+                type="number"
+                id="semester"
+                name="semester"
+                value="<%= course.semester %>"
+                required
+                class="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+              />
+            </div>
+          </div>
 
-      <label for="max_marks">Max Marks:</label>
-      <input
-        type="number"
-        id="max_marks"
-        name="max_marks"
-        value="<%= course.max_marks %>"
-        required
-      /><br />
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                for="department"
+                class="block font-medium text-gray-700"
+                >Department:</label
+              >
+              <input
+                type="text"
+                id="department"
+                name="department"
+                value="<%= course.department %>"
+                required
+                class="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+              />
+            </div>
 
-      <button type="submit">Update</button>
-    </form>
+            <div>
+              <label
+                for="credits"
+                class="block font-medium text-gray-700"
+                >Credits:</label
+              >
+              <input
+                type="number"
+                step="0.01"
+                id="credits"
+                name="credits"
+                value="<%= course.credits %>"
+                required
+                class="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">          
+            <div>
+              <label
+                for="min_marks"
+                class="block font-medium text-gray-700"
+                >Min Marks:</label
+              >
+              <input
+                type="number"
+                id="min_marks"
+                name="min_marks"
+                value="<%= course.min_marks %>"
+                required
+                class="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label
+                for="max_marks"
+                class="block font-medium text-gray-700"
+                >Max Marks:</label
+              >
+              <input
+                type="number"
+                id="max_marks"
+                name="max_marks"
+                value="<%= course.max_marks %>"
+                required
+                class="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+              />
+            </div>
+        </div>
+
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-2 font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+            Update
+          </button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
