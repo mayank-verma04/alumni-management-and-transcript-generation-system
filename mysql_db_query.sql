@@ -80,5 +80,6 @@ CREATE TABLE student_total_marks (
     total_credits DECIMAL(5, 2) NOT NULL,
     total_marks_obtained INT NOT NULL,
     gpa DECIMAL(5, 2),
+    primary key (rollno, semester),
     FOREIGN KEY (rollno) REFERENCES students(rollno) ON DELETE CASCADE
 );
