@@ -4,23 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Marks</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/header.css" />
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Open Sans", sans-serif;
-      }
-      .h1-div h1 {
-        text-align: center;
-        margin: 20px;
       }
       .h2-div h2 {
         font-size: 1.5rem;
@@ -33,7 +24,7 @@
         width: 85%;
         font-size: 1.05rem;
         word-spacing: 2px;
-        font-weight: 600;
+        font-weight: 500;
         padding: 15px;
         display: flex;
         flex-direction: column;
@@ -124,11 +115,10 @@
       }
     </style>
   </head>
-  <body>
+  <body class="font-sans">
     <%- include ("../header.ejs") %>
-    <div class="h1-div">
-      <h1>Student Marksheet</h1>
-    </div>
+
+    <h1 class="text-center text-3xl font-semibold capitalize m-4 mb-6">Student Marksheet</h1>
 
     <div class="student-details-div">
       <p><b>Student Name:</b> <%= studentDetails.student_name %></p>
