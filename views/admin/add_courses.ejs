@@ -8,298 +8,169 @@
       src="https://kit.fontawesome.com/9ca9aa7819.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="/css/header.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-      body {
-        font-family: Arial, Helvetica, sans-serif;
-      }
-
-      .main-heading {
-        width: 100%;
-      }
-      .main-heading h1 {
-        margin: 10px 0;
-        text-align: center;
-      }
-
-      .main-heading a {
-        position: relative;
-        left: 84%;
-        margin-right: 10px;
-        text-decoration: underline;
-        color: #001939;
-        font-weight: 500;
-        padding: 5px;
-        transition: all 0.2 ease-in-out;
-      }
-      .main-heading a:hover {
-        text-decoration: none;
-        background-color: #8ab2da28;
-        border-radius: 1px;
-      }
-      .main-heading a i {
-        margin-right: 6px;
-      }
-
-      .course-table {
-        width: auto;
-        border-collapse: collapse;
-        margin: 0 auto;
-        font-size: 1.1rem;
-      }
-      .course-table th,
-      .course-table td {
-        border: 1px solid #656565;
-        padding: 0;
-        text-align: center;
-        white-space: nowrap;
-      }
-      .course-table th {
-        background-color: #f2f2f2;
-        padding: 4px;
-      }
-      .course-table th:hover,
-      .course-table td:hover {
-        border: 1px solid black;
-      }
-
-      .department-semester-table {
-        border-collapse: collapse;
-        margin: 15px auto;
-        font-size: 1.1rem;
-      }
-      .department-semester-table th,
-      .department-semester-table td {
-        border: none;
-        padding: 0;
-        text-align: left;
-      }
-      .department-semester-table th {
-        font-weight: 500;
-        padding: 5px;
-      }
-
-      input {
-        height: 22px;
-        font-size: 1rem;
-        width: 94%;
-        border: transparent;
-        outline: transparent;
-      }
-      input:focus {
-        background-color: #d6e9ff7a;
-      }
-
-      .department-div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 20px;
-      }
-      #department-label,
-      #semester-label {
-        font-size: 1.2rem;
-      }
-      #department,
-      #semester {
-        border: 1px solid black;
-        border-radius: 4px;
-        width: 240px;
-        font-size: 1rem;
-      }
-
-      .custom-heading {
-        width: 100px;
-      }
-
-      #message p {
-        color: #dc3545;
-        font-size: 0.875rem;
-        text-align: center;
-        margin-bottom: 1rem;
-      }
       /* Hide the default number input arrow */
       input[type="number"]::-webkit-outer-spin-button,
       input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
       }
-
-      .btn-div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .btn {
-        background-color: #dfdfdf;
-        cursor: pointer;
-        width: 150px;
-        height: 26px;
-        border: 1px solid black;
-        border-radius: 5px;
-        margin: 15px;
-      }
-      .btn:hover {
-        background-color: #c5c4c4;
-        border: 2px solid black;
-      }
     </style>
+
     <script>
       function addRow() {
         const table = document.getElementById("coursesTable");
         const row = table.insertRow(-1);
         row.innerHTML = `
-                <td><input type="text" name="course_code[]" required></td>
-                <td><input type="text" name="course_name[]" style="width: 98%" required></td>
-                <td><input type="text" name="course_type[]" required></td>
-                <td><input type="number" name="credits[]" step="0.01" required></td>
-                <td><input type="number" name="min_marks[]" required></td>
-                <td><input type="number" name="max_marks[]" value="100" required></td>
-            `;
+          <td><input type="text" name="course_code[]" class="border p-2 w-full" required></td>
+          <td><input type="text" name="course_name[]" class="border p-2 w-full" required></td>
+          <td><input type="text" name="course_type[]" class="border p-2 w-full" required></td>
+          <td><input type="number" name="credits[]" step="0.01" class="border p-2 w-full" required></td>
+          <td><input type="number" name="min_marks[]" class="border p-2 w-full" required></td>
+          <td><input type="number" name="max_marks[]" value="100" class="border p-2 w-full" required></td>
+        `;
       }
 
       function removeLastRow() {
         const table = document.getElementById("coursesTable");
-        const rowCount = table.rows.length;
-        if (rowCount > 2) {
-          // Ensure that at least one row remains
-          table.deleteRow(rowCount - 1);
+        if (table.rows.length > 2) {
+          table.deleteRow(-1);
         } else {
           alert("You must have at least one course entry.");
         }
       }
     </script>
   </head>
-  <body>
-    <%- include ("../header.ejs") %>
-    <div class="main-heading">
-      <h1>Add Courses</h1>
-      <a href="/admin/dashboard" class="back-link"
-        ><i class="fa-solid fa-arrow-left"></i>Back</a
+  <body class="font-sans bg-gray-100">
+
+    <%- include("../header.ejs") %>
+
+    <div class="fixed top-4 right-4">
+      <a
+        href="/admin/dashboard"
+        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
       >
+        <i class="fa-solid fa-arrow-left mr-2"></i>Back
+      </a>
     </div>
 
-    <div class="form-div">
+    <div class="w-full text-center my-6">
+      <h1 class="text-2xl font-bold text-gray-800 mb-4">Add Courses</h1>
+    </div>
+
+    <div class="max-w-6xl mx-auto mt-4 bg-white p-6 rounded-lg shadow-md">
       <form action="/admin/add-courses" method="POST">
-        <table class="department-semester-table">
-          <div class="department-div">
-            <tr>
-              <th>
-                <label for="department" id="department-label"
-                  >Department:
-                </label>
-              </th>
-              <td>
-                <select name="department" id="department" required>
-                  <option value="" disabled selected>
-                    Select a Department
-                  </option>
-                  <option value="Computer Science">Computer Science</option>
-                  <option value="Information Technology">
-                    Information Technology
-                  </option>
-                  <option value="Computer Science">
-                    Electrical Engineering
-                  </option>
-                  <option value="Electronics and Communication Engineering">
-                    Electronics and Communication Engineering
-                  </option>
-                  <option value="Chemical Engineering">
-                    Chemical Engineering
-                  </option>
-                  <option value="Mining Engineering">Mining Engineering</option>
-                  <option value="Petroleum Engineering">
-                    Petroleum Engineering
-                  </option>
-                  <option value="Civil Engineering">Civil Engineering</option>
-                  <option value="Mechanical Engineering">
-                    Mechanical Engineering
-                  </option>
-                  <option value="Production and Industrial Engineering">
-                    Production and Industrial Engineering
-                  </option>
-                  <option value="Department of Physics">
-                    Department of Physics
-                  </option>
-                  <option value="Department of Chemistry">
-                    Department of Chemistry
-                  </option>
-                  <option value="Department of Botany">
-                    Department of Botany
-                  </option>
-                  <option value="Department of Mathematics">
-                    Department of Mathematics
-                  </option>
-                  <option value="Department of Law">Department of Law</option>
-                  <option value="Other">Any Other</option>
-                </select>
-              </td>
-            </tr>
+        <div class="grid grid-cols-2 gap-6 mb-6">
+          <div>
+            <label for="department" class="block text-lg font-medium text-gray-700"
+              >Department:</label
+            >
+            <select
+              name="department"
+              id="department"
+              class="border p-2 w-full rounded"
+              required
+            >
+              <option value="" disabled selected>Select a Department</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Electrical Engineering">Electrical Engineering</option>
+              <option value="Electronics and Communication Engineering">
+                Electronics and Communication Engineering
+              </option>
+              <option value="Chemical Engineering">Chemical Engineering</option>
+              <option value="Mining Engineering">Mining Engineering</option>
+              <option value="Petroleum Engineering">Petroleum Engineering</option>
+              <option value="Civil Engineering">Civil Engineering</option>
+              <option value="Mechanical Engineering">Mechanical Engineering</option>
+              <option value="Production and Industrial Engineering">
+                Production and Industrial Engineering
+              </option>
+              <option value="Department of Physics">Department of Physics</option>
+              <option value="Department of Chemistry">Department of Chemistry</option>
+              <option value="Department of Botany">Department of Botany</option>
+              <option value="Department of Mathematics">Department of Mathematics</option>
+              <option value="Department of Law">Department of Law</option>
+              <option value="Other">Any Other</option>
+            </select>
           </div>
-          <div class="department-div">
-            <tr>
-              <th>
-                <label for="semester" id="semester-label">Semester: </label>
-              </th>
-              <td>
-                <select name="semester" id="semester" required>
-                  <option value="" disabled selected>Select a Semester</option>
-                  <option value="1">I</option>
-                  <option value="2">II</option>
-                  <option value="3">III</option>
-                  <option value="4">IV</option>
-                  <option value="5">V</option>
-                  <option value="6">VI</option>
-                  <option value="7">VII</option>
-                  <option value="8">VIII</option>
-                </select>
-              </td>
-            </tr>
+          <div>
+            <label for="semester" class="block text-lg font-medium text-gray-700"
+              >Semester:</label
+            >
+            <select
+              name="semester"
+              id="semester"
+              class="border p-2 w-full rounded"
+              required
+            >
+              <option value="" disabled selected>Select a Semester</option>
+              <option value="1">I</option>
+              <option value="2">II</option>
+              <option value="3">III</option>
+              <option value="4">IV</option>
+              <option value="5">V</option>
+              <option value="6">VI</option>
+              <option value="7">VII</option>
+              <option value="8">VIII</option>
+            </select>
           </div>
-        </table>
-        <table id="coursesTable" class="course-table">
-          <tr>
-            <th class="custom-heading">Course Code</th>
-            <th style="width: 40%">Course Name</th>
-            <th class="custom-heading">Course Type</th>
-            <th class="custom-heading">Credits</th>
-            <th class="custom-heading">Min Marks</th>
-            <th class="custom-heading">Max Marks</th>
-          </tr>
-          <tr>
-            <td><input type="text" name="course_code[]" required /></td>
-            <td>
-              <input
-                type="text"
-                name="course_name[]"
-                required
-                style="width: 98%"
-              />
-            </td>
-            <td>
-              <input type="text" name="course_type[]" required />
-            </td>
-            <td>
-              <input type="number" name="credits[]" step="0.01" required />
-            </td>
-            <td>
-              <input type="number" name="min_marks[]" required />
-            </td>
-            <td>
-              <input type="number" name="max_marks[]" value="100" required />
-            </td>
-          </tr>
-        </table>
-        <div class="btn-div">
-          <button type="button" class="btn" onclick="addRow()">
+        </div>
+
+        <!-- Courses Table -->
+        <div class="overflow-x-auto">
+          <table
+            id="coursesTable"
+            class="table-auto w-full border border-gray-300 rounded"
+          >
+            <thead class="bg-gray-200">
+              <tr>
+                <th class="border border-gray-300 px-4 py-2">Course Code</th>
+                <th class="border border-gray-300 px-4 py-2">Course Name</th>
+                <th class="border border-gray-300 px-4 py-2">Course Type</th>
+                <th class="border border-gray-300 px-4 py-2">Credits</th>
+                <th class="border border-gray-300 px-4 py-2">Min Marks</th>
+                <th class="border border-gray-300 px-4 py-2">Max Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" name="course_code[]" class="border p-2 w-full" required /></td>
+                <td><input type="text" name="course_name[]" class="border p-2 w-full" required /></td>
+                <td><input type="text" name="course_type[]" class="border p-2 w-full" required /></td>
+                <td><input type="number" name="credits[]" step="0.01" class="border p-2 w-full" required /></td>
+                <td><input type="number" name="min_marks[]" class="border p-2 w-full" required /></td>
+                <td>
+                  <input type="number" name="max_marks[]" value="100" class="border p-2 w-full" required />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center mt-6 gap-4">
+          <button
+            type="button"
+            class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
+            onclick="addRow()"
+          >
             Add More Courses
           </button>
-          <button type="button" class="btn" onclick="removeLastRow()">
+          <button
+            type="button"
+            class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
+            onclick="removeLastRow()"
+          >
             Remove Last Course
           </button>
-          <input class="btn" type="submit" value="Submit Courses" />
+          <input
+            type="submit"
+            value="Submit Courses"
+            class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          />
         </div>
       </form>
     </div>
