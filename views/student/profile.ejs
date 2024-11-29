@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Profile</title>
-    <link rel="stylesheet" href="/css/header.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
       body {
@@ -120,10 +122,10 @@
       }
     </style>
   </head>
-  <body>
+  <body class="font-sans">
     <%- include ("../header.ejs") %>
     <div class="heading-div">
-      <h1>Student Profile</h1>
+      <h1 class="text-center text-3xl font-semibold capitalize mb-6">Student Profile</h1>
       <div class="photo-div">
         <img
           src="/public/uploads/profile_pics/<%= studentDetails.profile_pic %>"
