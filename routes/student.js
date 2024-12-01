@@ -81,7 +81,7 @@ router.post("/registration", (req, res) => {
           console.log(error);
           res.status(500).send("Error checking roll number");
           return;
-        } else if (results.length > 0) {
+        } else if (results.length > 0) { 
           // Student already exists
           res.render("student/registration", {
             error: "exists",
@@ -109,7 +109,6 @@ router.post("/registration", (req, res) => {
                 return;
               }
 
-              console.log("New Student Registered");
               req.session.successMessage =
                 "Registered successfully. Log in with your Date of Birth as password.";
               res.redirect("/student/login");
@@ -260,8 +259,7 @@ router.post("/reset-password", (req, res) => {
 
   // Verify user information
   const verifyQuery = `
-    SELECT * FROM students
-    WHERE rollno = ? AND student_name = ? AND dob = ? AND phone_no = ? AND email = ?
+    SELECT * FROM students WHERE rollno = ? AND student_name = ? AND dob = ? AND phone_no = ? AND email = ?
   `;
   db.query(
     verifyQuery,
