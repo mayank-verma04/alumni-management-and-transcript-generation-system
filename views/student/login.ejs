@@ -5,48 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Login</title>
     
-  <link rel="stylesheet" href="/css/header.css" />
-  <link rel="stylesheet" href="/css/footer.css" />
-
   <script src="https://cdn.tailwindcss.com"></script>
 
     <script
       src="https://kit.fontawesome.com/9ca9aa7819.js"
       crossorigin="anonymous"
     ></script>
+
     <script
       src="https://www.google.com/recaptcha/api.js"
       async
       defer
     ></script>
-    <script
-      src="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
-      rel="stylesheet"
-    ></script>
-    <script>
-      // Toggle Password Visibility
-      document.addEventListener("DOMContentLoaded", () => {
-        const toggleVisibility = (iconShow, iconHide, passwordInput) => {
-          iconShow.addEventListener("click", () => {
-            passwordInput.type = "text";
-            iconShow.classList.add("hidden");
-            iconHide.classList.remove("hidden");
-          });
-
-          iconHide.addEventListener("click", () => {
-            passwordInput.type = "password";
-            iconHide.classList.add("hidden");
-            iconShow.classList.remove("hidden");
-          });
-        };
-
-        const passwordField = document.getElementById("password");
-        const visibility = document.getElementById("visibility");
-        const visibilityOff = document.getElementById("visibility_off");
-
-        toggleVisibility(visibility, visibilityOff, passwordField);
-      });
-    </script>
   </head>
   <body class="bg-gray-100 font-sans">
     <%- include ("../header.ejs") %>
@@ -166,5 +136,31 @@
       </form>
     </div>
     <%- include ("../footer.ejs") %>
+
+    <script async defer>
+      // Toggle Password Visibility
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggleVisibility = (iconShow, iconHide, passwordInput) => {
+          iconShow.addEventListener("click", () => {
+            passwordInput.type = "text";
+            iconShow.classList.add("hidden");
+            iconHide.classList.remove("hidden");
+          });
+
+          iconHide.addEventListener("click", () => {
+            passwordInput.type = "password";
+            iconHide.classList.add("hidden");
+            iconShow.classList.remove("hidden");
+          });
+        };
+
+        const passwordField = document.getElementById("password");
+        const visibility = document.getElementById("visibility");
+        const visibilityOff = document.getElementById("visibility_off");
+
+        toggleVisibility(visibility, visibilityOff, passwordField);
+      });
+    </script>
+    
   </body>
 </html>
