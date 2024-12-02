@@ -3,5 +3,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // Simulate loading process
   setTimeout(() => {
     loader.classList.add('hidden'); // Hide the loader
-  }, 1500);
+  }, 1000);
 });
