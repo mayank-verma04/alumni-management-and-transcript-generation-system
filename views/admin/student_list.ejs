@@ -10,21 +10,23 @@
       src="https://kit.fontawesome.com/9ca9aa7819.js"
       crossorigin="anonymous"
     ></script>
+
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
   </head>
   <body class="font-sans">
-    <%- include("../header.ejs") %>
+    <div id="header"></div>
 
     <div class="fixed top-4 right-4">
-      <a
-        href="/admin/dashboard"
+      <button
+        onclick="window.history.back()"
         class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
       >
         <i class="fa-solid fa-arrow-left mr-2"></i>Back
-      </a>
+      </button>
     </div>
 
     <div class="w-full text-center my-6">
-      <h1 class="text-2xl font-bold text-gray-800 mb-4">Student List</h2>
+      <h1 class="text-2xl font-bold text-gray-800 mb-4">Student List</h1>
     </div>
 
     <div class="my-4 flex justify-center">
@@ -53,21 +55,37 @@
         <thead class="bg-gray-200">
           <tr>
             <th class="border border-gray-400 px-4 py-2 text-left">S.No.</th>
-            <th class="border border-gray-400 px-4 py-2 text-left">Roll Number</th>
+            <th class="border border-gray-400 px-4 py-2 text-left">
+              Roll Number
+            </th>
             <th class="border border-gray-400 px-4 py-2 text-left">Name</th>
-            <th class="border border-gray-400 px-4 py-2 text-left">Father Name</th>
-            <th class="border border-gray-400 px-4 py-2 text-left">Department</th>
+            <th class="border border-gray-400 px-4 py-2 text-left">
+              Father Name
+            </th>
+            <th class="border border-gray-400 px-4 py-2 text-left">
+              Department
+            </th>
             <th class="border border-gray-400 px-4 py-2 text-left">Action</th>
           </tr>
         </thead>
         <tbody>
           <% let serialNo = 1; %> <% students.forEach(student => { %>
-          <tr class="<%= serialNo % 2 === 0 ? 'bg-gray-100' : '' %> hover:bg-gray-100">
+          <tr
+            class="<%= serialNo % 2 === 0 ? 'bg-gray-100' : '' %> hover:bg-gray-100"
+          >
             <td class="border border-gray-400 px-4 py-2"><%= serialNo++ %>.</td>
-            <td class="border border-gray-400 px-4 py-2"><%= student.rollno %></td>
-            <td class="border border-gray-400 px-4 py-2"><%= student.student_name %></td>
-            <td class="border border-gray-400 px-4 py-2"><%= student.father_name %></td>
-            <td class="border border-gray-400 px-4 py-2"><%= student.department %></td>
+            <td class="border border-gray-400 px-4 py-2">
+              <%= student.rollno %>
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              <%= student.student_name %>
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              <%= student.father_name %>
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              <%= student.department %>
+            </td>
             <td class="border border-gray-400 px-4 py-2">
               <a
                 href="/admin/student-details/<%= student.rollno %>"
@@ -77,10 +95,12 @@
               </a>
             </td>
           </tr>
-          <% }) %>
-          <% if (students.length === 0) { %>
+          <% }) %> <% if (students.length === 0) { %>
           <tr>
-            <td colspan="5" class="text-center border border-gray-400 px-4 py-2">
+            <td
+              colspan="5"
+              class="text-center border border-gray-400 px-4 py-2"
+            >
               No Data Found
             </td>
           </tr>
