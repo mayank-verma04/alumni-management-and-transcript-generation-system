@@ -1,12 +1,12 @@
-require("dotenv").config();
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
-const session = require("express-session");
+require('dotenv').config();
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const app = express();
 
 // Setup database
-const db = require("./db");
+const db = require('./db');
 
 // Setup body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,29 +22,34 @@ app.use(
 );
 
 // Setup EJS
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 
 // Setup static files
-app.use(express.static(path.join(__dirname, "public")));
-app.use("/public", express.static(path.join(__dirname, "public")));
+app.use(
+  '/public',
+  express.static(path.join(__dirname, 'public'), {
+    maxAge: '1y', // Cache for 1 day
+    etag: true, // Enable ETag for conditional requests
+  })
+);
 
 // Routes
-const studentRoutes = require("./routes/student");
-const adminRoutes = require("./routes/admin");
+const studentRoutes = require('./routes/student');
+const adminRoutes = require('./routes/admin');
 
-app.use("/student", studentRoutes);
-app.use("/admin", adminRoutes);
+app.use('/student', studentRoutes);
+app.use('/admin', adminRoutes);
 
 // Home route
-app.get("/", (req, res) => {
-  res.render("index");
+app.get('/', (req, res) => {
+  res.render('index');
 });
 
 //
 
 // For Wrong Routes redirect the user to " / "
 app.use((req, res) => {
-  res.redirect("/");
+  res.redirect('/');
 });
 
 //
