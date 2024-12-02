@@ -4,14 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Marks</title>
+
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
 
     <style>
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Noto Serif";
+        font-family: 'Noto Serif';
       }
       .h1-div h1 {
         text-align: center;
@@ -60,6 +68,17 @@
     </style>
   </head>
   <body>
+    <div id="header"></div>
+
+    <div class="fixed top-4 right-4">
+      <button
+        onclick="window.history.back()"
+        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
+      >
+        <i class="fa-solid fa-arrow-left mr-2"></i>Back
+      </button>
+    </div>
+
     <div class="h1-div">
       <h1>Student Marksheet</h1>
       <h2>Roll No.: <%= rollno %></h2>
@@ -123,14 +142,14 @@
     <script>
       function convertToRoman(num) {
         const romanNumeralMap = [
-          { value: 10, numeral: "X" },
-          { value: 9, numeral: "IX" },
-          { value: 5, numeral: "V" },
-          { value: 4, numeral: "IV" },
-          { value: 1, numeral: "I" },
+          { value: 10, numeral: 'X' },
+          { value: 9, numeral: 'IX' },
+          { value: 5, numeral: 'V' },
+          { value: 4, numeral: 'IV' },
+          { value: 1, numeral: 'I' },
         ];
 
-        let roman = "";
+        let roman = '';
 
         for (const { value, numeral } of romanNumeralMap) {
           while (num >= value) {
@@ -141,16 +160,16 @@
 
         return roman;
       }
-      const semesters = "<%= semesters %>";
-      const semesterNumber = "<%= sem %>";
-      let sem = semesterNumber.split(",").map(Number);
-      var divs = document.getElementsByClassName("h2-div");
+      const semesters = '<%= semesters %>';
+      const semesterNumber = '<%= sem %>';
+      let sem = semesterNumber.split(',').map(Number);
+      var divs = document.getElementsByClassName('h2-div');
       // Iterate through the numbers array
       sem.forEach(function (number, index) {
         let romanSem = convertToRoman(number);
         // Create a new <h2> element
-        var h2 = document.createElement("h2");
-        h2.textContent = "Semester " + romanSem;
+        var h2 = document.createElement('h2');
+        h2.textContent = 'Semester ' + romanSem;
         // Append <h2> to the corresponding div with class "h2-div"
         if (index < divs.length) {
           divs[index].appendChild(h2);
