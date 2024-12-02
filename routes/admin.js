@@ -1,8 +1,8 @@
-const express = require("express");
-const fs = require("fs");
+const express = require('express');
+const fs = require('fs');
 const router = express.Router();
-const db = require("../db");
-const path = require("path");
+const db = require('../db');
+const path = require('path');
 
 // Helper function to delete a file if it exists
 function deleteFile(filePath) {
@@ -14,38 +14,38 @@ function deleteFile(filePath) {
 }
 
 // Admin Login
-router.get("/login", (req, res) => {
+router.get('/login', (req, res) => {
   const message = req.session.message; // For Wrong Credentials or Wrong Password
   req.session.message = null; // Clear the message after displaying it once
 
-  res.render("admin/login", { message });
+  res.render('admin/login', { message });
 });
 
-router.post("/login", (req, res) => {
+router.post('/login', (req, res) => {
   const { username, password } = req.body;
-  const query = "SELECT * FROM admin_login WHERE username = ? AND password = ?";
+  const query = 'SELECT * FROM admin_login WHERE username = ? AND password = ?';
   db.query(query, [username, password], (err, result) => {
     // When there is no data is found in mySQL that means wrong details filled
     if (result.length === 0) {
-      req.session.message = "Wrong Credentials.";
-      return res.redirect("/admin/login");
+      req.session.message = 'Wrong Credentials.';
+      return res.redirect('/admin/login');
     }
     if (result.length > 0) {
-      const studentQuery = "SELECT * FROM admin_login WHERE username = ?";
+      const studentQuery = 'SELECT * FROM admin_login WHERE username = ?';
       db.query(studentQuery, [username], (err, result) => {
         if (err) {
           console.log(err);
           res
             .status(500)
-            .send("Error in SELECT * FROM admin_login WHERE username = ?");
+            .send('Error in SELECT * FROM admin_login WHERE username = ?');
           return;
         }
         req.session.admin = result[0]; //Store Admin Data in Session
 
-        res.redirect("/admin/dashboard");
+        res.redirect('/admin/dashboard');
       });
     } else {
-      res.redirect("/admin/login");
+      res.redirect('/admin/login');
     }
   });
 });
@@ -53,38 +53,38 @@ router.post("/login", (req, res) => {
 //
 
 // Admin Dashboard
-router.get("/dashboard", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/dashboard', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   //else
-  res.render("admin/dashboard");
+  res.render('admin/dashboard');
 });
 
 // View All Students
-router.get("/students", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/students', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   //else
-  const query = "SELECT * FROM students";
+  const query = 'SELECT * FROM students';
   db.query(query, (err, students) => {
     if (err) throw err;
-    res.render("admin/student_list", { students });
+    res.render('admin/student_list', { students });
   });
 });
 
 // Edit Student
-router.get("/students/edit/:rollno", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/students/edit/:rollno', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   //else
   const { rollno } = req.params;
-  const query = "SELECT * FROM students WHERE rollno = ?";
+  const query = 'SELECT * FROM students WHERE rollno = ?';
   db.query(query, [rollno], (err, result) => {
     if (err) throw err;
     const student = result[0];
-    res.render("admin/edit_student", { student });
+    res.render('admin/edit_student', { student });
   });
 });
 
-router.post("/update-student", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.post('/update-student', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const student = req.body;
   const updatesql = `UPDATE students set student_name = ?, father_name = ?, dob = ?, gender = ?, religion = ?, category = ?, phone_no = ?, email = ?, department = ?, year_of_admission = ?, nationality = ?, domicile_state = ?, district = ?, pin_code = ?, permanent_address = ?, correspondence_address = ?, marital_status = ? WHERE rollno = ?`;
@@ -114,56 +114,56 @@ router.post("/update-student", (req, res) => {
     (err, result) => {
       if (err) {
         console.error(err);
-        return res.status(500).send("Error registering student.");
+        return res.status(500).send('Error registering student.');
       }
-      res.redirect("/admin/dashboard");
+      res.redirect('/admin/dashboard');
     }
   );
 });
 
 // DELETE student
-router.get("/students/delete/:rollno", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/students/delete/:rollno', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   //else
   const rollno = req.params.rollno;
 
-  const deleteStudent = "DELETE FROM students WHERE rollno = ?";
+  const deleteStudent = 'DELETE FROM students WHERE rollno = ?';
   db.query(deleteStudent, [rollno], (err, result) => {
     if (err) throw err;
 
     // Construct file paths
     const profilePicPath = path.join(
       __dirname,
-      "..",
-      "public",
-      "uploads",
-      "profile_pics",
+      '..',
+      'public',
+      'uploads',
+      'profile_pics',
       `profile_pic_${rollno}`
     );
     const offerLetterPath = path.join(
       __dirname,
-      "..",
-      "public",
-      "uploads",
-      "offer_letters",
+      '..',
+      'public',
+      'uploads',
+      'offer_letters',
       `offer_letter_${rollno}`
     );
 
     // Delete profile picture files
     fs.readdir(
-      path.join(__dirname, "..", "public", "uploads", "profile_pics"),
+      path.join(__dirname, '..', 'public', 'uploads', 'profile_pics'),
       (err, files) => {
         if (err)
-          console.error("Error reading profile pictures directory:", err);
+          console.error('Error reading profile pictures directory:', err);
         files.forEach((file) => {
           if (file.startsWith(`profile_pic_${rollno}`)) {
             deleteFile(
               path.join(
                 __dirname,
-                "..",
-                "public",
-                "uploads",
-                "profile_pics",
+                '..',
+                'public',
+                'uploads',
+                'profile_pics',
                 file
               )
             );
@@ -174,18 +174,18 @@ router.get("/students/delete/:rollno", (req, res) => {
 
     // Delete offer letter files
     fs.readdir(
-      path.join(__dirname, "..", "public", "uploads", "offer_letters"),
+      path.join(__dirname, '..', 'public', 'uploads', 'offer_letters'),
       (err, files) => {
-        if (err) console.error("Error reading offer letters directory:", err);
+        if (err) console.error('Error reading offer letters directory:', err);
         files.forEach((file) => {
           if (file.startsWith(`offer_letter_${rollno}`)) {
             deleteFile(
               path.join(
                 __dirname,
-                "..",
-                "public",
-                "uploads",
-                "offer_letters",
+                '..',
+                'public',
+                'uploads',
+                'offer_letters',
                 file
               )
             );
@@ -194,15 +194,15 @@ router.get("/students/delete/:rollno", (req, res) => {
       }
     );
 
-    res.redirect("/admin/students");
+    res.redirect('/admin/students');
   });
 });
 
 ///////////////
 
 // Search Students
-router.post("/students/search", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.post('/students/search', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const { search_query } = req.body;
   const query = `SELECT * FROM students WHERE student_name LIKE ? OR department LIKE ? OR rollno LIKE ?`;
@@ -211,34 +211,34 @@ router.post("/students/search", (req, res) => {
     [`%${search_query}%`, `%${search_query}%`, `%${search_query}%`],
     (err, students) => {
       if (err) throw err;
-      res.render("admin/student_list", { students });
+      res.render('admin/student_list', { students });
     }
   );
 });
 
 //
 
-router.get("/student-details/:rollno", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/student-details/:rollno', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   //else
   const rollno = req.params.rollno;
-  const studentQuery = "SELECT * FROM students WHERE rollno = ?";
+  const studentQuery = 'SELECT * FROM students WHERE rollno = ?';
   db.query(studentQuery, [rollno], (err, resultStudentDetails) => {
     if (err) {
       console.error(err);
-      res.status(500).send("Internal Server Error");
+      res.status(500).send('Internal Server Error');
       return;
     }
     const studentDetails = resultStudentDetails[0];
-    const jobQuery = "SELECT * FROM job_details WHERE rollno = ?";
+    const jobQuery = 'SELECT * FROM job_details WHERE rollno = ?';
     db.query(jobQuery, [rollno], (err, resultJobDetails) => {
       if (err) {
         console.error(err);
-        res.status(500).send("Internal Server Error");
+        res.status(500).send('Internal Server Error');
         return;
       }
       const jobDetails = resultJobDetails;
-      res.render("admin/student_details", { studentDetails, jobDetails });
+      res.render('admin/student_details', { studentDetails, jobDetails });
     });
   });
 });
@@ -249,28 +249,28 @@ router.get("/student-details/:rollno", (req, res) => {
 
 //
 
-router.get("/student-job-details/:rollno", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/student-job-details/:rollno', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   //else
   const rollno = req.params.rollno;
-  const studentQuery = "SELECT * FROM students WHERE rollno = ?";
+  const studentQuery = 'SELECT * FROM students WHERE rollno = ?';
   db.query(studentQuery, [rollno], (err, resultStudentDetails) => {
     if (err) {
       console.error(err);
-      res.status(500).send("Internal Server Error");
+      res.status(500).send('Internal Server Error');
       return;
     }
     const studentDetails = resultStudentDetails[0];
-    const jobQuery = "SELECT * FROM job_details WHERE rollno = ?";
+    const jobQuery = 'SELECT * FROM job_details WHERE rollno = ?';
     db.query(jobQuery, [rollno], (err, resultJobDetails) => {
       if (err) {
         console.error(err);
-        res.status(500).send("Internal Server Error");
+        res.status(500).send('Internal Server Error');
         return;
       }
       const jobDetails = resultJobDetails;
 
-      res.render("admin/view_jobs", { studentDetails, jobDetails });
+      res.render('admin/view_jobs', { studentDetails, jobDetails });
     });
   });
 });
@@ -280,16 +280,16 @@ router.get("/student-job-details/:rollno", (req, res) => {
 //
 
 // Add courses
-router.get("/add-courses", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/add-courses', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const message = req.session.message;
   req.session.message = null; // Clear the message after displaying it once
 
-  res.render("admin/add_courses", { message });
+  res.render('admin/add_courses', { message });
 });
 
-router.post("/add-courses", (req, res) => {
+router.post('/add-courses', (req, res) => {
   const courseCodes = req.body.course_code;
   const courseNames = req.body.course_name;
   const courseTypes = req.body.course_type;
@@ -311,13 +311,13 @@ router.post("/add-courses", (req, res) => {
       max_marks: maxMarks[i],
     };
 
-    const query = "INSERT INTO courses SET ?";
+    const query = 'INSERT INTO courses SET ?';
     db.query(query, course, (err, result) => {
       if (err) throw err;
     });
   }
-  req.session.message = "Course Details Added";
-  res.redirect("/admin/view-courses");
+  req.session.message = 'Course Details Added';
+  res.redirect('/admin/view-courses');
 });
 
 //
@@ -325,17 +325,17 @@ router.post("/add-courses", (req, res) => {
 //
 
 //Add Marks
-router.get("/add-marks/:rollno/:semester", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/add-marks/:rollno/:semester', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   //else
   const { rollno, semester } = req.params;
   // If marks are allready added for the semester
   const marksDetails =
-    "SELECT * FROM student_marks WHERE rollno = ? AND semester = ?";
+    'SELECT * FROM student_marks WHERE rollno = ? AND semester = ?';
 
   db.query(marksDetails, [rollno, semester], (err, results) => {
     if (err) {
-      return res.status(500).send("Database query error");
+      return res.status(500).send('Database query error');
     }
 
     if (results.length > 0) {
@@ -367,7 +367,7 @@ router.get("/add-marks/:rollno/:semester", (req, res) => {
         total_min_marks = sum_marks[0].total_min_marks;
         total_max_marks = sum_marks[0].total_max_marks;
         total_credits = sum_marks[0].total_credits;
-        res.render("admin/add_marks", {
+        res.render('admin/add_marks', {
           courses: results,
           rollno,
           semester,
@@ -380,8 +380,8 @@ router.get("/add-marks/:rollno/:semester", (req, res) => {
   });
 });
 
-router.post("/add-marks", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.post('/add-marks', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const {
     rollno,
@@ -416,7 +416,7 @@ router.post("/add-marks", (req, res) => {
 
   db.query(query, [values], (err) => {
     if (err) throw err;
-    const totalMarksQuery = "INSERT INTO student_total_marks SET ?";
+    const totalMarksQuery = 'INSERT INTO student_total_marks SET ?';
 
     const totalMarksValues = {
       rollno,
@@ -440,8 +440,8 @@ router.post("/add-marks", (req, res) => {
 //
 
 // View Marks
-router.get("/marks/:rollno", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/marks/:rollno', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   // else
 
   const rollno = req.params.rollno;
@@ -455,9 +455,20 @@ router.get("/marks/:rollno", (req, res) => {
   WHERE sm.rollno = ? ORDER BY sm.semester, c.course_code`;
 
   db.query(query, [rollno], (err, results) => {
-    if (!req.session.admin) return res.redirect("/admin/login");
+    if (!req.session.admin) return res.redirect('/admin/login');
     // else
     if (err) throw err;
+
+    if (results.length === 0) {
+      // Marks not found
+      res.status(404).send(`
+        <script>
+          alert("Marks Not Added!");
+          window.location.href = "/admin/student-details/${rollno}";
+        </script>
+      `);
+      return;
+    }
 
     // Group results by semester
     const semesters = {};
@@ -487,23 +498,7 @@ router.get("/marks/:rollno", (req, res) => {
 
     const semesterNumber = Object.keys(semesters);
 
-    if (
-      typeof semesters === "object" &&
-      semesters !== null &&
-      Object.keys(semesters).length === 0
-    ) {
-      // semesters is an empty object
-      console.log("Semesters is an empty object");
-      res.status(404).send(`
-        <script>
-          alert("Marks Not Added!");
-          window.location.href = "/admin/student-details/${rollno}";
-        </script>
-      `);
-      return;
-    }
-
-    res.render("admin/student_marks", {
+    res.render('admin/student_marks', {
       semesters,
       sem: semesterNumber,
       rollno,
@@ -516,22 +511,22 @@ router.get("/marks/:rollno", (req, res) => {
 //
 
 // Route to get and display view courses
-router.get("/view-courses", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/view-courses', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const message = req.session.message; // It contains course added message from add-course route
   req.session.message = null;
 
-  db.query("SELECT * FROM courses ORDER BY department", (err, courses) => {
+  db.query('SELECT * FROM courses ORDER BY department', (err, courses) => {
     if (err) console.log(err);
 
-    res.render("admin/view_courses", { message, courses });
+    res.render('admin/view_courses', { message, courses });
   });
 });
 
 // Search Courses
-router.post("/view-courses/search", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.post('/view-courses/search', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const { search_query } = req.body;
   const query = `SELECT * FROM courses WHERE semester LIKE ? OR department LIKE ?`;
@@ -541,26 +536,26 @@ router.post("/view-courses/search", (req, res) => {
     (err, courses) => {
       if (err) throw err;
       let message;
-      res.render("admin/view_courses", { courses, message });
+      res.render('admin/view_courses', { courses, message });
     }
   );
 });
 
 // Route to edit a course
-router.get("/edit-course/:course_code", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.get('/edit-course/:course_code', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const course_code = req.params.course_code;
-  const query = "SELECT * FROM courses WHERE course_code = ?";
+  const query = 'SELECT * FROM courses WHERE course_code = ?';
 
   db.query(query, [course_code], (err, result) => {
     if (err) console.log(err);
-    res.render("admin/edit_course", { course: result[0] });
+    res.render('admin/edit_course', { course: result[0] });
   });
 });
 
-router.post("/edit-course/:course_code", (req, res) => {
-  if (!req.session.admin) return res.redirect("/admin/login");
+router.post('/edit-course/:course_code', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const { course_code } = req.params;
   const {
@@ -574,7 +569,7 @@ router.post("/edit-course/:course_code", (req, res) => {
   } = req.body;
 
   const editQuery =
-    "UPDATE courses SET course_name = ?, course_type = ?, department = ?, semester = ?, credits = ?, min_marks = ?, max_marks = ? WHERE course_code = ?";
+    'UPDATE courses SET course_name = ?, course_type = ?, department = ?, semester = ?, credits = ?, min_marks = ?, max_marks = ? WHERE course_code = ?';
 
   const values = [
     course_name,
@@ -588,22 +583,22 @@ router.post("/edit-course/:course_code", (req, res) => {
   ];
   db.query(editQuery, values, (err, result) => {
     if (err) console.log(err);
-    res.redirect("/admin/view-courses");
+    res.redirect('/admin/view-courses');
   });
 });
 
 // Route to delete a course
-router.post("/delete/:course_code", (req, res) => {
+router.post('/delete/:course_code', (req, res) => {
   const course_code = req.params.course_code;
   db.query(
-    "DELETE FROM courses WHERE course_code = ?",
+    'DELETE FROM courses WHERE course_code = ?',
     [course_code],
     (err, result) => {
       if (err) {
-        req.session.message = "You cannot Delete this course";
-        return res.redirect("/admin/view-courses");
+        req.session.message = 'You cannot Delete this course';
+        return res.redirect('/admin/view-courses');
       }
-      res.redirect("/admin/view-courses");
+      res.redirect('/admin/view-courses');
     }
   );
 });
@@ -611,18 +606,18 @@ router.post("/delete/:course_code", (req, res) => {
 //
 
 // Logout
-router.get("/logout", (req, res) => {
+router.get('/logout', (req, res) => {
   // Destroy the session
   req.session.destroy((err) => {
     if (err) {
-      return res.redirect("/admin/dashboard"); // If there's an error, redirect to the dashboard
+      return res.redirect('/admin/dashboard'); // If there's an error, redirect to the dashboard
     }
 
     // Clear the cookie
-    res.clearCookie("connect.sid");
+    res.clearCookie('connect.sid');
 
     // Redirect to the login page or homepage
-    res.redirect("/admin/login");
+    res.redirect('/admin/login');
   });
 });
 
