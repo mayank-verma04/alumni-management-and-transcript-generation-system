@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Marks</title>
-    
+
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
+
     <style>
       * {
         margin: 0;
@@ -78,7 +85,7 @@
         margin-bottom: 20px;
       }
       #printButton {
-        font-family: "Open Sans", sans-serif;
+        font-family: 'Open Sans', sans-serif;
         margin: 30px;
         align-self: center;
         padding: 10px;
@@ -116,9 +123,20 @@
     </style>
   </head>
   <body class="font-sans">
-    <%- include ("../header.ejs") %>
+    <div id="header"></div>
 
-    <h1 class="text-center text-3xl font-semibold capitalize m-4 mb-6">Student Marksheet</h1>
+    <div class="fixed top-4 right-4">
+      <button
+        onclick="window.history.back()"
+        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
+      >
+        <i class="fa-solid fa-arrow-left mr-2"></i>Back
+      </button>
+    </div>
+
+    <h1 class="text-center text-3xl font-semibold capitalize m-4 mb-6">
+      Student Marksheet
+    </h1>
 
     <div class="student-details-div">
       <p><b>Student Name:</b> <%= studentDetails.student_name %></p>
@@ -189,22 +207,19 @@
 
     <div id="print-div">
       <button id="printButton" class="no-print">Print the Marksheet</button>
-      <a href="/student/dashboard" class="back-link no-print"
-        >Back to Dashboard</a
-      >
     </div>
 
-    <script>
+    <script defer>
       function convertToRoman(num) {
         const romanNumeralMap = [
-          { value: 10, numeral: "X" },
-          { value: 9, numeral: "IX" },
-          { value: 5, numeral: "V" },
-          { value: 4, numeral: "IV" },
-          { value: 1, numeral: "I" },
+          { value: 10, numeral: 'X' },
+          { value: 9, numeral: 'IX' },
+          { value: 5, numeral: 'V' },
+          { value: 4, numeral: 'IV' },
+          { value: 1, numeral: 'I' },
         ];
 
-        let roman = "";
+        let roman = '';
 
         for (const { value, numeral } of romanNumeralMap) {
           while (num >= value) {
@@ -215,16 +230,16 @@
 
         return roman;
       }
-      const semesters = "<%= semesters %>";
-      const semesterNumber = "<%= sem %>";
-      let sem = semesterNumber.split(",").map(Number);
-      var divs = document.getElementsByClassName("h2-div");
+      const semesters = '<%= semesters %>';
+      const semesterNumber = '<%= sem %>';
+      let sem = semesterNumber.split(',').map(Number);
+      var divs = document.getElementsByClassName('h2-div');
       // Iterate through the numbers array
       sem.forEach(function (number, index) {
         let romanSem = convertToRoman(number);
         // Create a new <h2> element
-        var h2 = document.createElement("h2");
-        h2.textContent = "Semester " + romanSem;
+        var h2 = document.createElement('h2');
+        h2.textContent = 'Semester ' + romanSem;
         // Append <h2> to the corresponding div with class "h2-div"
         if (index < divs.length) {
           divs[index].appendChild(h2);
@@ -237,13 +252,13 @@
       });
 
       if (window.innerWidth <= 750) {
-        alert("Please turn on desktop mode to view content properly");
+        alert('Please turn on desktop mode to view content properly');
       }
 
       // Print Marksheet
       document
-        .getElementById("printButton")
-        .addEventListener("click", function () {
+        .getElementById('printButton')
+        .addEventListener('click', function () {
           window.print();
         });
     </script>
