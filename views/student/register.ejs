@@ -6,9 +6,17 @@
     <title>Student Registration</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
+
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+
     <style>
       body {
-        font-family: "Open Sans", sans-serif;
+        font-family: 'Open Sans', sans-serif;
         background-color: #f4f7f6;
         margin: 0;
         padding: 0;
@@ -34,11 +42,11 @@
       td {
         text-align: left;
       }
-      input[type="text"],
-      input[type="number"],
-      input[type="tel"],
-      input[type="email"],
-      input[type="file"],
+      input[type='text'],
+      input[type='number'],
+      input[type='tel'],
+      input[type='email'],
+      input[type='file'],
       textarea,
       select {
         margin-bottom: 3px;
@@ -46,7 +54,7 @@
         width: 200px;
         -moz-appearance: textfield;
         appearance: textfield;
-        font-family: "Open Sans", sans-serif;
+        font-family: 'Open Sans', sans-serif;
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -57,16 +65,15 @@
       textarea {
         resize: vertical;
       }
-    
 
       input:hover,
       textarea:hover,
-      select:hover{
+      select:hover {
         border: 1px solid #555555;
       }
       input:focus,
       textarea:focus,
-      select:focus{
+      select:focus {
         border: 1px solid black;
         box-shadow: 0px 0px 5px 0.2px rgba(0, 0, 0, 0.4);
       }
@@ -94,11 +101,11 @@
           width: 100%;
           margin-bottom: 20px;
         }
-        input[type="text"],
-        input[type="number"],
-        input[type="tel"],
-        input[type="email"],
-        input[type="file"],
+        input[type='text'],
+        input[type='number'],
+        input[type='tel'],
+        input[type='email'],
+        input[type='file'],
         textarea,
         select {
           width: 100%;
@@ -115,86 +122,86 @@
 
     <script type="text/javascript" async defer>
       var states_arr = [
-        "Andhra Pradesh",
-        "Arunachal Pradesh",
-        "Assam",
-        "Bihar",
-        "Chhattisgarh",
-        "Goa",
-        "Gujarat",
-        "Haryana",
-        "Himachal Pradesh",
-        "Jammu and Kashmir",
-        "Jharkhand",
-        "Karnataka",
-        "Kerala",
-        "Madhya Pradesh",
-        "Maharashtra",
-        "Manipur",
-        "Meghalaya",
-        "Mizoram",
-        "Nagaland",
-        "Odisha",
-        "Punjab",
-        "Rajasthan",
-        "Sikkim",
-        "Tamil Nadu",
-        "Telangana",
-        "Tripura",
-        "Uttar Pradesh",
-        "Uttarakhand",
-        "West Bengal",
-        "Andaman and Nicobar Islands",
-        "Chandigarh",
-        "Dadra and Nagar Haveli and Daman and Diu",
-        "Delhi",
-        "Lakshadweep",
-        "Puducherry",
+        'Andhra Pradesh',
+        'Arunachal Pradesh',
+        'Assam',
+        'Bihar',
+        'Chhattisgarh',
+        'Goa',
+        'Gujarat',
+        'Haryana',
+        'Himachal Pradesh',
+        'Jammu and Kashmir',
+        'Jharkhand',
+        'Karnataka',
+        'Kerala',
+        'Madhya Pradesh',
+        'Maharashtra',
+        'Manipur',
+        'Meghalaya',
+        'Mizoram',
+        'Nagaland',
+        'Odisha',
+        'Punjab',
+        'Rajasthan',
+        'Sikkim',
+        'Tamil Nadu',
+        'Telangana',
+        'Tripura',
+        'Uttar Pradesh',
+        'Uttarakhand',
+        'West Bengal',
+        'Andaman and Nicobar Islands',
+        'Chandigarh',
+        'Dadra and Nagar Haveli and Daman and Diu',
+        'Delhi',
+        'Lakshadweep',
+        'Puducherry',
       ];
 
       var district_arr = [
-        "", // Empty for default option
-        "Anantapur|Chittoor|Cuddapah|East Godavari|Guntur|Krishna|Kurnool|Nellore|Prakasam|Srikakulam|Vishakapatnam|Vizianagaram|West Godavari",
-        "Anjaw|Changlang|Dibang Valley|East Kameng|East Siang|Kra Daadi|Kurung Kumey|Lohit|Longding|Lower Dibang Valley|Lower Subansiri|Namsai|Papum Pare|Siang|Tawang|Tirap|Upper Siang|Upper Subansiri|West Kameng|West Siang",
-        "Baksa|Barpeta|Bongaigaon|Cachar|Chirang|Darrang|Dhemaji|Dhubri|Dibrugarh|Dima Hasao|Goalpara|Golaghat|Hailakandi|Jorhat|Kamrup M|Kamrup R|Karbi Anglong|Karimganj|Kokrajhar|Lakhimpur|Marigaon|Nagaon|Nalbari|Sibsagar|Sonitpur|Tinsukia|Udalguri",
-        "Araria|Arwal|Aurangabad|Banka|Begusarai|Bhagalpur|Bhojpur|Buxar|Darbhanga|East Champaran|Gaya|Gopalganj|Jamui|Jehanabad|Kaimur Bhabua|Katihar|Khagaria|Kishanganj|Lakhisarai|Madhepura|Madhubani|Munger|Muzaffarpur|Nalanda|Nawada|Patna|Purnia|Rohtas|Saharsa|Samastipur|Saran|Sheikhpura|Sheohar|Sitamarhi|Siwan|Supaul|Vaishali|West Champaran",
-        "Balod|Baloda Bazar|Balrampur|Bastar|Bemetra|Bijapur|Bilaspur|Dantewada|Dhamtari|Durg|Gariyaband|Janjgir Champa|Jashpur|Kanker|Kawardha|Kondagaon|Korba|Koriya|Mahasamund|Mungeli|Narayanpur|Raigarh|Raipur|Rajnandgaon|Sukma|Surajpur|Surguja",
-        "North Goa|South Goa",
-        "Ahmedabad|Amreli|Anand|Aravalli|Banas Kantha|Bharuch|Bhavnagar|Botad|Chhotaudepur|Dahod|Devbhumi Dwarka|Gandhinagar|Gir Somnath|Jamnagar|Junagadh|Kachchh|Kheda|Mahesana|Mahisagar|Morbi|Narmada|Navsari|Panch Mahals|Patan|Porbandar|Rajkot|Sabar Kantha|Surat|Surendranagar|Tapi|The Dangs|Vadodara|Valsad",
-        "Ambala|Bhiwani|Faridabad|Fatehabad|Gurgaon|Hisar|Jhajjar|Jind|Kaithal|Karnal|Kurukshetra|Mahendragarh|Mewat|Palwal|Panchkula|Panipat|Rewari|Rohtak|Sirsa|Sonipat|Yamunanagar",
-        "Bilaspur|Chamba|Hamirpur|Kangra|Kinnaur|Kullu|Lahul Spiti|Mandi|Shimla|Sirmaur|Solan|Una",
-        "Anantnag|Badgam|Bandipora|Baramula|Doda|Ganderbal|Jammu|Kargil|Kathua|Kishtwar|Kulgam|Kupwara|Leh Ladakh|Poonch|Pulwama|Rajouri|Ramban|Reasi|Samba|Shopian|Srinagar|Udhampur",
-        "Bokaro|Chatra|Deoghar|Dhanbad|Dumka|Garhwa|Giridih|Godda|Gumla|Hazaribagh|Jamtara|Khunti|Kodarma|Latehar|Lohardaga|Pakaur|Palamu|Pashchimi Singhbhum|Purbi Singhbhum|Ramgarh|Ranchi|Sahibganj|Saraikela|Simdega",
-        "Bagalkote|Bangalore Rural|Bangalore Urban|Belgaum|Bellary|Bidar|Bijapur|Chamrajnagar|Chikkaballapur|Chikmagalur|Chitradurga|Dakshina Kannada|Davanagere|Dharwad|Gadag|Gulbarga|Hassan|Haveri|Kodagu|Kolar|Koppal|Mandya|Mysore|Raichur|Ramanagar|Shimoga|Tumkur|Udupi|Uttara Kannada|Yadgir",
-        "Alappuzha|Ernakulam|Idukki|Kannur|Kasaragod|Kollam|Kottayam|KOZHIKKODE|Malappuram|Palakkad|Pathanamthitta|Thiruvananthapuram|Thrissur|Wayanad",
-        "Agar Malwa|Alirajpur|Anuppur|Ashok Nagar|Balaghat|Barwani|Betul|Bhind|Bhopal|Burhanpur|Chhatarpur|Chhindwada|Damoh|Datia|Dewas|Dhar|Dindori|Guna|Gwalior|Harda|Hoshangabad|Indore|Jabalpur|Jhabua|Katni|Khandwa|Khargone|Mandla|Mandsaur|Morena|Narsinghpur|Neemuch|Panna|Raisen|Rajgarh|Ratlam|Rewa|Sagar|Satna|Sehore|Seoni|Shahdol|Shajapur|Sheopur|Shivpuri|Sidhi|Singroli|Tikamgarh|Ujjain|Umaria|Vidisha",
-        "Ahmednagar|Akola|Amravati|Aurangabad|Bhandara|Bid|Brihan Mumbai|Buldana|Chandrapur|Dhule|Gadchiroli|Gondiya|Hingoli|Jalgaon|Jalna|Kolhapur|Latur|Nagpur|Nanded|Nandurbar|Nashik|Osmanabad|Palghar|Parbhani|Pune|Raigarh|Ratnagiri|Sangli|Satara|Sindhudurg|Solapur|Thane|Wardha|Washim|Yavatmal",
-        "Bishnupur|Chandel|Churachandpur|Imphal East|Imphal West|Senapati|Tamenglong|Thoubal|Ukhrul",
-        "East Garo Hills|East Jaintia Hills|East Khasi Hills|North Garo Hills|Ri Bhoi|South Garo Hills|South West Garo Hills|South West Khasi Hills|West Garo Hills|West Jaintia Hills|West Khasi Hills",
-        "Aizawl East|Aizawl West|Champhai|Kolasib|Lawngtlai|Lunglei|Mamit|Saiha|Serchhip",
-        "Dimapur|Kiphire|Kohima|Longleng|Mokokchung|Mon|Peren|Phek|Tuensang|Wokha|Zunheboto",
-        "Anugul|Balangir|Baleshwar|Bargarh|Baudh|Bhadrak|Cuttack|Deogarh|Dhenkanal|Gajapati|Ganjam|Jagatsinghpur|Jajapur|Jharsuguda|Kalahandi|Kandhamal|Kendrapara|Keonjhar|Khordha|Koraput|Malkangiri|Mayurbhanj|Nabarangpur|Nayagarh|Nuapada|Puri|Rayagada|Sambalpur|Sonapur|Sundargarh",
-        "Amritsar|Barnala|Bathinda|Faridkot|Fatehgarh Sahib|Fazilka|Firozpur|Gurdaspur|Hoshiarpur|Jalandhar|Kapurthala|Ludhiana|Mansa|Moga|Muktsar|Pathankot|Patiala|Rupnagar|Sahibzada Ajit Singh Nagar|Sangrur|Shahid Bhagat Singh Nagar|Taran Taran",
-        "Ajmer|Alwar|Banswara|Baran|Barmer|Bharatpur|Bhilwara|Bikaner|Bundi|Chittorgarh|Churu|Dausa|Dholpur|Dungarpur|Ganganagar|Hanumangarh|Jaipur|Jaisalmer|Jalore|Jhalawar|Jhunjhunu|Jodhpur|Karauli|Kota|Nagaur|Pali|Pratapgarh|Rajsamand|Sawai Madhopur|Sikar|Sirohi|Tonk|Udaipur",
-        "East District|North District|South District|West District",
-        "Ariyalur|Chennai|Coimbatore|Cuddalore|Dharmapuri|Dindigul|Erode|Kanchipuram|Kanyakumari|Karur|Krishnagiri|Madurai|Nagapattinam|Namakkal|Perambalur|Pudukottai|Ramanathapuram|Salem|Sivaganga|Thanjavur|The Nilgiris|Theni|Thiruvallur|Thiruvarur|Thoothukudi|Tiruchirappalli|Tirunelveli|Tiruppur|Tiruvannamalai|Vellore|Villupuram|Virudhunagar",
-        "Adilabad|Bhadradri Kothagudem|Hyderabad|Jagtial|Jangaon|Jayashankar Bhoopalpally|Jogulamba Gadwal|Kamareddy|Karimnagar|Khammam|Kumuram Bheem Asifabad|Mahabubabad|Mahbubnagar|Mancherial|Medak|Medchal Malkajgiri|Nagarkurnool|Nalgonda|Nirmal|Nizamabad|Peddapalli|Rajanna Sircilla|Ranga Reddy|Sangareddy|Siddipet|Suryapet|Vikarabad|Wanaparthy|Warangal (Urban)|Warangal (Rural)|Yadadri Bhuvanagiri",
-        "Dhalai|Gomati|Khowai|North Tripura|Sepahijala|South Tripura|Unakoti|West Tripura",
-        "Agra|Aligarh|Allahabad|Ambedkar Nagar|Auraiya|Azamgarh|Bagpat|Bahraich|Ballia|Balrampur|Banda|Bara Banki|Bareilly|Basti|Bijnor|Budaun|Bulandshahr|Chandauli|Chitrakoot|Deoria|Etah|Etawah|Faizabad|Farrukhabad|Fatehpur|Firozabad|Gautam Buddha Nagar|Ghaziabad|Ghazipur|Gonda|Gorakhpur|Hamirpur|Hardoi|Hathras|Jalaun|Jaunpur|Jhansi|Jyotiba Phule Nagar|Kannauj|Kanpur Dehat|Kanpur Nagar|Kanshiram Nagar|Kaushambi|Kushinagar|Lakhimpur Kheri|Lalitpur|Lucknow|Maharajganj|Mahoba|Mainpuri|Mathura|Mau|Meerut|Mirzapur|Moradabad|Muzaffarnagar|Pilibhit|Pratapgarh|Rae Bareli|Rampur|Saharanpur|Sant Kabir Nagar|Sant Ravi Das Nagar|Shahjahanpur|Shravasti|Siddharthnagar|Sitapur|Sonbhadra|Sultanpur|Unnao|Varanasi",
-        "Almora|Bageshwar|Chamoli|Champawat|Dehradun|Haridwar|Nainital|Pauri Garhwal|Pithoragarh|Rudraprayag|Tehri Garhwal|Udham Singh Nagar|Uttarkashi",
-        "Alipurduar|Bankura|Birbhum|Cooch Behar|Dakshin Dinajpur|Darjeeling|Hooghly|Howrah|Jalpaiguri|Jhargram|Kalimpong|Kolkata|Malda|Murshidabad|Nadia|North 24 Parganas|Paschim Bardhaman|Paschim Medinipur|Purba Bardhaman|Purba Medinipur|Purulia|South 24 Parganas|Uttar Dinajpur",
-        "Nicobar|North and Middle Andaman|South Andaman",
-        "Chandigarh",
-        "Dadra and Nagar Haveli and Daman and Diu",
-        "Delhi",
-        "Lakshadweep",
-        "Puducherry|Karaikal|Mahe|Yanam",
+        '', // Empty for default option
+        'Anantapur|Chittoor|Cuddapah|East Godavari|Guntur|Krishna|Kurnool|Nellore|Prakasam|Srikakulam|Vishakapatnam|Vizianagaram|West Godavari',
+        'Anjaw|Changlang|Dibang Valley|East Kameng|East Siang|Kra Daadi|Kurung Kumey|Lohit|Longding|Lower Dibang Valley|Lower Subansiri|Namsai|Papum Pare|Siang|Tawang|Tirap|Upper Siang|Upper Subansiri|West Kameng|West Siang',
+        'Baksa|Barpeta|Bongaigaon|Cachar|Chirang|Darrang|Dhemaji|Dhubri|Dibrugarh|Dima Hasao|Goalpara|Golaghat|Hailakandi|Jorhat|Kamrup M|Kamrup R|Karbi Anglong|Karimganj|Kokrajhar|Lakhimpur|Marigaon|Nagaon|Nalbari|Sibsagar|Sonitpur|Tinsukia|Udalguri',
+        'Araria|Arwal|Aurangabad|Banka|Begusarai|Bhagalpur|Bhojpur|Buxar|Darbhanga|East Champaran|Gaya|Gopalganj|Jamui|Jehanabad|Kaimur Bhabua|Katihar|Khagaria|Kishanganj|Lakhisarai|Madhepura|Madhubani|Munger|Muzaffarpur|Nalanda|Nawada|Patna|Purnia|Rohtas|Saharsa|Samastipur|Saran|Sheikhpura|Sheohar|Sitamarhi|Siwan|Supaul|Vaishali|West Champaran',
+        'Balod|Baloda Bazar|Balrampur|Bastar|Bemetra|Bijapur|Bilaspur|Dantewada|Dhamtari|Durg|Gariyaband|Janjgir Champa|Jashpur|Kanker|Kawardha|Kondagaon|Korba|Koriya|Mahasamund|Mungeli|Narayanpur|Raigarh|Raipur|Rajnandgaon|Sukma|Surajpur|Surguja',
+        'North Goa|South Goa',
+        'Ahmedabad|Amreli|Anand|Aravalli|Banas Kantha|Bharuch|Bhavnagar|Botad|Chhotaudepur|Dahod|Devbhumi Dwarka|Gandhinagar|Gir Somnath|Jamnagar|Junagadh|Kachchh|Kheda|Mahesana|Mahisagar|Morbi|Narmada|Navsari|Panch Mahals|Patan|Porbandar|Rajkot|Sabar Kantha|Surat|Surendranagar|Tapi|The Dangs|Vadodara|Valsad',
+        'Ambala|Bhiwani|Faridabad|Fatehabad|Gurgaon|Hisar|Jhajjar|Jind|Kaithal|Karnal|Kurukshetra|Mahendragarh|Mewat|Palwal|Panchkula|Panipat|Rewari|Rohtak|Sirsa|Sonipat|Yamunanagar',
+        'Bilaspur|Chamba|Hamirpur|Kangra|Kinnaur|Kullu|Lahul Spiti|Mandi|Shimla|Sirmaur|Solan|Una',
+        'Anantnag|Badgam|Bandipora|Baramula|Doda|Ganderbal|Jammu|Kargil|Kathua|Kishtwar|Kulgam|Kupwara|Leh Ladakh|Poonch|Pulwama|Rajouri|Ramban|Reasi|Samba|Shopian|Srinagar|Udhampur',
+        'Bokaro|Chatra|Deoghar|Dhanbad|Dumka|Garhwa|Giridih|Godda|Gumla|Hazaribagh|Jamtara|Khunti|Kodarma|Latehar|Lohardaga|Pakaur|Palamu|Pashchimi Singhbhum|Purbi Singhbhum|Ramgarh|Ranchi|Sahibganj|Saraikela|Simdega',
+        'Bagalkote|Bangalore Rural|Bangalore Urban|Belgaum|Bellary|Bidar|Bijapur|Chamrajnagar|Chikkaballapur|Chikmagalur|Chitradurga|Dakshina Kannada|Davanagere|Dharwad|Gadag|Gulbarga|Hassan|Haveri|Kodagu|Kolar|Koppal|Mandya|Mysore|Raichur|Ramanagar|Shimoga|Tumkur|Udupi|Uttara Kannada|Yadgir',
+        'Alappuzha|Ernakulam|Idukki|Kannur|Kasaragod|Kollam|Kottayam|KOZHIKKODE|Malappuram|Palakkad|Pathanamthitta|Thiruvananthapuram|Thrissur|Wayanad',
+        'Agar Malwa|Alirajpur|Anuppur|Ashok Nagar|Balaghat|Barwani|Betul|Bhind|Bhopal|Burhanpur|Chhatarpur|Chhindwada|Damoh|Datia|Dewas|Dhar|Dindori|Guna|Gwalior|Harda|Hoshangabad|Indore|Jabalpur|Jhabua|Katni|Khandwa|Khargone|Mandla|Mandsaur|Morena|Narsinghpur|Neemuch|Panna|Raisen|Rajgarh|Ratlam|Rewa|Sagar|Satna|Sehore|Seoni|Shahdol|Shajapur|Sheopur|Shivpuri|Sidhi|Singroli|Tikamgarh|Ujjain|Umaria|Vidisha',
+        'Ahmednagar|Akola|Amravati|Aurangabad|Bhandara|Bid|Brihan Mumbai|Buldana|Chandrapur|Dhule|Gadchiroli|Gondiya|Hingoli|Jalgaon|Jalna|Kolhapur|Latur|Nagpur|Nanded|Nandurbar|Nashik|Osmanabad|Palghar|Parbhani|Pune|Raigarh|Ratnagiri|Sangli|Satara|Sindhudurg|Solapur|Thane|Wardha|Washim|Yavatmal',
+        'Bishnupur|Chandel|Churachandpur|Imphal East|Imphal West|Senapati|Tamenglong|Thoubal|Ukhrul',
+        'East Garo Hills|East Jaintia Hills|East Khasi Hills|North Garo Hills|Ri Bhoi|South Garo Hills|South West Garo Hills|South West Khasi Hills|West Garo Hills|West Jaintia Hills|West Khasi Hills',
+        'Aizawl East|Aizawl West|Champhai|Kolasib|Lawngtlai|Lunglei|Mamit|Saiha|Serchhip',
+        'Dimapur|Kiphire|Kohima|Longleng|Mokokchung|Mon|Peren|Phek|Tuensang|Wokha|Zunheboto',
+        'Anugul|Balangir|Baleshwar|Bargarh|Baudh|Bhadrak|Cuttack|Deogarh|Dhenkanal|Gajapati|Ganjam|Jagatsinghpur|Jajapur|Jharsuguda|Kalahandi|Kandhamal|Kendrapara|Keonjhar|Khordha|Koraput|Malkangiri|Mayurbhanj|Nabarangpur|Nayagarh|Nuapada|Puri|Rayagada|Sambalpur|Sonapur|Sundargarh',
+        'Amritsar|Barnala|Bathinda|Faridkot|Fatehgarh Sahib|Fazilka|Firozpur|Gurdaspur|Hoshiarpur|Jalandhar|Kapurthala|Ludhiana|Mansa|Moga|Muktsar|Pathankot|Patiala|Rupnagar|Sahibzada Ajit Singh Nagar|Sangrur|Shahid Bhagat Singh Nagar|Taran Taran',
+        'Ajmer|Alwar|Banswara|Baran|Barmer|Bharatpur|Bhilwara|Bikaner|Bundi|Chittorgarh|Churu|Dausa|Dholpur|Dungarpur|Ganganagar|Hanumangarh|Jaipur|Jaisalmer|Jalore|Jhalawar|Jhunjhunu|Jodhpur|Karauli|Kota|Nagaur|Pali|Pratapgarh|Rajsamand|Sawai Madhopur|Sikar|Sirohi|Tonk|Udaipur',
+        'East District|North District|South District|West District',
+        'Ariyalur|Chennai|Coimbatore|Cuddalore|Dharmapuri|Dindigul|Erode|Kanchipuram|Kanyakumari|Karur|Krishnagiri|Madurai|Nagapattinam|Namakkal|Perambalur|Pudukottai|Ramanathapuram|Salem|Sivaganga|Thanjavur|The Nilgiris|Theni|Thiruvallur|Thiruvarur|Thoothukudi|Tiruchirappalli|Tirunelveli|Tiruppur|Tiruvannamalai|Vellore|Villupuram|Virudhunagar',
+        'Adilabad|Bhadradri Kothagudem|Hyderabad|Jagtial|Jangaon|Jayashankar Bhoopalpally|Jogulamba Gadwal|Kamareddy|Karimnagar|Khammam|Kumuram Bheem Asifabad|Mahabubabad|Mahbubnagar|Mancherial|Medak|Medchal Malkajgiri|Nagarkurnool|Nalgonda|Nirmal|Nizamabad|Peddapalli|Rajanna Sircilla|Ranga Reddy|Sangareddy|Siddipet|Suryapet|Vikarabad|Wanaparthy|Warangal (Urban)|Warangal (Rural)|Yadadri Bhuvanagiri',
+        'Dhalai|Gomati|Khowai|North Tripura|Sepahijala|South Tripura|Unakoti|West Tripura',
+        'Agra|Aligarh|Allahabad|Ambedkar Nagar|Auraiya|Azamgarh|Bagpat|Bahraich|Ballia|Balrampur|Banda|Bara Banki|Bareilly|Basti|Bijnor|Budaun|Bulandshahr|Chandauli|Chitrakoot|Deoria|Etah|Etawah|Faizabad|Farrukhabad|Fatehpur|Firozabad|Gautam Buddha Nagar|Ghaziabad|Ghazipur|Gonda|Gorakhpur|Hamirpur|Hardoi|Hathras|Jalaun|Jaunpur|Jhansi|Jyotiba Phule Nagar|Kannauj|Kanpur Dehat|Kanpur Nagar|Kanshiram Nagar|Kaushambi|Kushinagar|Lakhimpur Kheri|Lalitpur|Lucknow|Maharajganj|Mahoba|Mainpuri|Mathura|Mau|Meerut|Mirzapur|Moradabad|Muzaffarnagar|Pilibhit|Pratapgarh|Rae Bareli|Rampur|Saharanpur|Sant Kabir Nagar|Sant Ravi Das Nagar|Shahjahanpur|Shravasti|Siddharthnagar|Sitapur|Sonbhadra|Sultanpur|Unnao|Varanasi',
+        'Almora|Bageshwar|Chamoli|Champawat|Dehradun|Haridwar|Nainital|Pauri Garhwal|Pithoragarh|Rudraprayag|Tehri Garhwal|Udham Singh Nagar|Uttarkashi',
+        'Alipurduar|Bankura|Birbhum|Cooch Behar|Dakshin Dinajpur|Darjeeling|Hooghly|Howrah|Jalpaiguri|Jhargram|Kalimpong|Kolkata|Malda|Murshidabad|Nadia|North 24 Parganas|Paschim Bardhaman|Paschim Medinipur|Purba Bardhaman|Purba Medinipur|Purulia|South 24 Parganas|Uttar Dinajpur',
+        'Nicobar|North and Middle Andaman|South Andaman',
+        'Chandigarh',
+        'Dadra and Nagar Haveli and Daman and Diu',
+        'Delhi',
+        'Lakshadweep',
+        'Puducherry|Karaikal|Mahe|Yanam',
       ];
 
       function print_state(state_id) {
         var option_str = document.getElementById(state_id);
         option_str.length = 0;
-        option_str.options[0] = new Option("Select State", "");
+        option_str.options[0] = new Option('Select State', '');
         option_str.selectedIndex = 0;
         for (var i = 0; i < states_arr.length; i++) {
           option_str.options[option_str.length] = new Option(
@@ -207,9 +214,9 @@
       function print_district(district_id, district_index) {
         var option_str = document.getElementById(district_id);
         option_str.length = 0;
-        option_str.options[0] = new Option("Select District", "");
+        option_str.options[0] = new Option('Select District', '');
         option_str.selectedIndex = 0;
-        var district_arr_list = district_arr[district_index].split("|");
+        var district_arr_list = district_arr[district_index].split('|');
         for (var i = 0; i < district_arr_list.length; i++) {
           option_str.options[option_str.length] = new Option(
             district_arr_list[i],
@@ -219,28 +226,29 @@
       }
 
       function toggleInputs() {
-        var nationality = document.getElementById("nationality").value;
-        var stateDropdown = document.getElementById("state");
-        var districtDropdown = document.getElementById("district");
-        var stateText = document.getElementById("stateText");
-        var districtText = document.getElementById("districtText");
+        var nationality = document.getElementById('nationality').value;
+        var stateDropdown = document.getElementById('state');
+        var districtDropdown = document.getElementById('district');
+        var stateText = document.getElementById('stateText');
+        var districtText = document.getElementById('districtText');
 
-        if (nationality === "Indian") {
-          stateDropdown.style.visibility = "visible";
-          districtDropdown.style.visibility = "visible";
-          stateText.style.visibility = "hidden";
-          districtText.style.visibility = "hidden";
+        if (nationality === 'Indian') {
+          stateDropdown.style.visibility = 'visible';
+          districtDropdown.style.visibility = 'visible';
+          stateText.style.visibility = 'hidden';
+          districtText.style.visibility = 'hidden';
         } else {
-          stateDropdown.style.visibility = "hidden";
-          districtDropdown.style.visibility = "hidden";
-          stateText.style.visibility = "visible";
-          districtText.style.visibility = "visible";
+          stateDropdown.style.visibility = 'hidden';
+          districtDropdown.style.visibility = 'hidden';
+          stateText.style.visibility = 'visible';
+          districtText.style.visibility = 'visible';
         }
       }
     </script>
   </head>
   <body onload="print_state('state');">
-    <%- include("../header.ejs") %>
+    <div id="header"></div>
+
     <div class="register-form">
       <form
         action="/student/register"
@@ -250,7 +258,9 @@
         id="registerForm"
         onsubmit="return handleSubmit(event)"
       >
-        <h2 class="text-2xl font-semibold mb-5 text-gray-800">Student Registration</h2>
+        <h2 class="text-2xl font-semibold mb-5 text-gray-800">
+          Student Registration
+        </h2>
         <div class="form-container">
           <table>
             <tr>
@@ -695,7 +705,7 @@
                   <figure>
                     <td>
                       <figcaption id="imagePreview-caption">
-                        Preview Profile Picture
+                        Preview Profile Picture (50kb-200kb)
                       </figcaption>
                     </td>
                     <td>
@@ -726,44 +736,50 @@
           </table>
         </div>
         <div class="btn-div relative">
-          <button type="submit" class="w-20 bg-green-600 text-white py-2 rounded-md font-medium hover:bg-green-700 focus:ring focus:ring-green-500 absolute right-24 bottom-2 cursor-pointer">Register</button>
+          <button
+            type="submit"
+            class="w-24 px-1 bg-green-600 text-white text-center py-2 rounded-md font-medium hover:bg-green-700 focus:ring focus:ring-green-500 absolute right-24 bottom-2 cursor-pointer"
+          >
+            <i class="fa-solid fa-user mr-1"></i>
+            Register
+          </button>
         </div>
       </form>
     </div>
-    <script async defer>
+    <script defer>
       function handleSubmit(event) {
         event.preventDefault(); // Prevent form submission to handle it via JavaScript
 
-        const form = document.getElementById("registerForm");
+        const form = document.getElementById('registerForm');
         const formData = new FormData(form);
 
-        fetch("/student/register", {
-          method: "POST",
+        fetch('/student/register', {
+          method: 'POST',
           body: formData,
         })
           .then((response) => {
             if (response.ok) {
-              alert("Registration successful!");
-              window.location.href = "/student/dashboard";
+              alert('Registration successful!');
+              window.location.href = '/student/dashboard';
             } else {
-              alert("Registration failed (Recheck Details).");
+              alert('Registration failed (Recheck Details).');
             }
           })
           .catch((error) => {
-            console.error("Error:", error);
-            alert("An error occurred while submitting the form.");
+            console.error('Error:', error);
+            alert('An error occurred while submitting the form.');
           });
       }
 
-      const form = document.getElementById("registerForm");
+      const form = document.getElementById('registerForm');
 
-      form.addEventListener("submit", function (event) {
+      form.addEventListener('submit', function (event) {
         // Prevent the form from submitting by default
         event.preventDefault();
 
         // Ask for confirmation
         const confirmation = confirm(
-          "Are you sure you want to submit this form?"
+          'Are you sure you want to submit this form?'
         );
 
         // If user confirms, submit the form
@@ -771,15 +787,14 @@
           form.submit(); // This submits the form
         } else {
           // Optionally, you can handle if the user cancels the submission
-          console.log("Submission cancelled.");
+          console.log('Submission cancelled.');
         }
       });
 
-      document.getElementById("registerForm").onsubmit = function () {
+      document.getElementById('registerForm').onsubmit = function () {
         // ****************** //
         // Get all elements with a specific tag name
-        var elements = document.getElementsByTagName("input"); // Replace 'input' with your desired tag name
-
+        var elements = document.getElementsByTagName('input');
         // Loop through each element
         for (var i = 0; i < elements.length; i++) {
           var element = elements[i];
@@ -787,8 +802,8 @@
           // Check if element's visibility is hidden
           var computedStyle = window.getComputedStyle(element);
           if (
-            computedStyle.getPropertyValue("visibility") === "hidden" ||
-            computedStyle.getPropertyValue("display") === "none"
+            computedStyle.getPropertyValue('visibility') === 'hidden' ||
+            computedStyle.getPropertyValue('display') === 'none'
           ) {
             // Set disabled attribute to true
             element.disabled = true;
@@ -796,7 +811,7 @@
         }
 
         // Get all elements with a specific tag name
-        var elements2 = document.getElementsByTagName("select"); // Replace 'input' with your desired tag name
+        var elements2 = document.getElementsByTagName('select'); // Replace 'input' with your desired tag name
 
         // Loop through each element
         for (var i = 0; i < elements2.length; i++) {
@@ -805,8 +820,8 @@
           // Check if element's visibility is hidden
           var computedStyle = window.getComputedStyle(element);
           if (
-            computedStyle.getPropertyValue("visibility") === "hidden" ||
-            computedStyle.getPropertyValue("display") === "none"
+            computedStyle.getPropertyValue('visibility') === 'hidden' ||
+            computedStyle.getPropertyValue('display') === 'none'
           ) {
             // Set disabled attribute to true
             element.disabled = true;
@@ -814,18 +829,29 @@
         }
       };
 
+      // Image Size and preview photo
       document
-        .getElementById("fileInput")
-        .addEventListener("change", function (event) {
-          const file = event.target.files[0];
+        .getElementById('fileInput')
+        .addEventListener('change', function (event) {
+          const file = event.target.files[0]; // Get the selected file
           if (file) {
-            const reader = new FileReader();
+            const fileSizeInKB = file.size / 1024; // Convert file size to KB
+
+            // Check file size limits
+            if (fileSizeInKB < 50 || fileSizeInKB > 200) {
+              alert('Image size must be between 50KB and 200KB.');
+              event.target.value = ''; // Reset the file input
+              document.getElementById('imagePreview').style.display = 'none'; // Hide the preview
+              return;
+            }
+
+            const reader = new FileReader(); // Create a FileReader instance
             reader.onload = function (e) {
-              const imagePreview = document.getElementById("imagePreview");
-              imagePreview.src = e.target.result;
-              imagePreview.style.display = "block";
+              const imagePreview = document.getElementById('imagePreview');
+              imagePreview.src = e.target.result; // Set the preview image source
+              imagePreview.style.display = 'block'; // Display the image
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file); // Read the file as a data URL
           }
         });
     </script>
