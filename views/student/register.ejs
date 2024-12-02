@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script src="/public/js/loadHeaderFooter.js" defer></script>
-
+    <script src="/public/js/loaderScript.js" defer></script>
     <script
       src="https://kit.fontawesome.com/9ca9aa7819.js"
       crossorigin="anonymous"
@@ -247,504 +247,517 @@
     </script>
   </head>
   <body onload="print_state('state');">
-    <div id="header"></div>
+    <!-- Loader -->
+    <div
+      id="loader"
+      class="fixed inset-0 flex items-center justify-center bg-white z-50"
+    >
+      <div
+        class="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"
+      ></div>
+    </div>
 
-    <div class="register-form">
-      <form
-        action="/student/register"
-        autocomplete="off"
-        method="POST"
-        enctype="multipart/form-data"
-        id="registerForm"
-        onsubmit="return handleSubmit(event)"
-      >
-        <h2 class="text-2xl font-semibold mb-5 text-gray-800">
-          Student Registration
-        </h2>
-        <div class="form-container">
-          <table>
-            <tr>
-              <div class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="rollno">Roll Number:</label>
-                  </th>
-                  <td>
-                    <input
-                      type="text"
-                      id="rollno"
-                      name="rollno"
-                      required
-                      readonly
-                      value="<%= student.rollno %>"
-                    />
-                  </td>
-                </div>
+    <!-- Main Content -->
+    <div id="content">
+      <div id="header"></div>
 
-                <div class="input-column"></div>
-              </div>
-            </tr>
-            <!--*****************-->
-            <tr>
-              <div class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="student_name"
-                      >Student Name:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <input type="text" name="student_name" required />
-                  </td>
-                </div>
-
-                <div class="input-column">
-                  <th>
-                    <label for="father_name"
-                      >Father's Name:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <input
-                      type="text"
-                      id="father_name"
-                      name="father_name"
-                      required
-                    />
-                  </td>
-                </div>
-              </div>
-            </tr>
-            <!--*****************-->
-            <tr>
-              <div class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="dob"
-                      >Date of Birth:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <input
-                      type="text"
-                      id="dob"
-                      name="dob"
-                      required
-                      readonly
-                      value="<%= student.dob %>"
-                    />
-                  </td>
-                </div>
-
-                <div class="input-column">
-                  <th>
-                    <label for="gender">Gender:</label>
-                  </th>
-                  <td>
-                    <input
-                      type="radio"
-                      id="male"
-                      name="gender"
-                      value="Male"
-                      checked
-                    />
-                    <label for="male">Male</label>
-                    <input
-                      type="radio"
-                      id="female"
-                      name="gender"
-                      value="Female"
-                    />
-                    <label for="female">Female</label>
-                    <input
-                      type="radio"
-                      id="others"
-                      name="gender"
-                      value="Others"
-                    />
-                    <label for="others">Others</label>
-                  </td>
-                </div>
-              </div>
-            </tr>
-            <!--*****************-->
-            <tr>
-              <div class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="religion"
-                      >Religion:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <select name="religion" id="religion" required>
-                      <option value="" disabled selected>
-                        Select your Religion
-                      </option>
-                      <option value="Hindu">Hindu</option>
-                      <option value="Muslim">Muslim</option>
-                      <option value="Sikh">Sikh</option>
-                      <option value="Christian">Christian</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </td>
-                </div>
-
-                <div class="input-column">
-                  <th>
-                    <label for="category"
-                      >Admission Category:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <select name="category" id="category" required>
-                      <option value="GEN" selected>General</option>
-                      <option value="SC">SC</option>
-                      <option value="ST">ST</option>
-                      <option value="OBC">OBC</option>
-                      <option value="Pahari">Pahari</option>
-                      <option value="KM">Kashmiri Migrant (KM)</option>
-                      <option value="Sports">Sports</option>
-                    </select>
-                  </td>
-                </div>
-              </div>
-            </tr>
-            <!--*****************-->
-            <tr>
-              <div class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="phone_no"
-                      >Phone Number:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <input
-                      type="tel"
-                      id="phone_no"
-                      name="phone_no"
-                      minlength="10"
-                      maxlength="10"
-                      required
-                    />
-                  </td>
-                </div>
-
-                <div class="input-column">
-                  <th>
-                    <label for="email"
-                      >Email:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <input type="email" id="email" name="email" required />
-                  </td>
-                </div>
-              </div>
-            </tr>
-            <!--*****************-->
-            <tr>
-              <div class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="department"
-                      >Department:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <div id="department-container">
-                      <select name="department" id="department" required>
-                        <option value="" disabled selected>
-                          Select your Department
-                        </option>
-                        <option value="Computer Science">
-                          Computer Science
-                        </option>
-                        <option value="Information Technology">
-                          Information Technology
-                        </option>
-                        <option value="Computer Science">
-                          Electrical Engineering
-                        </option>
-                        <option
-                          value="Electronics and Communication Engineering"
-                        >
-                          Electronics and Communication Engineering
-                        </option>
-                        <option value="Chemical Engineering">
-                          Chemical Engineering
-                        </option>
-                        <option value="Mining Engineering">
-                          Mining Engineering
-                        </option>
-                        <option value="Petroleum Engineering">
-                          Petroleum Engineering
-                        </option>
-                        <option value="Civil Engineering">
-                          Civil Engineering
-                        </option>
-                        <option value="Mechanical Engineering">
-                          Mechanical Engineering
-                        </option>
-                        <option value="Production and Industrial Engineering">
-                          Production and Industrial Engineering
-                        </option>
-                        <option value="Department of Physics">
-                          Department of Physics
-                        </option>
-                        <option value="Department of Chemistry">
-                          Department of Chemistry
-                        </option>
-                        <option value="Department of Botany">
-                          Department of Botany
-                        </option>
-                        <option value="Department of Mathematics">
-                          Department of Mathematics
-                        </option>
-                        <option value="Department of Law">
-                          Department of Law
-                        </option>
-                        <option value="Other">Any Other</option>
-                      </select>
-                    </div>
-                  </td>
-                </div>
-
-                <div class="input-column">
-                  <th>
-                    <label for="year_of_admission"
-                      >Year of Admission:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <input
-                      type="text"
-                      id="year_of_admission"
-                      name="year_of_admission"
-                      required
-                    />
-                  </td>
-                </div>
-              </div>
-            </tr>
-            <!--*****************-->
-            <tr>
-              <div class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="nationality">Nationality:</label>
-                  </th>
-                  <td>
-                    <select
-                      id="nationality"
-                      name="nationality"
-                      onchange="toggleInputs()"
-                    >
-                      <option value="">Select Nationality</option>
-                      <option value="Indian" selected>Indian</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </td>
-                </div>
-
-                <div id="stateContainer" class="input-column">
-                  <th>
-                    <label for="state"
-                      >State:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <select
-                      id="state"
-                      name="domicile_state"
-                      style="margin-bottom: 0"
-                      onchange="print_district('district', this.selectedIndex)"
-                    >
-                      <option value="">Select State</option>
-                    </select>
-                    <input
-                      type="text"
-                      id="stateText"
-                      name="domicile_state"
-                      placeholder="Enter Your State"
-                      style="visibility: hidden"
-                      style="margin-bottom: 0"
-                    />
-                  </td>
-                </div>
-              </div>
-            </tr>
-
-            <!--*****************-->
-            <tr>
-              <div id="districtContainer" class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="district"
-                      >District:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <select
-                      id="district"
-                      name="district"
-                      style="margin-bottom: 0"
-                    >
-                      <option value="">Select District</option>
-                    </select>
-                    <input
-                      type="text"
-                      id="districtText"
-                      name="districtText"
-                      placeholder="Enter Your District"
-                      style="visibility: hidden"
-                      style="margin-bottom: 0"
-                    />
-                  </td>
-                </div>
-                <div class="input-column">
-                  <th>
-                    <label for="pin_code"
-                      >Pincode:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <input
-                      type="number"
-                      id="pin_code"
-                      name="pin_code"
-                      required
-                    />
-                  </td>
-                </div>
-              </div>
-            </tr>
-            <!--*****************-->
-            <tr>
-              <div class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="permanent_address"
-                      >Permanent Address:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <textarea
-                      id="permanent_address"
-                      name="permanent_address"
-                      rows="2"
-                      required
-                    ></textarea>
-                  </td>
-                </div>
-
-                <div class="input-column">
-                  <th>
-                    <label for="correspondence_address"
-                      >Correspondence Address:<span id="star-span"
-                        >*</span
-                      ></label
-                    >
-                  </th>
-                  <td>
-                    <textarea
-                      id="correspondence_address"
-                      name="correspondence_address"
-                      rows="2"
-                      required
-                    ></textarea>
-                  </td>
-                </div>
-              </div>
-            </tr>
-            <!--*****************-->
-            <tr>
-              <div class="form-column">
-                <div class="input-column">
-                  <th>
-                    <label for="profile_pic"
-                      >Profile Picture:<span id="star-span">*</span></label
-                    >
-                  </th>
-                  <td>
-                    <input
-                      type="file"
-                      name="profile_pic"
-                      accept="image/*"
-                      id="fileInput"
-                      required
-                    />
-                  </td>
-                </div>
-
-                <div class="input-column">
-                  <th>
-                    <label for="marital_status">Marital Status:</label>
-                  </th>
-                  <td>
-                    <input
-                      type="radio"
-                      id="unmarried"
-                      name="marital_status"
-                      value="Unmarried"
-                      checked
-                    />
-                    <label for="unmarried">Unmarried</label>
-
-                    <input
-                      type="radio"
-                      id="married"
-                      name="marital_status"
-                      value="Married"
-                    />
-                    <label for="married">Married</label>
-                  </td>
-                </div>
-                <tr>
-                  <figure>
+      <div class="register-form">
+        <form
+          action="/student/register"
+          autocomplete="off"
+          method="POST"
+          enctype="multipart/form-data"
+          id="registerForm"
+          onsubmit="return handleSubmit(event)"
+        >
+          <h2 class="text-2xl font-semibold mb-5 text-gray-800">
+            Student Registration
+          </h2>
+          <div class="form-container">
+            <table>
+              <tr>
+                <div class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="rollno">Roll Number:</label>
+                    </th>
                     <td>
-                      <figcaption id="imagePreview-caption">
-                        Preview Profile Picture (50kb-200kb)
-                      </figcaption>
-                    </td>
-                    <td>
-                      <img
-                        id="imagePreview"
-                        src=""
-                        alt="Selected Image"
-                        onerror="this.style.display='none'"
-                        ;
+                      <input
+                        type="text"
+                        id="rollno"
+                        name="rollno"
+                        required
+                        readonly
+                        value="<%= student.rollno %>"
                       />
                     </td>
-                  </figure>
-                </tr>
-              </div>
-            </tr>
-            <!--*****************-->
-            <tr>
-              <div class="form-column">
-                <th>
+                  </div>
+
                   <div class="input-column"></div>
-                </th>
-                <td>
-                  <div class="input-column"></div>
-                </td>
-              </div>
+                </div>
+              </tr>
               <!--*****************-->
-            </tr>
-          </table>
-        </div>
-        <div class="btn-div relative">
-          <button
-            type="submit"
-            class="w-24 px-1 bg-green-600 text-white text-center py-2 rounded-md font-medium hover:bg-green-700 focus:ring focus:ring-green-500 absolute right-24 bottom-2 cursor-pointer"
-          >
-            <i class="fa-solid fa-user mr-1"></i>
-            Register
-          </button>
-        </div>
-      </form>
+              <tr>
+                <div class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="student_name"
+                        >Student Name:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <input type="text" name="student_name" required />
+                    </td>
+                  </div>
+
+                  <div class="input-column">
+                    <th>
+                      <label for="father_name"
+                        >Father's Name:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <input
+                        type="text"
+                        id="father_name"
+                        name="father_name"
+                        required
+                      />
+                    </td>
+                  </div>
+                </div>
+              </tr>
+              <!--*****************-->
+              <tr>
+                <div class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="dob"
+                        >Date of Birth:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <input
+                        type="text"
+                        id="dob"
+                        name="dob"
+                        required
+                        readonly
+                        value="<%= student.dob %>"
+                      />
+                    </td>
+                  </div>
+
+                  <div class="input-column">
+                    <th>
+                      <label for="gender">Gender:</label>
+                    </th>
+                    <td>
+                      <input
+                        type="radio"
+                        id="male"
+                        name="gender"
+                        value="Male"
+                        checked
+                      />
+                      <label for="male">Male</label>
+                      <input
+                        type="radio"
+                        id="female"
+                        name="gender"
+                        value="Female"
+                      />
+                      <label for="female">Female</label>
+                      <input
+                        type="radio"
+                        id="others"
+                        name="gender"
+                        value="Others"
+                      />
+                      <label for="others">Others</label>
+                    </td>
+                  </div>
+                </div>
+              </tr>
+              <!--*****************-->
+              <tr>
+                <div class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="religion"
+                        >Religion:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <select name="religion" id="religion" required>
+                        <option value="" disabled selected>
+                          Select your Religion
+                        </option>
+                        <option value="Hindu">Hindu</option>
+                        <option value="Muslim">Muslim</option>
+                        <option value="Sikh">Sikh</option>
+                        <option value="Christian">Christian</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </td>
+                  </div>
+
+                  <div class="input-column">
+                    <th>
+                      <label for="category"
+                        >Admission Category:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <select name="category" id="category" required>
+                        <option value="GEN" selected>General</option>
+                        <option value="SC">SC</option>
+                        <option value="ST">ST</option>
+                        <option value="OBC">OBC</option>
+                        <option value="Pahari">Pahari</option>
+                        <option value="KM">Kashmiri Migrant (KM)</option>
+                        <option value="Sports">Sports</option>
+                      </select>
+                    </td>
+                  </div>
+                </div>
+              </tr>
+              <!--*****************-->
+              <tr>
+                <div class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="phone_no"
+                        >Phone Number:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <input
+                        type="tel"
+                        id="phone_no"
+                        name="phone_no"
+                        minlength="10"
+                        maxlength="10"
+                        required
+                      />
+                    </td>
+                  </div>
+
+                  <div class="input-column">
+                    <th>
+                      <label for="email"
+                        >Email:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <input type="email" id="email" name="email" required />
+                    </td>
+                  </div>
+                </div>
+              </tr>
+              <!--*****************-->
+              <tr>
+                <div class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="department"
+                        >Department:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <div id="department-container">
+                        <select name="department" id="department" required>
+                          <option value="" disabled selected>
+                            Select your Department
+                          </option>
+                          <option value="Computer Science">
+                            Computer Science
+                          </option>
+                          <option value="Information Technology">
+                            Information Technology
+                          </option>
+                          <option value="Computer Science">
+                            Electrical Engineering
+                          </option>
+                          <option
+                            value="Electronics and Communication Engineering"
+                          >
+                            Electronics and Communication Engineering
+                          </option>
+                          <option value="Chemical Engineering">
+                            Chemical Engineering
+                          </option>
+                          <option value="Mining Engineering">
+                            Mining Engineering
+                          </option>
+                          <option value="Petroleum Engineering">
+                            Petroleum Engineering
+                          </option>
+                          <option value="Civil Engineering">
+                            Civil Engineering
+                          </option>
+                          <option value="Mechanical Engineering">
+                            Mechanical Engineering
+                          </option>
+                          <option value="Production and Industrial Engineering">
+                            Production and Industrial Engineering
+                          </option>
+                          <option value="Department of Physics">
+                            Department of Physics
+                          </option>
+                          <option value="Department of Chemistry">
+                            Department of Chemistry
+                          </option>
+                          <option value="Department of Botany">
+                            Department of Botany
+                          </option>
+                          <option value="Department of Mathematics">
+                            Department of Mathematics
+                          </option>
+                          <option value="Department of Law">
+                            Department of Law
+                          </option>
+                          <option value="Other">Any Other</option>
+                        </select>
+                      </div>
+                    </td>
+                  </div>
+
+                  <div class="input-column">
+                    <th>
+                      <label for="year_of_admission"
+                        >Year of Admission:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <input
+                        type="text"
+                        id="year_of_admission"
+                        name="year_of_admission"
+                        required
+                      />
+                    </td>
+                  </div>
+                </div>
+              </tr>
+              <!--*****************-->
+              <tr>
+                <div class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="nationality">Nationality:</label>
+                    </th>
+                    <td>
+                      <select
+                        id="nationality"
+                        name="nationality"
+                        onchange="toggleInputs()"
+                      >
+                        <option value="">Select Nationality</option>
+                        <option value="Indian" selected>Indian</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </td>
+                  </div>
+
+                  <div id="stateContainer" class="input-column">
+                    <th>
+                      <label for="state"
+                        >State:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <select
+                        id="state"
+                        name="domicile_state"
+                        style="margin-bottom: 0"
+                        onchange="print_district('district', this.selectedIndex)"
+                      >
+                        <option value="">Select State</option>
+                      </select>
+                      <input
+                        type="text"
+                        id="stateText"
+                        name="domicile_state"
+                        placeholder="Enter Your State"
+                        style="visibility: hidden"
+                        style="margin-bottom: 0"
+                      />
+                    </td>
+                  </div>
+                </div>
+              </tr>
+
+              <!--*****************-->
+              <tr>
+                <div id="districtContainer" class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="district"
+                        >District:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <select
+                        id="district"
+                        name="district"
+                        style="margin-bottom: 0"
+                      >
+                        <option value="">Select District</option>
+                      </select>
+                      <input
+                        type="text"
+                        id="districtText"
+                        name="districtText"
+                        placeholder="Enter Your District"
+                        style="visibility: hidden"
+                        style="margin-bottom: 0"
+                      />
+                    </td>
+                  </div>
+                  <div class="input-column">
+                    <th>
+                      <label for="pin_code"
+                        >Pincode:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <input
+                        type="number"
+                        id="pin_code"
+                        name="pin_code"
+                        required
+                      />
+                    </td>
+                  </div>
+                </div>
+              </tr>
+              <!--*****************-->
+              <tr>
+                <div class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="permanent_address"
+                        >Permanent Address:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <textarea
+                        id="permanent_address"
+                        name="permanent_address"
+                        rows="2"
+                        required
+                      ></textarea>
+                    </td>
+                  </div>
+
+                  <div class="input-column">
+                    <th>
+                      <label for="correspondence_address"
+                        >Correspondence Address:<span id="star-span"
+                          >*</span
+                        ></label
+                      >
+                    </th>
+                    <td>
+                      <textarea
+                        id="correspondence_address"
+                        name="correspondence_address"
+                        rows="2"
+                        required
+                      ></textarea>
+                    </td>
+                  </div>
+                </div>
+              </tr>
+              <!--*****************-->
+              <tr>
+                <div class="form-column">
+                  <div class="input-column">
+                    <th>
+                      <label for="profile_pic"
+                        >Profile Picture:<span id="star-span">*</span></label
+                      >
+                    </th>
+                    <td>
+                      <input
+                        type="file"
+                        name="profile_pic"
+                        accept="image/*"
+                        id="fileInput"
+                        required
+                      />
+                    </td>
+                  </div>
+
+                  <div class="input-column">
+                    <th>
+                      <label for="marital_status">Marital Status:</label>
+                    </th>
+                    <td>
+                      <input
+                        type="radio"
+                        id="unmarried"
+                        name="marital_status"
+                        value="Unmarried"
+                        checked
+                      />
+                      <label for="unmarried">Unmarried</label>
+
+                      <input
+                        type="radio"
+                        id="married"
+                        name="marital_status"
+                        value="Married"
+                      />
+                      <label for="married">Married</label>
+                    </td>
+                  </div>
+                  <tr>
+                    <figure>
+                      <td>
+                        <figcaption id="imagePreview-caption">
+                          Preview Profile Picture (50kb-200kb)
+                        </figcaption>
+                      </td>
+                      <td>
+                        <img
+                          id="imagePreview"
+                          src=""
+                          alt="Selected Image"
+                          onerror="this.style.display='none'"
+                          ;
+                        />
+                      </td>
+                    </figure>
+                  </tr>
+                </div>
+              </tr>
+              <!--*****************-->
+              <tr>
+                <div class="form-column">
+                  <th>
+                    <div class="input-column"></div>
+                  </th>
+                  <td>
+                    <div class="input-column"></div>
+                  </td>
+                </div>
+                <!--*****************-->
+              </tr>
+            </table>
+          </div>
+          <div class="btn-div relative">
+            <button
+              type="submit"
+              class="w-24 px-1 bg-green-600 text-white text-center py-2 rounded-md font-medium hover:bg-green-700 focus:ring focus:ring-green-500 absolute right-24 bottom-2 cursor-pointer"
+            >
+              <i class="fa-solid fa-user mr-1"></i>
+              Register
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
     <script defer>
       function handleSubmit(event) {

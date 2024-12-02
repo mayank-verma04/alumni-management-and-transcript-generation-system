@@ -13,126 +13,140 @@
     ></script>
 
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
+    <script src="/public/js/loaderScript.js" defer></script>
     <script src="/public/js/loadHeaderFooter.js"></script>
   </head>
   <body class="bg-gray-100 font-sans">
-    <div id="header"></div>
-
-    <div class="flex justify-center items-center mt-4 mb-4">
-      <form
-        action="/student/login"
-        method="POST"
-        class="bg-white p-6 pb-10 rounded-lg shadow-md w-full max-w-sm"
-      >
-        <h2 class="text-2xl font-semibold text-gray-800 mb-5">Student Login</h2>
-
-        <% if (successMessage) { %>
-        <div
-          class="fixed top-12 right-4 bg-green-100 text-green-700 px-4 py-3 rounded flex items-center space-x-3 shadow-lg"
-          id="popup-alert"
-        >
-          <i class="fa-regular fa-circle-check"></i>
-          <span><%= successMessage %></span>
-          <button
-            class="ml-4 text-green-700 font-bold hover:underline"
-            onclick="document.getElementById('popup-alert').remove()"
-          >
-            Close
-          </button>
-        </div>
-        <% } %> <% if (message) { %>
-        <div
-          class="fixed top-10 right-4 bg-red-100 text-red-700 px-4 py-3 rounded shadow-lg flex items-center space-x-3"
-          id="popup-alert"
-        >
-          <i class="fa-regular fa-circle-xmark"></i>
-          <span><%= message %></span>
-          <button
-            class="ml-4 text-red-700 font-bold hover:underline"
-            onclick="document.getElementById('popup-alert').remove()"
-          >
-            Close
-          </button>
-        </div>
-        <% } %>
-
-        <div>
-          <label for="rollno" class="block font-medium text-gray-700 mb-1"
-            >Roll Number:</label
-          >
-          <input
-            type="text"
-            id="rollno"
-            name="rollno"
-            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 mb-4"
-          />
-        </div>
-
-        <div class="mb-4">
-          <label for="password" class="block font-medium text-gray-700 mb-1"
-            >Password:</label
-          >
-          <div class="relative">
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
-              required
-            />
-            <span
-              class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined"
-              id="visibility"
-            >
-              <i class="fa-regular fa-eye"></i>
-            </span>
-            <span
-              class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined hidden"
-              id="visibility_off"
-            >
-              <i class="fa-regular fa-eye-slash"></i>
-            </span>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <a
-            href="/student/reset-password"
-            class="text-blue-600 text-sm hover:underline"
-            >Forget Password?</a
-          >
-        </div>
-
-        <div class="mb-6 flex justify-center">
-          <div
-            id="recaptcha"
-            class="g-recaptcha"
-            data-sitekey="6Le_hiAqAAAAAOa3_BU3SnZ-Jti9k_4SrhTO_k-E"
-          ></div>
-        </div>
-
-        <div class="mb-4">
-          <button
-            type="submit"
-            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex justify-center items-center font-medium focus:ring focus:ring-blue-500"
-          >
-            <i class="fa-solid fa-arrow-right-to-bracket mr-2"></i>Login
-          </button>
-        </div>
-
-        <div class="text-center mt-4">
-          <a
-            href="/student/registration"
-            class="text-blue-600 hover:underline text font-medium"
-            >Register</a
-          >
-        </div>
-      </form>
+    <!-- Loader -->
+    <div
+      id="loader"
+      class="fixed inset-0 flex items-center justify-center bg-white z-50"
+    >
+      <div
+        class="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"
+      ></div>
     </div>
 
-    <div id="footer"></div>
+    <!-- Main Content -->
+    <div id="content">
+      <div id="header"></div>
 
+      <div class="flex justify-center items-center mt-4 mb-4">
+        <form
+          action="/student/login"
+          method="POST"
+          class="bg-white p-6 pb-10 rounded-lg shadow-md w-full max-w-sm"
+        >
+          <h2 class="text-2xl font-semibold text-gray-800 mb-5">
+            Student Login
+          </h2>
+
+          <% if (successMessage) { %>
+          <div
+            class="fixed top-12 right-4 bg-green-100 text-green-700 px-4 py-3 rounded flex items-center space-x-3 shadow-lg"
+            id="popup-alert"
+          >
+            <i class="fa-regular fa-circle-check"></i>
+            <span><%= successMessage %></span>
+            <button
+              class="ml-4 text-green-700 font-bold hover:underline"
+              onclick="document.getElementById('popup-alert').remove()"
+            >
+              Close
+            </button>
+          </div>
+          <% } %> <% if (message) { %>
+          <div
+            class="fixed top-10 right-4 bg-red-100 text-red-700 px-4 py-3 rounded shadow-lg flex items-center space-x-3"
+            id="popup-alert"
+          >
+            <i class="fa-regular fa-circle-xmark"></i>
+            <span><%= message %></span>
+            <button
+              class="ml-4 text-red-700 font-bold hover:underline"
+              onclick="document.getElementById('popup-alert').remove()"
+            >
+              Close
+            </button>
+          </div>
+          <% } %>
+
+          <div>
+            <label for="rollno" class="block font-medium text-gray-700 mb-1"
+              >Roll Number:</label
+            >
+            <input
+              type="text"
+              id="rollno"
+              name="rollno"
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 mb-4"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label for="password" class="block font-medium text-gray-700 mb-1"
+              >Password:</label
+            >
+            <div class="relative">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                required
+              />
+              <span
+                class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined"
+                id="visibility"
+              >
+                <i class="fa-regular fa-eye"></i>
+              </span>
+              <span
+                class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined hidden"
+                id="visibility_off"
+              >
+                <i class="fa-regular fa-eye-slash"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <a
+              href="/student/reset-password"
+              class="text-blue-600 text-sm hover:underline"
+              >Forget Password?</a
+            >
+          </div>
+
+          <div class="mb-6 flex justify-center">
+            <div
+              id="recaptcha"
+              class="g-recaptcha"
+              data-sitekey="6Le_hiAqAAAAAOa3_BU3SnZ-Jti9k_4SrhTO_k-E"
+            ></div>
+          </div>
+
+          <div class="mb-4">
+            <button
+              type="submit"
+              class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 flex justify-center items-center font-medium focus:ring focus:ring-blue-500"
+            >
+              <i class="fa-solid fa-arrow-right-to-bracket mr-2"></i>Login
+            </button>
+          </div>
+
+          <div class="text-center mt-4">
+            <a
+              href="/student/registration"
+              class="text-blue-600 hover:underline text font-medium"
+              >Register</a
+            >
+          </div>
+        </form>
+      </div>
+
+      <div id="footer"></div>
+    </div>
     <script async defer>
       // Toggle Password Visibility
       document.addEventListener('DOMContentLoaded', () => {
