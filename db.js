@@ -1,4 +1,4 @@
-const mysql = require("mysql2");
+const mysql = require('mysql2');
 
 // const db = mysql.createConnection({
 //   host: "localhost",
@@ -11,7 +11,6 @@ const mysql = require("mysql2");
 //   if (err) throw err;
 //   console.log("Connected to database");
 // });
-
 
 // ***************************************************************
 // ***************************************************************
@@ -54,8 +53,8 @@ const db = mysql.createConnection({
   database: 'defaultdb',
   ssl: {
     rejectUnauthorized: true, // Validate the SSL certificate
-    ca: caCert
-  }
+    ca: caCert,
+  },
 });
 
 // Test the connection
@@ -67,11 +66,8 @@ db.connect((err) => {
   console.log('Connected to the MySQL database.');
 });
 
-
-
 // ***************************************************************
 // ***************************************************************
 // ***************************************************************
-
 
 module.exports = db;
