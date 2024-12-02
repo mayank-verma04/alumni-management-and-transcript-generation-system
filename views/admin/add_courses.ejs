@@ -10,50 +10,27 @@
     ></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
+
     <style>
       /* Hide the default number input arrow */
-      input[type="number"]::-webkit-outer-spin-button,
-      input[type="number"]::-webkit-inner-spin-button {
+      input[type='number']::-webkit-outer-spin-button,
+      input[type='number']::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
       }
     </style>
-
-    <script>
-      function addRow() {
-        const table = document.getElementById("coursesTable");
-        const row = table.insertRow(-1);
-        row.innerHTML = `
-          <td><input type="text" name="course_code[]" class="border p-2 w-full" required></td>
-          <td><input type="text" name="course_name[]" class="border p-2 w-full" required></td>
-          <td><input type="text" name="course_type[]" class="border p-2 w-full" required></td>
-          <td><input type="number" name="credits[]" step="0.01" class="border p-2 w-full" required></td>
-          <td><input type="number" name="min_marks[]" class="border p-2 w-full" required></td>
-          <td><input type="number" name="max_marks[]" value="100" class="border p-2 w-full" required></td>
-        `;
-      }
-
-      function removeLastRow() {
-        const table = document.getElementById("coursesTable");
-        if (table.rows.length > 2) {
-          table.deleteRow(-1);
-        } else {
-          alert("You must have at least one course entry.");
-        }
-      }
-    </script>
   </head>
   <body class="font-sans bg-gray-100">
-
-    <%- include("../header.ejs") %>
+    <div id="header"></div>
 
     <div class="fixed top-4 right-4">
-      <a
-        href="/admin/dashboard"
+      <button
+        onclick="window.history.back()"
         class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
       >
         <i class="fa-solid fa-arrow-left mr-2"></i>Back
-      </a>
+      </button>
     </div>
 
     <div class="w-full text-center my-6">
@@ -64,7 +41,9 @@
       <form action="/admin/add-courses" method="POST">
         <div class="grid grid-cols-2 gap-6 mb-6">
           <div>
-            <label for="department" class="block text-lg font-medium text-gray-700"
+            <label
+              for="department"
+              class="block text-lg font-medium text-gray-700"
               >Department:</label
             >
             <select
@@ -75,29 +54,45 @@
             >
               <option value="" disabled selected>Select a Department</option>
               <option value="Computer Science">Computer Science</option>
-              <option value="Information Technology">Information Technology</option>
-              <option value="Electrical Engineering">Electrical Engineering</option>
+              <option value="Information Technology">
+                Information Technology
+              </option>
+              <option value="Electrical Engineering">
+                Electrical Engineering
+              </option>
               <option value="Electronics and Communication Engineering">
                 Electronics and Communication Engineering
               </option>
               <option value="Chemical Engineering">Chemical Engineering</option>
               <option value="Mining Engineering">Mining Engineering</option>
-              <option value="Petroleum Engineering">Petroleum Engineering</option>
+              <option value="Petroleum Engineering">
+                Petroleum Engineering
+              </option>
               <option value="Civil Engineering">Civil Engineering</option>
-              <option value="Mechanical Engineering">Mechanical Engineering</option>
+              <option value="Mechanical Engineering">
+                Mechanical Engineering
+              </option>
               <option value="Production and Industrial Engineering">
                 Production and Industrial Engineering
               </option>
-              <option value="Department of Physics">Department of Physics</option>
-              <option value="Department of Chemistry">Department of Chemistry</option>
+              <option value="Department of Physics">
+                Department of Physics
+              </option>
+              <option value="Department of Chemistry">
+                Department of Chemistry
+              </option>
               <option value="Department of Botany">Department of Botany</option>
-              <option value="Department of Mathematics">Department of Mathematics</option>
+              <option value="Department of Mathematics">
+                Department of Mathematics
+              </option>
               <option value="Department of Law">Department of Law</option>
               <option value="Other">Any Other</option>
             </select>
           </div>
           <div>
-            <label for="semester" class="block text-lg font-medium text-gray-700"
+            <label
+              for="semester"
+              class="block text-lg font-medium text-gray-700"
               >Semester:</label
             >
             <select
@@ -137,13 +132,55 @@
             </thead>
             <tbody>
               <tr>
-                <td><input type="text" name="course_code[]" class="border p-2 w-full" required /></td>
-                <td><input type="text" name="course_name[]" class="border p-2 w-full" required /></td>
-                <td><input type="text" name="course_type[]" class="border p-2 w-full" required /></td>
-                <td><input type="number" name="credits[]" step="0.01" class="border p-2 w-full" required /></td>
-                <td><input type="number" name="min_marks[]" class="border p-2 w-full" required /></td>
                 <td>
-                  <input type="number" name="max_marks[]" value="100" class="border p-2 w-full" required />
+                  <input
+                    type="text"
+                    name="course_code[]"
+                    class="border p-2 w-full"
+                    required
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="course_name[]"
+                    class="border p-2 w-full"
+                    required
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="course_type[]"
+                    class="border p-2 w-full"
+                    required
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    name="credits[]"
+                    step="0.01"
+                    class="border p-2 w-full"
+                    required
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    name="min_marks[]"
+                    class="border p-2 w-full"
+                    required
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    name="max_marks[]"
+                    value="100"
+                    class="border p-2 w-full"
+                    required
+                  />
                 </td>
               </tr>
             </tbody>
@@ -174,5 +211,29 @@
         </div>
       </form>
     </div>
+
+    <script async defer>
+      function addRow() {
+        const table = document.getElementById('coursesTable');
+        const row = table.insertRow(-1);
+        row.innerHTML = `
+          <td><input type="text" name="course_code[]" class="border p-2 w-full" required></td>
+          <td><input type="text" name="course_name[]" class="border p-2 w-full" required></td>
+          <td><input type="text" name="course_type[]" class="border p-2 w-full" required></td>
+          <td><input type="number" name="credits[]" step="0.01" class="border p-2 w-full" required></td>
+          <td><input type="number" name="min_marks[]" class="border p-2 w-full" required></td>
+          <td><input type="number" name="max_marks[]" value="100" class="border p-2 w-full" required></td>
+        `;
+      }
+
+      function removeLastRow() {
+        const table = document.getElementById('coursesTable');
+        if (table.rows.length > 2) {
+          table.deleteRow(-1);
+        } else {
+          alert('You must have at least one course entry.');
+        }
+      }
+    </script>
   </body>
 </html>
