@@ -4,7 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Student Marks</title>
+
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
+
     <style>
       * {
         margin: 0;
@@ -30,14 +39,25 @@
         height: 100%;
       }
       /* Hide the default number input arrow */
-      input[type="number"]::-webkit-outer-spin-button,
-      input[type="number"]::-webkit-inner-spin-button {
+      input[type='number']::-webkit-outer-spin-button,
+      input[type='number']::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
       }
     </style>
   </head>
   <body>
+    <div id="header"></div>
+
+    <div class="fixed top-4 right-4">
+      <button
+        onclick="window.history.back()"
+        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
+      >
+        <i class="fa-solid fa-arrow-left mr-2"></i>Back
+      </button>
+    </div>
+
     <div class="h1-div">
       <h1>
         Add Marks for Roll Number: <%= rollno %>, Semester: <%= semester %>
@@ -171,21 +191,21 @@
     </form>
     <% } %>
     <script>
-      const form = document.getElementById("formSubmit");
+      const form = document.getElementById('formSubmit');
 
-      form.addEventListener("submit", function (event) {
+      form.addEventListener('submit', function (event) {
         // Prevent the form from submitting by default
         event.preventDefault();
 
         // Ask for confirmation
-        const confirmation = confirm("Are you sure you add to add Marks?");
+        const confirmation = confirm('Are you sure you add to add Marks?');
 
         // If user confirms, submit the form
         if (confirmation) {
           form.submit(); // This submits the form
         } else {
           // Optionally, you can handle if the user cancels the submission
-          console.log("Submission cancelled.");
+          console.log('Submission cancelled.');
         }
       });
     </script>
