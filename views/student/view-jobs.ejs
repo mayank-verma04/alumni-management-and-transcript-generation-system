@@ -4,26 +4,48 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>View Job Details</title>
-    <link rel="stylesheet" href="/css/header.css" />
+
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
   </head>
   <body class="bg-gray-100 font-sans">
-    <%- include ("../header.ejs") %>
+    <div id="header"></div>
 
-    <h2 class="text-2xl font-bold text-center text-gray-800 mt-8 mb-6">Your Job Details</h2>
+    <div class="fixed top-4 right-4">
+      <button
+        onclick="window.history.back()"
+        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
+      >
+        <i class="fa-solid fa-arrow-left mr-2"></i>Back
+      </button>
+    </div>
 
-    <div class="container bg-white p-6 rounded-lg shadow-md mx-auto max-w-3xl mb-6">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mt-8 mb-6">
+      Your Job Details
+    </h2>
+
+    <div
+      class="container bg-white p-6 rounded-lg shadow-md mx-auto max-w-3xl mb-6"
+    >
       <% if (jobDetails.length === 0) { %>
       <p class="text-center text-gray-500">No job details found.</p>
       <% } else { %>
 
       <h3 class="text-center text-gray-600 font-medium text-lg mb-6">
-        Roll No.: <%= jobDetails[0].rollno %> | Name: <%= studentDetails[0].student_name %> | Dept.: <%= studentDetails[0].department %> (<%= studentDetails[0].year_of_admission %>)
+        Roll No.: <%= jobDetails[0].rollno %> | Name: <%=
+        studentDetails[0].student_name %> | Dept.: <%=
+        studentDetails[0].department %> (<%= studentDetails[0].year_of_admission
+        %>)
       </h3>
 
       <% if (message) { %>
-        <div
+      <div
         class="fixed top-10 right-4 bg-red-100 text-red-700 px-4 py-3 rounded shadow-lg flex items-center space-x-3"
         id="popup-alert"
       >
@@ -35,26 +57,40 @@
           Close
         </button>
       </div>
-      <% } %>
-
-      <% jobDetails.forEach((job) => { %>
-      <div class="job-details bg-gray-50 p-4 mb-6 rounded-lg border-2 border-gray-300">
+      <% } %> <% jobDetails.forEach((job) => { %>
+      <div
+        class="job-details bg-gray-50 p-4 mb-6 rounded-lg border-2 border-gray-300"
+      >
         <div class="job-column flex flex-wrap gap-6">
           <div class="flex-1">
-            <p class="text-gray-700 font-bold">Company Name: <span class="font-normal"><%= job.company_name %></span></p>
-            <p class="text-gray-700 font-bold">Date of Joining: <span class="font-normal"><%= job.date_of_joining %></span></p>
             <p class="text-gray-700 font-bold">
-              Date of Leaving: <span class="font-normal"><%= job.date_of_leaving ? job.date_of_leaving : 'N/A' %></span>
+              Company Name:
+              <span class="font-normal"><%= job.company_name %></span>
+            </p>
+            <p class="text-gray-700 font-bold">
+              Date of Joining:
+              <span class="font-normal"><%= job.date_of_joining %></span>
+            </p>
+            <p class="text-gray-700 font-bold">
+              Date of Leaving:
+              <span class="font-normal"
+                ><%= job.date_of_leaving ? job.date_of_leaving : 'N/A' %></span
+              >
             </p>
           </div>
           <div class="flex-1">
-            <p class="text-gray-700 font-bold">Address of Company: <span class="font-normal"><%= job.address_of_company %></span></p>
             <p class="text-gray-700 font-bold">
-              Offer Letter: 
-              <a href="/public/uploads/offer_letters/<%= job.offer_letter %>"
+              Address of Company:
+              <span class="font-normal"><%= job.address_of_company %></span>
+            </p>
+            <p class="text-gray-700 font-bold">
+              Offer Letter:
+              <a
+                href="/public/uploads/offer_letters/<%= job.offer_letter %>"
                 class="text-blue-600 hover:underline"
                 target="_blank"
-                >View Your Offer Letter</a>
+                >View Your Offer Letter</a
+              >
             </p>
           </div>
         </div>
@@ -72,7 +108,11 @@
             name="company_name"
             value="<%= job.company_name %>"
           />
-          <label for="date_of_leaving" class="block text-gray-700 font-semibold mb-2">Date of Leaving:</label>
+          <label
+            for="date_of_leaving"
+            class="block text-gray-700 font-semibold mb-2"
+            >Date of Leaving:</label
+          >
           <input
             type="date"
             id="date_of_leaving"
@@ -102,10 +142,10 @@
 
     <script>
       document
-        .getElementById("confirmSubmit")
-        .addEventListener("submit", function (event) {
+        .getElementById('confirmSubmit')
+        .addEventListener('submit', function (event) {
           var userConfirmed = confirm(
-            "Do you really want to Add the date of Leaving?"
+            'Do you really want to Add the date of Leaving?'
           );
           if (!userConfirmed) {
             event.preventDefault();
