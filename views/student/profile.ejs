@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Profile</title>
 
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
+
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap");
+      @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap');
       body {
-        font-family: "Open Sans", sans-serif;
+        font-family: 'Open Sans', sans-serif;
         background-color: #f7f7f7;
         margin: 0;
         padding: 0;
@@ -87,7 +94,7 @@
       .heading-div h1 {
         margin: 1px;
         margin-bottom: 14px;
-        font-family: "Open Sans", sans-serif;
+        font-family: 'Open Sans', sans-serif;
         color: #333;
         text-align: center;
         padding: 30px;
@@ -95,9 +102,8 @@
 
       .photo-div img {
         padding: 3px;
-        border: 2px solid black;
         position: absolute;
-        width: 80px;
+        width: 90px;
         top: 8px;
         right: 26px;
       }
@@ -123,9 +129,21 @@
     </style>
   </head>
   <body class="font-sans">
-    <%- include ("../header.ejs") %>
+    <div id="header"></div>
+
+    <div class="fixed top-4 right-4">
+      <button
+        onclick="window.history.back()"
+        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
+      >
+        <i class="fa-solid fa-arrow-left mr-2"></i>Back
+      </button>
+    </div>
+
     <div class="heading-div">
-      <h1 class="text-center text-3xl font-semibold capitalize mb-6">Student Profile</h1>
+      <h1 class="text-center text-3xl font-semibold capitalize mb-6">
+        Student Profile
+      </h1>
       <div class="photo-div">
         <img
           src="/public/uploads/profile_pics/<%= studentDetails.profile_pic %>"
@@ -220,8 +238,6 @@
           </div>
         </div>
       </section>
-
-      <a href="/student/dashboard" class="back-link">Back to Dashboard</a>
       <% } %>
     </div>
   </body>
