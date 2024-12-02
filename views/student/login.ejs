@@ -4,23 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Login</title>
-    
-  <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <script
       src="https://kit.fontawesome.com/9ca9aa7819.js"
       crossorigin="anonymous"
     ></script>
 
-    <script
-      src="https://www.google.com/recaptcha/api.js"
-      async
-      defer
-    ></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <script src="/public/js/loadHeaderFooter.js"></script>
   </head>
   <body class="bg-gray-100 font-sans">
-    <%- include ("../header.ejs") %>
-    <div class="flex justify-center items-center mt-4">
+    <div id="header"></div>
+
+    <div class="flex justify-center items-center mt-4 mb-4">
       <form
         action="/student/login"
         method="POST"
@@ -36,14 +35,14 @@
           <i class="fa-regular fa-circle-check"></i>
           <span><%= successMessage %></span>
           <button
-              class="ml-4 text-green-700 font-bold hover:underline"
-              onclick="document.getElementById('popup-alert').remove()"
-            >
-              Close
-            </button>
+            class="ml-4 text-green-700 font-bold hover:underline"
+            onclick="document.getElementById('popup-alert').remove()"
+          >
+            Close
+          </button>
         </div>
         <% } %> <% if (message) { %>
-          <div
+        <div
           class="fixed top-10 right-4 bg-red-100 text-red-700 px-4 py-3 rounded shadow-lg flex items-center space-x-3"
           id="popup-alert"
         >
@@ -59,9 +58,7 @@
         <% } %>
 
         <div>
-          <label
-            for="rollno"
-            class="block font-medium text-gray-700 mb-1"
+          <label for="rollno" class="block font-medium text-gray-700 mb-1"
             >Roll Number:</label
           >
           <input
@@ -73,9 +70,7 @@
         </div>
 
         <div class="mb-4">
-          <label
-            for="password"
-            class="block font-medium text-gray-700 mb-1"
+          <label for="password" class="block font-medium text-gray-700 mb-1"
             >Password:</label
           >
           <div class="relative">
@@ -90,13 +85,13 @@
               class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined"
               id="visibility"
             >
-            <i class="fa-regular fa-eye"></i>
+              <i class="fa-regular fa-eye"></i>
             </span>
             <span
               class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined hidden"
               id="visibility_off"
             >
-            <i class="fa-regular fa-eye-slash"></i>
+              <i class="fa-regular fa-eye-slash"></i>
             </span>
           </div>
         </div>
@@ -105,7 +100,7 @@
           <a
             href="/student/reset-password"
             class="text-blue-600 text-sm hover:underline"
-            >Forgotten Password?</a
+            >Forget Password?</a
           >
         </div>
 
@@ -135,32 +130,32 @@
         </div>
       </form>
     </div>
-    <%- include ("../footer.ejs") %>
+
+    <div id="footer"></div>
 
     <script async defer>
       // Toggle Password Visibility
-      document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener('DOMContentLoaded', () => {
         const toggleVisibility = (iconShow, iconHide, passwordInput) => {
-          iconShow.addEventListener("click", () => {
-            passwordInput.type = "text";
-            iconShow.classList.add("hidden");
-            iconHide.classList.remove("hidden");
+          iconShow.addEventListener('click', () => {
+            passwordInput.type = 'text';
+            iconShow.classList.add('hidden');
+            iconHide.classList.remove('hidden');
           });
 
-          iconHide.addEventListener("click", () => {
-            passwordInput.type = "password";
-            iconHide.classList.add("hidden");
-            iconShow.classList.remove("hidden");
+          iconHide.addEventListener('click', () => {
+            passwordInput.type = 'password';
+            iconHide.classList.add('hidden');
+            iconShow.classList.remove('hidden');
           });
         };
 
-        const passwordField = document.getElementById("password");
-        const visibility = document.getElementById("visibility");
-        const visibilityOff = document.getElementById("visibility_off");
+        const passwordField = document.getElementById('password');
+        const visibility = document.getElementById('visibility');
+        const visibilityOff = document.getElementById('visibility_off');
 
         toggleVisibility(visibility, visibilityOff, passwordField);
       });
     </script>
-    
   </body>
 </html>
