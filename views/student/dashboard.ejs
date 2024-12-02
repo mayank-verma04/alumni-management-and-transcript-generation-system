@@ -4,26 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Dashboard</title>
-    <link rel="stylesheet" href="/css/header.css" />
-
-    <script src="https://kit.fontawesome.com/9ca9aa7819.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/public/js/loadHeaderFooter.js"></script>
   </head>
   <body class="bg-white text-gray-900 font-sans">
-
-    <%- include ("../header.ejs") %>
+    <div id="header"></div>
 
     <div class="notification-bar">
       <marquee class="bg-blue-800 text-white p-2 text-xl">
-        University of Jammu, Jammu Tawi (J&K)-180006 | Department of Computer Science and I.T. | Official Website:
-        <a href="https://www.jammuuniversity.ac.in/" target="_blank" class="text-blue-200 hover:text-blue-400">jammuuniversity.ac.in</a>
+        University of Jammu, Jammu Tawi (J&K)-180006 | Department of Computer
+        Science and I.T. | Official Website:
+        <a
+          href="https://www.jammuuniversity.ac.in/"
+          target="_blank"
+          class="text-blue-200 hover:text-blue-400"
+          >jammuuniversity.ac.in</a
+        >
       </marquee>
     </div>
 
     <div class="absolute top-4 right-4">
       <div id="logout" class="relative">
-        <a href="/student/logout"
-           class="flex items-center bg-red-600 text-white py-2 px-4 rounded-md font-bold text-sm transition-all hover:bg-red-700 hover:border border-red-600">
+        <a
+          href="/student/logout"
+          class="flex items-center bg-red-600 text-white py-2 px-4 rounded-md font-bold text-sm transition-all hover:bg-red-700 hover:border border-red-600"
+        >
           <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Logout
         </a>
       </div>
@@ -31,35 +40,53 @@
 
     <div class="container mx-auto p-4">
       <% if (studentDetails) { %>
-      <h1 class="text-center text-3xl font-semibold capitalize mb-6">Welcome <%= studentDetails.student_name %></h1>
+      <h1 class="text-center text-3xl font-semibold capitalize mb-6">
+        Welcome <%= studentDetails.student_name %>
+      </h1>
       <% } else { %>
-      <h1 class="text-center text-3xl font-semibold capitalize mb-6">Welcome to the Student Dashboard</h1>
+      <h1 class="text-center text-3xl font-semibold capitalize mb-6">
+        Welcome to the Student Dashboard
+      </h1>
       <p class="text-center text-lg">
         You need to complete your registration. Please
-        <a href="/student/register" class="text-blue-600 hover:underline">click here</a> to register.
+        <a href="/student/register" class="text-blue-600 hover:underline"
+          >click here</a
+        >
+        to register.
       </p>
-      <% } %>
-
-      <% if (studentDetails) { %>
-      <div class="links flex flex-wrap justify-center gap-8 mt-8 ">
-        <a href="/student/profile" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
+      <% } %> <% if (studentDetails) { %>
+      <div class="links flex flex-wrap justify-center gap-8 mt-8">
+        <a
+          href="/student/profile"
+          class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400"
+        >
           <i class="fa-solid fa-user text-4xl mb-4"></i>Profile Details
         </a>
 
-        <a href="/student/job-details" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
+        <a
+          href="/student/job-details"
+          class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400"
+        >
           <i class="fa-solid fa-square-plus text-4xl mb-4"></i>Add Job Details
         </a>
 
-        <a href="/student/view-jobs" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
-          <i class="fa-solid fa-rectangle-list text-4xl mb-4"></i>View Job Details
+        <a
+          href="/student/view-jobs"
+          class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400"
+        >
+          <i class="fa-solid fa-rectangle-list text-4xl mb-4"></i>View Job
+          Details
         </a>
 
-        <a href="/student/marks/<%= studentDetails.rollno %>" class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400">
-          <i class="fa-solid fa-square-poll-vertical text-4xl mb-4"></i>View Marks
+        <a
+          href="/student/marks/<%= studentDetails.rollno %>"
+          class="glass-box p-6 flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm rounded-lg shadow-md text-lg text-center hover:shadow-gray-400"
+        >
+          <i class="fa-solid fa-square-poll-vertical text-4xl mb-4"></i>View
+          Marks
         </a>
       </div>
       <% } %>
     </div>
-
   </body>
 </html>
