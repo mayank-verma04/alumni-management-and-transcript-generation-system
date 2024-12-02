@@ -4,22 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Job Details</title>
-    <link rel="stylesheet" href="/css/header.css" />
-    <link rel="stylesheet" href="/css/footer.css" />
-    
+
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
   </head>
   <body class="bg-gray-100 font-sans">
-    <%- include ("../header.ejs") %>
-    <div class="container bg-white p-6 rounded-lg shadow-md mx-auto max-w-lg mt-6">
+    <div id="header"></div>
+
+    <div class="fixed top-4 right-4">
+      <button
+        onclick="window.history.back()"
+        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
+      >
+        <i class="fa-solid fa-arrow-left mr-2"></i>Back
+      </button>
+    </div>
+
+    <div
+      class="container bg-white p-6 rounded-lg shadow-md mx-auto max-w-xl mt-5"
+    >
       <div id="message" class="text-center mb-4">
         <% if (message) { %>
         <p class="text-red-500 text-sm"><%= message %></p>
         <% } %>
       </div>
 
-      <h1 id="add-details-h1" class="text-gray-800 text-2xl font-semibold text-center mb-4">
+      <h1
+        id="add-details-h1"
+        class="text-gray-800 text-2xl font-semibold text-center mb-4"
+      >
         Add Job Details
       </h1>
 
@@ -30,9 +49,10 @@
         </h3>
         <% } else {%>
         <h3 class="text-gray-600 font-medium leading-6">
-          <b>Roll No.:</b> <%= student.rollno %> | <b>Name:</b>
-          <%= student.student_name %><br />
-          <b>Department:</b> <%= student.department %> (<%= student.year_of_admission %>)
+          <b>Roll No.:</b> <%= student.rollno %> | <b>Name:</b> <%=
+          student.student_name %><br />
+          <b>Department:</b> <%= student.department %> (<%=
+          student.year_of_admission %>)
         </h3>
         <% } %>
       </div>
@@ -56,7 +76,7 @@
 
         <div>
           <label for="company_name" class="block font-semibold text-gray-700">
-            <span class="text-red-500">*</span>Company Name:
+            Company Name:<span class="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -67,8 +87,11 @@
         </div>
 
         <div>
-          <label for="address_of_company" class="block font-semibold text-gray-700">
-            <span class="text-red-500">*</span>Address of Company:
+          <label
+            for="address_of_company"
+            class="block font-semibold text-gray-700"
+          >
+            Address of Company:<span class="text-red-500">*</span>
           </label>
           <textarea
             name="address_of_company"
@@ -80,8 +103,11 @@
 
         <div id="date-div" class="flex flex-wrap justify-between gap-4">
           <div class="flex-1 min-w-[45%]">
-            <label for="date_of_joining" class="block font-semibold text-gray-700">
-              <span class="text-red-500">*</span>Date of Joining:
+            <label
+              for="date_of_joining"
+              class="block font-semibold text-gray-700"
+            >
+              Date of Joining:<span class="text-red-500">*</span>
             </label>
             <input
               type="date"
@@ -92,7 +118,10 @@
           </div>
 
           <div class="flex-1 min-w-[45%]">
-            <label for="date_of_leaving" class="block font-semibold text-gray-700">
+            <label
+              for="date_of_leaving"
+              class="block font-semibold text-gray-700"
+            >
               Date of Leaving:
             </label>
             <input
@@ -105,7 +134,7 @@
 
         <div>
           <label for="offer_letter" class="block font-semibold text-gray-700">
-            <span class="text-red-500">*</span>Offer Letter:
+            Offer Letter:<span class="text-red-500">*</span>
           </label>
           <input
             type="file"
@@ -118,30 +147,23 @@
 
         <button
           type="submit"
-          class="w-full bg-blue-600 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+          class="w-full bg-blue-600 text-white py-2 px-4 rounded-md text-sm font-semibold hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
         >
           Add Job Details
         </button>
       </form>
-
-      <a
-        href="/student/dashboard"
-        class="block text-center mt-6 text-blue-600 hover:underline text-lg font-medium"
-      >
-        Back to Dashboard
-      </a>
     </div>
 
-    <script>
-      const form = document.getElementById("formSubmit");
+    <script defer>
+      const form = document.getElementById('formSubmit');
 
-      form.addEventListener("submit", function (event) {
+      form.addEventListener('submit', function (event) {
         // Prevent the form from submitting by default
         event.preventDefault();
 
         // Ask for confirmation
         const confirmation = confirm(
-          "Are you sure you want to submit this form?"
+          'Are you sure you want to submit this form?'
         );
 
         // If user confirms, submit the form
@@ -149,7 +171,7 @@
           form.submit(); // This submits the form
         } else {
           // Optionally, you can handle if the user cancels the submission
-          console.log("Submission cancelled.");
+          console.log('Submission cancelled.');
         }
       });
     </script>
