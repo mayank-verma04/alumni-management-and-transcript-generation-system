@@ -4,10 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Update Student Details</title>
+
+    <script
+      src="https://kit.fontawesome.com/9ca9aa7819.js"
+      crossorigin="anonymous"
+    ></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="/public/js/loadHeaderFooter.js" defer></script>
+
     <style>
       body {
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         background-color: #f4f7f6;
         margin: 0;
         padding: 0;
@@ -35,16 +44,16 @@
       td {
         text-align: left;
       }
-      input[type="text"],
-      input[type="number"],
-      input[type="tel"],
-      input[type="email"] {
+      input[type='text'],
+      input[type='number'],
+      input[type='tel'],
+      input[type='email'] {
         margin-bottom: 3px;
         margin-right: 25px;
         width: 200px;
         -moz-appearance: textfield;
         appearance: textfield;
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -52,8 +61,8 @@
         font-size: 16px;
       }
       /* Hide the default number input arrow */
-      input[type="number"]::-webkit-outer-spin-button,
-      input[type="number"]::-webkit-inner-spin-button {
+      input[type='number']::-webkit-outer-spin-button,
+      input[type='number']::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
       }
@@ -97,11 +106,11 @@
           width: 100%;
           margin-bottom: 20px;
         }
-        input[type="text"],
-        input[type="number"],
-        input[type="tel"],
-        input[type="email"],
-        input[type="file"],
+        input[type='text'],
+        input[type='number'],
+        input[type='tel'],
+        input[type='email'],
+        input[type='file'],
         textarea,
         select {
           width: 100%;
@@ -114,7 +123,16 @@
     </style>
   </head>
   <body>
-    <%- include("../header.ejs") %>
+    <div id="header"></div>
+
+    <div class="fixed top-4 right-4">
+      <button
+        onclick="window.history.back()"
+        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
+      >
+        <i class="fa-solid fa-arrow-left mr-2"></i>Back
+      </button>
+    </div>
 
     <div class="register-form">
       <form
@@ -491,24 +509,24 @@
       function handleSubmit(event) {
         event.preventDefault(); // Prevent form submission to handle it via JavaScript
 
-        const form = document.getElementById("updateForm");
+        const form = document.getElementById('updateForm');
         const formData = new FormData(form);
 
         fetch(form.action, {
-          method: "POST",
+          method: 'POST',
           body: formData,
         })
           .then((response) => {
             if (response.ok) {
-              alert("Update successful!");
-              window.location.href = "/admin/dashboard";
+              alert('Update successful!');
+              window.location.href = '/admin/dashboard';
             } else {
-              alert("Update failed (Recheck Details).");
+              alert('Update failed (Recheck Details).');
             }
           })
           .catch((error) => {
-            console.error("Error:", error);
-            alert("An error occurred while submitting the form.");
+            console.error('Error:', error);
+            alert('An error occurred while submitting the form.');
           });
       }
     </script>
