@@ -28,8 +28,8 @@ app.set('view engine', 'ejs');
 app.use(
   '/public',
   express.static(path.join(__dirname, 'public'), {
-    maxAge: '1y', // Cache for 1 day
-    etag: true, // Enable ETag for conditional requests
+    maxAge: '1y', // Cache for 1 year
+    etag: true,
   })
 );
 
@@ -42,17 +42,13 @@ app.use('/admin', adminRoutes);
 
 // Home route
 app.get('/', (req, res) => {
-  res.render('index');
+  res.sendFile(path.join(__dirname, './public/html/index.html'));
 });
-
-//
 
 // For Wrong Routes redirect the user to " / "
 app.use((req, res) => {
   res.redirect('/');
 });
-
-//
 
 // Start Server
 const PORT = process.env.PORT || 3000;
