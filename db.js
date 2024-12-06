@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 
-/*
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -17,7 +16,7 @@ db.connect((err) => {
   console.log('Connected to Local MySQL database');
 });
 
-*/
+/*
 
 // ***************************************************************
 
@@ -43,5 +42,5 @@ db.connect((err) => {
 });
 
 // ***************************************************************
-
+*/
 module.exports = db;
