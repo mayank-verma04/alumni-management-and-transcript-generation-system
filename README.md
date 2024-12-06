@@ -7,10 +7,9 @@
 3. [Technologies Used](#technologies-used)
 4. [Installation](#installation)
 5. [Usage](#usage)
-6. [Database Schema](#database-schema)
-7. [Routes](#routes)
-8. [Contributing](#contributing)
-9. [Contact](#contact)
+6. [Routes](#routes)
+7. [Contributing](#contributing)
+8. [Contact](#contact)
 
 ## Project Overview
 
