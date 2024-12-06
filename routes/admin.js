@@ -208,7 +208,7 @@ router.post('/students/search', (req, res) => {
   const query = `SELECT * FROM students WHERE student_name LIKE ? OR department LIKE ? OR rollno LIKE ?`;
   db.query(
     query,
-    [`%${search_query}%`, `%${search_query}%`, `%${search_query}%`],
+    [`${search_query}%`, `${search_query}%`, `${search_query}%`],
     (err, students) => {
       if (err) return res.status(500).json({ error: 'Database error' });
       res.json({ students });
@@ -529,10 +529,10 @@ router.post('/view-courses/search', (req, res) => {
   db.query(
     query,
     [
-      `%${search_query}%`,
-      `%${search_query}%`,
-      `%${search_query}%`,
-      `%${search_query}%`,
+      `${search_query}%`,
+      `${search_query}%`,
+      `${search_query}%`,
+      `${search_query}%`,
     ],
     (err, courses) => {
       if (err) return res.status(500).json({ error: 'Database error' });
