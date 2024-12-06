@@ -210,12 +210,33 @@ router.post('/students/search', (req, res) => {
     query,
     [`%${search_query}%`, `%${search_query}%`, `%${search_query}%`],
     (err, students) => {
-      if (err) throw err;
-      res.render('admin/student_list', { students });
+      if (err) return res.status(500).json({ error: 'Database error' });
+      res.json({ students });
     }
   );
 });
 
+// *******************
+
+router.post('/view-courses/search', (req, res) => {
+  if (!req.session.admin) return res.redirect('/admin/login');
+  // else
+  const { search_query } = req.body;
+  const query = `SELECT * FROM courses WHERE course_code LIKE ? OR course_name LIKE ? OR semester LIKE ? OR department LIKE ?`;
+  db.query(
+    query,
+    [
+      `%${search_query}%`,
+      `%${search_query}%`,
+      `%${search_query}%`,
+      `%${search_query}%`,
+    ],
+    (err, courses) => {
+      if (err) return res.status(500).json({ error: 'Database error' });
+      res.json({ courses });
+    }
+  );
+});
 //
 
 router.get('/student-details/:rollno', (req, res) => {

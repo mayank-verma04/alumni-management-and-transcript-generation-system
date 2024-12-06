@@ -9,7 +9,7 @@
     <script src="/public/js/loadHeaderFooter.js" defer></script>
   </head>
   <body class="font-sans">
-    <div id="header"></div>
+    <div id="header" class="min-h-36"></div>
 
     <div class="fixed top-4 right-4">
       <button
@@ -28,12 +28,14 @@
       <form
         action="/admin/students/search"
         method="POST"
+        id="search-form"
         class="flex gap-4 items-center"
       >
         <input
           type="text"
           name="search_query"
           placeholder="Search by name, department, or rollno"
+          id="search-input"
           class="w-80 px-4 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
         />
         <button
@@ -63,7 +65,7 @@
             <th class="border border-gray-400 px-4 py-2 text-left">Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="students-table-body">
           <% let serialNo = 1; %> <% students.forEach(student => { %>
           <tr
             class="<%= serialNo % 2 === 0 ? 'bg-gray-100' : '' %> hover:bg-gray-100"
@@ -93,7 +95,7 @@
           <% }) %> <% if (students.length === 0) { %>
           <tr>
             <td
-              colspan="5"
+              colspan="6"
               class="text-center border border-gray-400 px-4 py-2"
             >
               No Data Found
@@ -103,5 +105,70 @@
         </tbody>
       </table>
     </div>
+    <script>
+      document
+        .getElementById('search-form')
+        .addEventListener('submit', function (e) {
+          e.preventDefault(); // Prevent the form from submitting normally
+
+          const searchQuery = document.getElementById('search-input').value;
+
+          fetch('/admin/students/search', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ search_query: searchQuery }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              const tableBody = document.getElementById('students-table-body');
+              tableBody.innerHTML = ''; // Clear the existing table rows
+
+              if (data.students.length > 0) {
+                let serialNo = 1;
+                data.students.forEach((student) => {
+                  const row = `
+                  <tr class="${
+                    serialNo % 2 === 0 ? 'bg-gray-100' : ''
+                  } hover:bg-gray-100">
+                    <td class="border border-gray-400 px-4 py-2">${serialNo++}.</td>
+                    <td class="border border-gray-400 px-4 py-2">${
+                      student.rollno
+                    }</td>
+                    <td class="border border-gray-400 px-4 py-2">${
+                      student.student_name
+                    }</td>
+                    <td class="border border-gray-400 px-4 py-2">${
+                      student.father_name
+                    }</td>
+                    <td class="border border-gray-400 px-4 py-2">${
+                      student.department
+                    }</td>
+                    <td class="border border-gray-400 px-4 py-2">
+                      <a
+                        href="/admin/student-details/${student.rollno}"
+                        class="text-blue-700 underline hover:text-blue-900 hover:no-underline"
+                      >
+                        Open Details
+                      </a>
+                    </td>
+                  </tr>
+                `;
+                  tableBody.insertAdjacentHTML('beforeend', row);
+                });
+              } else {
+                tableBody.innerHTML = `
+                <tr>
+                  <td colspan="6" class="text-center border border-gray-400 px-4 py-2">
+                    No Data Found
+                  </td>
+                </tr>
+              `;
+              }
+            })
+            .catch((error) => console.error('Error:', error));
+        });
+    </script>
   </body>
 </html>

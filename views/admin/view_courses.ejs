@@ -14,7 +14,7 @@
     <script src="/public/js/loadHeaderFooter.js" defer></script>
   </head>
   <body class="font-sans">
-    <div id="header"></div>
+    <div id="header" class="min-h-36"></div>
 
     <div class="fixed top-4 right-4">
       <button
@@ -33,13 +33,15 @@
       <form
         action="/admin/view-courses/search"
         method="POST"
+        id="search-form"
         class="flex gap-4 items-center"
       >
         <input
           type="text"
           name="search_query"
-          placeholder="Search by Department or Semester"
-          class="w-80 px-4 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+          placeholder="Course Code, Course Name, Department, Semester"
+          id="search-input"
+          class="w-400 px-4 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
         />
         <button
           type="submit"
@@ -69,7 +71,7 @@
             <th class="border border-gray-400 px-2 py-2">Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="courses-table-body">
           <% let serialNo = 1; %> <% courses.forEach(course => { %>
           <tr
             class="<%= serialNo % 2 === 0 ? 'bg-gray-100' : '' %> hover:bg-gray-100"
@@ -132,6 +134,96 @@
           'Are you sure to Delete all details related to this course?'
         );
       }
+
+      // Handle form submission with AJAX
+      document
+        .getElementById('search-form')
+        .addEventListener('submit', function (e) {
+          e.preventDefault(); // Prevent the form from submitting normally
+
+          const searchQuery = document.getElementById('search-input').value;
+          const tableBody = document.getElementById('courses-table-body');
+          const noDataMessage = document.getElementById('no-data-message');
+
+          fetch('/admin/view-courses/search', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ search_query: searchQuery }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              tableBody.innerHTML = ''; // Clear the existing table rows
+              if (data.courses.length > 0) {
+                let serialNo = 1;
+                data.courses.forEach((course) => {
+                  const row = `
+                  <tr
+            class="${serialNo % 2 === 0 ? 'bg-gray-100' : ''} hover:bg-gray-100"
+          >
+            <td class="border border-gray-400 px-4 py-2">${serialNo++}.</td>
+            <td class="border border-gray-400 px-4 py-2">
+              ${course.course_code}
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              ${course.course_name}
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              ${course.course_type}
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              ${course.department}
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              ${course.semester}
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              ${course.credits}
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              ${course.min_marks}
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              ${course.max_marks}
+            </td>
+            <td class="border border-gray-400 px-4 py-2">
+              <a
+                href="/admin/edit-course/${course.course_code}"
+                class="text-blue-700 underline hover:no-underline hover:text-blue-900"
+                >Edit</a
+              >
+              <form
+                action="/admin/delete/${course.course_code}"
+                method="post"
+                class="inline-block"
+              >
+                <button
+                  type="submit"
+                  onclick="return confirmMessage()"
+                  class="text-red-700 underline hover:no-underline hover:text-red-900"
+                >
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>`;
+
+                  tableBody.insertAdjacentHTML('beforeend', row);
+                });
+                noDataMessage.classList.add('hidden'); // Hide "No Data Found" message
+              } else {
+                tableBody.innerHTML = `
+                <tr>
+                  <td colspan="10" class="text-center text-lg border border-gray-400 px-4 py-2">
+                    No Data Found
+                  </td>
+                </tr>
+              `;
+              }
+            })
+            .catch((error) => console.error('Error:', error));
+        });
     </script>
   </body>
 </html>

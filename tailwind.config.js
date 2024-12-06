@@ -6,7 +6,11 @@ module.exports = {
     './public/js/**/*.js',
   ],
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        400: '400px',
+      },
+    },
   },
   plugins: [],
 };
