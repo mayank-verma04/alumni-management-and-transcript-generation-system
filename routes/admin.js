@@ -216,29 +216,8 @@ router.post('/students/search', (req, res) => {
   );
 });
 
-// *******************
-
-router.post('/view-courses/search', (req, res) => {
-  if (!req.session.admin) return res.redirect('/admin/login');
-  // else
-  const { search_query } = req.body;
-  const query = `SELECT * FROM courses WHERE course_code LIKE ? OR course_name LIKE ? OR semester LIKE ? OR department LIKE ?`;
-  db.query(
-    query,
-    [
-      `%${search_query}%`,
-      `%${search_query}%`,
-      `%${search_query}%`,
-      `%${search_query}%`,
-    ],
-    (err, courses) => {
-      if (err) return res.status(500).json({ error: 'Database error' });
-      res.json({ courses });
-    }
-  );
-});
 //
-
+// Student Details
 router.get('/student-details/:rollno', (req, res) => {
   if (!req.session.admin) return res.redirect('/admin/login');
   //else
@@ -263,10 +242,6 @@ router.get('/student-details/:rollno', (req, res) => {
     });
   });
 });
-
-//
-
-//
 
 //
 
@@ -305,7 +280,7 @@ router.get('/add-courses', (req, res) => {
   if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const message = req.session.message;
-  req.session.message = null; // Clear the message after displaying it once
+  req.session.message = null;
 
   res.render('admin/add_courses', { message });
 });
@@ -550,14 +525,18 @@ router.post('/view-courses/search', (req, res) => {
   if (!req.session.admin) return res.redirect('/admin/login');
   // else
   const { search_query } = req.body;
-  const query = `SELECT * FROM courses WHERE semester LIKE ? OR department LIKE ?`;
+  const query = `SELECT * FROM courses WHERE course_code LIKE ? OR course_name LIKE ? OR semester LIKE ? OR department LIKE ?`;
   db.query(
     query,
-    [`%${search_query}%`, `%${search_query}%`],
+    [
+      `%${search_query}%`,
+      `%${search_query}%`,
+      `%${search_query}%`,
+      `%${search_query}%`,
+    ],
     (err, courses) => {
-      if (err) throw err;
-      let message;
-      res.render('admin/view_courses', { courses, message });
+      if (err) return res.status(500).json({ error: 'Database error' });
+      res.json({ courses });
     }
   );
 });
