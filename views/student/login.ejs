@@ -55,6 +55,20 @@
           </div>
           <% } %>
 
+          <div
+            class="fixed top-10 right-4 bg-red-100 text-red-700 px-4 py-3 rounded shadow-lg flex items-center space-x-3 hidden"
+            id="popup-alert-validation"
+          >
+            <i class="fa-regular fa-circle-xmark"></i>
+            <span><%= message %></span>
+            <button
+              class="ml-4 text-red-700 font-bold hover:underline"
+              onclick="document.getElementById('popup-alert-validation').remove()"
+            >
+              Close
+            </button>
+          </div>
+
           <div>
             <label for="rollno" class="block font-medium text-gray-700 mb-1"
               >Roll Number:</label
@@ -77,7 +91,6 @@
                 id="password"
                 name="password"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
-                required
               />
               <span
                 class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined"
@@ -153,6 +166,65 @@
         const visibilityOff = document.getElementById('visibility_off');
 
         toggleVisibility(visibility, visibilityOff, passwordField);
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const passwordInput = document.getElementById('password');
+        const rollnoInput = document.getElementById('rollno');
+        const form = document.querySelector('form');
+        const errorMessage = document.getElementById('popup-alert-validation');
+
+        // Input Validation Feedback
+        const hideError = () => {
+          if (errorMessage) errorMessage.classList.add('hidden');
+        };
+
+        rollnoInput.addEventListener('input', hideError);
+        passwordInput.addEventListener('input', hideError);
+
+        // Form Submission Validation
+        form.addEventListener('submit', (e) => {
+          let isValid = true;
+          const recaptchaResponse = grecaptcha.getResponse(); // Get the reCAPTCHA response
+
+          // Clear any existing error messages
+          if (errorMessage) errorMessage.classList.add('hidden');
+
+          // Roll Number Validation
+          if (!rollnoInput.value.trim()) {
+            isValid = false;
+            showError('Roll Number is required.');
+          }
+
+          // Password Validation
+          if (!passwordInput.value.trim()) {
+            isValid = false;
+            showError('Password is required.');
+          }
+          // Both Rollno and Password Validation
+          if (!passwordInput.value.trim() && !rollnoInput.value.trim()) {
+            isValid = false;
+            showError('Rollno as well as Password is required.');
+          }
+
+          // If the response is empty, show an error and prevent submission
+          if (!recaptchaResponse) {
+            e.preventDefault();
+            showError('Please complete the reCAPTCHA.');
+          }
+
+          // Prevent submission if invalid
+          if (!isValid) {
+            e.preventDefault();
+          }
+        });
+
+        const showError = (message) => {
+          if (errorMessage) {
+            errorMessage.querySelector('span').innerText = message;
+            errorMessage.classList.remove('hidden');
+          }
+        };
       });
     </script>
   </body>
