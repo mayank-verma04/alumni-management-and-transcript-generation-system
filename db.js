@@ -20,8 +20,6 @@ db.connect((err) => {
 
 // ***************************************************************
 
-const caCert = fs.readFileSync(path.join(__dirname, './ca.pem'), 'utf8');
-
 // Create the connection
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -31,7 +29,7 @@ const db = mysql.createConnection({
   port: process.env.DB_PORT,
   ssl: {
     rejectUnauthorized: true,
-    ca: caCert,
+    ca: process.env.DB_CA_CERTIFICATE,
   },
 });
 
