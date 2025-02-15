@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/public/css/tailwind.css" />
     <link rel="stylesheet" href="/public/css-fontawesome/all.min.css" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="/public/js/loaderScript.js" defer></script>
     <script src="/public/js/loadHeaderFooter.js"></script>
   </head>
   <body class="bg-gray-100 font-sans">
@@ -15,59 +14,47 @@
     <div id="content">
       <div id="header" class="min-h-36"></div>
 
+      <% if (successMessage) { %>
+      <div
+        class="fixed top-12 right-4 bg-green-100 text-green-700 px-4 py-3 rounded flex items-center space-x-3 shadow-lg"
+        id="popup-alert"
+      >
+        <i class="fa-regular fa-circle-check"></i>
+        <span><%= successMessage %></span>
+        <button
+          class="ml-4 text-green-700 font-bold hover:underline"
+          onclick="document.getElementById('popup-alert').remove()"
+        >
+          Close
+        </button>
+      </div>
+      <% } %> <% if (message) { %>
+      <div
+        class="fixed top-10 right-4 bg-red-100 text-red-700 px-4 py-3 rounded shadow-lg flex items-center space-x-3"
+        id="popup-alert"
+      >
+        <i class="fa-regular fa-circle-xmark"></i>
+        <span><%= message %></span>
+        <button
+          class="ml-4 text-red-700 font-bold hover:underline"
+          onclick="document.getElementById('popup-alert').remove()"
+        >
+          Close
+        </button>
+      </div>
+      <% } %>
+
       <div class="flex justify-center items-center mt-4 mb-4">
         <form
           action="/student/login"
           method="POST"
+          id="loginForm"
           class="h-510 bg-white p-6 pb-10 rounded-lg shadow-md w-full max-w-sm"
+          onsubmit="validateForm(event)"
         >
           <h2 class="text-2xl font-semibold text-gray-800 mb-5">
             Student Login
           </h2>
-
-          <% if (successMessage) { %>
-          <div
-            class="fixed top-12 right-4 bg-green-100 text-green-700 px-4 py-3 rounded flex items-center space-x-3 shadow-lg"
-            id="popup-alert"
-          >
-            <i class="fa-regular fa-circle-check"></i>
-            <span><%= successMessage %></span>
-            <button
-              class="ml-4 text-green-700 font-bold hover:underline"
-              onclick="document.getElementById('popup-alert').remove()"
-            >
-              Close
-            </button>
-          </div>
-          <% } %> <% if (message) { %>
-          <div
-            class="fixed top-10 right-4 bg-red-100 text-red-700 px-4 py-3 rounded shadow-lg flex items-center space-x-3"
-            id="popup-alert"
-          >
-            <i class="fa-regular fa-circle-xmark"></i>
-            <span><%= message %></span>
-            <button
-              class="ml-4 text-red-700 font-bold hover:underline"
-              onclick="document.getElementById('popup-alert').remove()"
-            >
-              Close
-            </button>
-          </div>
-          <% } %>
-
-          <div
-            class="fixed top-10 right-4 bg-red-100 text-red-700 px-4 py-3 rounded shadow-lg md:flex items-center space-x-3 hidden"
-            id="popup-alert-validation"
-          >
-            <i class="fa-regular fa-circle-xmark"></i>
-            <span><%= message %></span>
-            <button
-              class="ml-4 text-red-700 font-bold hover:underline"
-              onclick="document.getElementById('popup-alert-validation').remove()"
-            >
-              Close
-            </button>
-          </div>
 
           <div>
             <label for="rollno" class="block font-medium text-gray-700 mb-1"
@@ -78,7 +65,9 @@
               id="rollno"
               name="rollno"
               class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 mb-4"
+              oninput="clearError('rollno', 'rollnoError')"
             />
+            <p id="rollnoError" class="text-red-500 text-sm mt-1"></p>
           </div>
 
           <div class="mb-4">
@@ -91,20 +80,15 @@
                 id="password"
                 name="password"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                oninput="clearError('password', 'passwordError')"
               />
-              <span
-                class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined"
-                id="visibility"
-              >
-                <i class="fa-regular fa-eye"></i>
-              </span>
-              <span
-                class="absolute inset-y-0 right-3 md:flex items-center text-gray-400 cursor-pointer material-symbols-outlined hidden"
-                id="visibility_off"
-              >
-                <i class="fa-regular fa-eye-slash"></i>
-              </span>
+              <i
+                id="togglePassword"
+                class="fa fa-eye absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                onclick="togglePassword()"
+              ></i>
             </div>
+            <p id="passwordError" class="text-red-500 text-sm mt-1"></p>
           </div>
 
           <div class="mb-4">
@@ -115,12 +99,14 @@
             >
           </div>
 
-          <div class="h-78 flex justify-center items-center mb-4">
+          <div class="h-78 flex flex-col justify-center items-center mt-6 mb-4">
             <div
               id="recaptcha"
               class="g-recaptcha"
               data-sitekey="6Le_hiAqAAAAAOa3_BU3SnZ-Jti9k_4SrhTO_k-E"
+              data-callback="onRecaptchaSuccess"
             ></div>
+            <p id="recaptchaError" class="text-red-500 text-sm mb-2"></p>
           </div>
 
           <div class="mb-4">
@@ -143,87 +129,65 @@
       </div>
     </div>
     <script async defer>
-      // Toggle Password Visibility
-      document.addEventListener('DOMContentLoaded', () => {
-        const toggleVisibility = (iconShow, iconHide, passwordInput) => {
-          iconShow.addEventListener('click', () => {
-            passwordInput.type = 'text';
-            iconShow.classList.add('hidden');
-            iconHide.classList.remove('hidden');
-          });
+      // FORM VALIDATIONS NEW
+      function validateForm(event) {
+        event.preventDefault();
 
-          iconHide.addEventListener('click', () => {
-            passwordInput.type = 'password';
-            iconHide.classList.add('hidden');
-            iconShow.classList.remove('hidden');
-          });
-        };
+        let rollno = document.getElementById('rollno');
+        let password = document.getElementById('password');
+        let recaptcha = document.getElementById('g-recaptcha-response');
 
-        const passwordField = document.getElementById('password');
-        const visibility = document.getElementById('visibility');
-        const visibilityOff = document.getElementById('visibility_off');
+        let rollnoError = document.getElementById('rollnoError');
+        let passwordError = document.getElementById('passwordError');
+        let recaptchaError = document.getElementById('recaptchaError');
 
-        toggleVisibility(visibility, visibilityOff, passwordField);
-      });
+        // Reset error messages
+        let valid = true;
 
-      document.addEventListener('DOMContentLoaded', () => {
-        const passwordInput = document.getElementById('password');
-        const rollnoInput = document.getElementById('rollno');
-        const form = document.querySelector('form');
-        const errorMessage = document.getElementById('popup-alert-validation');
+        if (!rollno.value.trim()) {
+          rollnoError.textContent = 'Rollno.  is required!';
+          valid = false;
+        }
 
-        // Input Validation Feedback
-        const hideError = () => {
-          if (errorMessage) errorMessage.classList.add('hidden');
-        };
+        if (!password.value.trim()) {
+          passwordError.textContent = 'Password is required!';
+          valid = false;
+        }
 
-        rollnoInput.addEventListener('input', hideError);
-        passwordInput.addEventListener('input', hideError);
+        if (!recaptcha.value.trim()) {
+          recaptchaError.textContent = 'Please complete the reCAPTCHA!';
+          valid = false;
+        }
 
-        // Form Submission Validation
-        form.addEventListener('submit', (e) => {
-          let isValid = true;
-          const recaptchaResponse = grecaptcha.getResponse(); // Get the reCAPTCHA response
+        if (valid) {
+          document.getElementById('loginForm').submit();
+        }
+      }
 
-          // Clear any existing error messages
-          if (errorMessage) errorMessage.classList.add('hidden');
+      function clearError(inputId, errorId) {
+        let input = document.getElementById(inputId);
+        let error = document.getElementById(errorId);
+        if (input.value.trim()) {
+          error.textContent = '';
+        }
+      }
+      function onRecaptchaSuccess() {
+        document.getElementById('recaptchaError').textContent = ''; // Clear reCAPTCHA error when completed
+      }
 
-          // Roll Number Validation
-          if (!rollnoInput.value.trim()) {
-            isValid = false;
-            showError('Roll Number is required.');
-          }
+      // TOGGLE PASSWORD VISIBILITY
+      function togglePassword() {
+        let passwordField = document.getElementById('password');
+        let toggleIcon = document.getElementById('togglePassword');
 
-          // Password Validation
-          if (!passwordInput.value.trim()) {
-            isValid = false;
-            showError('Password is required.');
-          }
-          // Both Rollno and Password Validation
-          if (!passwordInput.value.trim() && !rollnoInput.value.trim()) {
-            isValid = false;
-            showError('Rollno as well as Password is required.');
-          }
-
-          // If the response is empty, show an error and prevent submission
-          if (!recaptchaResponse) {
-            e.preventDefault();
-            showError('Please complete the reCAPTCHA.');
-          }
-
-          // Prevent submission if invalid
-          if (!isValid) {
-            e.preventDefault();
-          }
-        });
-
-        const showError = (message) => {
-          if (errorMessage) {
-            errorMessage.querySelector('span').innerText = message;
-            errorMessage.classList.remove('hidden');
-          }
-        };
-      });
+        if (passwordField.type === 'password') {
+          passwordField.type = 'text';
+          toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+          passwordField.type = 'password';
+          toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+      }
     </script>
   </body>
 </html>
