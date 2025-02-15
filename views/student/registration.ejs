@@ -9,8 +9,9 @@
     <script
       rel="preload"
       src="https://www.google.com/recaptcha/api.js"
-      defer
+      async
     ></script>
+    <script src="/public/js/loadHeaderFooter.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const input = document.getElementById('rollno');
@@ -35,8 +36,6 @@
         return confirm(confirmationMessage);
       }
     </script>
-
-    <script src="/public/js/loadHeaderFooter.js"></script>
   </head>
   <body class="font-sans bg-gray-100">
     <!-- Main Content -->
