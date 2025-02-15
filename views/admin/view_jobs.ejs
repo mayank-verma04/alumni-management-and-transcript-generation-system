@@ -93,14 +93,23 @@
             <td style="width: 30px"><%= serialNo++ %>.</td>
             <td><%= job.company_name %></td>
             <td><%= job.address_of_company %></td>
-            <td><%= job.date_of_joining %></td>
-            <td><%= job.date_of_leaving ? job.date_of_leaving : 'N/A' %></td>
+            <td>
+              <%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
+              'short', day: 'numeric' }).format(new Date(job.date_of_joining));
+              %>
+            </td>
+
+            <td>
+              <%= job.date_of_leaving ? new Intl.DateTimeFormat('en-US', { year:
+              'numeric', month: 'short', day: 'numeric' }) .format(new
+              Date(job.date_of_leaving)) : 'N/A'; %>
+            </td>
             <td>
               <a
                 href="/public/uploads/offer_letters/<%= job.offer_letter %>"
                 class="offer-letter-link"
                 target="_blank"
-                >View Your Offer Letter</a
+                >View Offer Letter</a
               >
             </td>
           </tr>

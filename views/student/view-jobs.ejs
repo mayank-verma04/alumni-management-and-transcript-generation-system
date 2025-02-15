@@ -63,12 +63,18 @@
             </p>
             <p class="text-gray-700 font-bold">
               Date of Joining:
-              <span class="font-normal"><%= job.date_of_joining %></span>
+              <span class="font-normal">
+                <%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
+                'short', day: 'numeric' }).format(new
+                Date(job.date_of_joining)); %></span
+              >
             </p>
             <p class="text-gray-700 font-bold">
               Date of Leaving:
               <span class="font-normal"
-                ><%= job.date_of_leaving ? job.date_of_leaving : 'N/A' %></span
+                ><%= job.date_of_leaving ? new Intl.DateTimeFormat('en-US', {
+                year: 'numeric', month: 'short', day: 'numeric' }) .format(new
+                Date(job.date_of_leaving)) : 'N/A'; %></span
               >
             </p>
           </div>
