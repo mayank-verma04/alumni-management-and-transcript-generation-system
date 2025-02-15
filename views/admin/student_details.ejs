@@ -156,18 +156,12 @@
             <a href="/admin/students/edit/<%= studentDetails.rollno %>"
               >Edit Details</a
             >
-
-            <a
-              href="/admin/students/delete/<%= studentDetails.rollno %>"
-              onclick="return confirmMessage()"
-              id="delete-btn"
-              >Delete Student</a
-            >
             <button
               id="deleteButton"
               student-rollno="<%= studentDetails.rollno %>"
+              class="bg-red-900 hover:bg-red-700 hover:ring hover:ring-offset-1 hover:ring-red-600 text-white border font-bold py-2 px-4 rounded transition-all"
             >
-              Delete
+              Delete Student
             </button>
           </div>
         </div>
