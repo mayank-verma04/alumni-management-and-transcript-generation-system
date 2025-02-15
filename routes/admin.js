@@ -121,80 +121,77 @@ router.post('/update-student', (req, res) => {
   );
 });
 
-// DELETE student
-router.get('/students/delete/:rollno', (req, res) => {
+// Helper function to delete files with a given prefix (Using callbacks)
+const deleteFiles = (dir, prefix, callback) => {
+  fs.readdir(dir, (err, files) => {
+    if (err) {
+      console.error(`Error reading directory ${dir}:`, err);
+      return callback(err);
+    }
+
+    const matchingFiles = files.filter((file) => file.startsWith(prefix));
+    let deleteCount = 0;
+
+    if (matchingFiles.length === 0) return callback(null);
+
+    matchingFiles.forEach((file) => {
+      fs.unlink(path.join(dir, file), (err) => {
+        if (err) console.error(`Error deleting file ${file}:`, err);
+
+        deleteCount++;
+        if (deleteCount === matchingFiles.length) {
+          callback(null); // Call the callback after all files are deleted
+        }
+      });
+    });
+  });
+};
+
+// DELETE student route (Using callbacks)
+router.delete('/students/delete/:rollno', (req, res) => {
   if (!req.session.admin) return res.redirect('/admin/login');
-  //else
-  const rollno = req.params.rollno;
 
-  const deleteStudent = 'DELETE FROM students WHERE rollno = ?';
-  db.query(deleteStudent, [rollno], (err, result) => {
-    if (err) throw err;
+  const { rollno } = req.params;
+  const deleteStudentQuery = 'DELETE FROM students WHERE rollno = ?';
 
-    // Construct file paths
-    const profilePicPath = path.join(
+  // Execute MySQL query using callback
+  db.query(deleteStudentQuery, [rollno], (err, result) => {
+    if (err) {
+      console.error('Error deleting student:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    // Define file directories
+    const profilePicDir = path.join(
       __dirname,
       '..',
       'public',
       'uploads',
-      'profile_pics',
-      `profile_pic_${rollno}`
+      'profile_pics'
     );
-    const offerLetterPath = path.join(
+    const offerLetterDir = path.join(
       __dirname,
       '..',
       'public',
       'uploads',
-      'offer_letters',
-      `offer_letter_${rollno}`
+      'offer_letters'
     );
 
-    // Delete profile picture files
-    fs.readdir(
-      path.join(__dirname, '..', 'public', 'uploads', 'profile_pics'),
-      (err, files) => {
-        if (err)
-          console.error('Error reading profile pictures directory:', err);
-        files.forEach((file) => {
-          if (file.startsWith(`profile_pic_${rollno}`)) {
-            deleteFile(
-              path.join(
-                __dirname,
-                '..',
-                'public',
-                'uploads',
-                'profile_pics',
-                file
-              )
-            );
-          }
-        });
-      }
-    );
+    // Delete profile pictures
+    deleteFiles(profilePicDir, `profile_pic_${rollno}`, (err) => {
+      if (err) console.error('Error deleting profile picture:', err);
 
-    // Delete offer letter files
-    fs.readdir(
-      path.join(__dirname, '..', 'public', 'uploads', 'offer_letters'),
-      (err, files) => {
-        if (err) console.error('Error reading offer letters directory:', err);
-        files.forEach((file) => {
-          if (file.startsWith(`offer_letter_${rollno}`)) {
-            deleteFile(
-              path.join(
-                __dirname,
-                '..',
-                'public',
-                'uploads',
-                'offer_letters',
-                file
-              )
-            );
-          }
-        });
-      }
-    );
+      // Delete offer letters
+      deleteFiles(offerLetterDir, `offer_letter_${rollno}`, (err) => {
+        if (err) console.error('Error deleting offer letter:', err);
 
-    res.redirect('/admin/students');
+        res.json({ success: true, message: 'Student deleted successfully!' });
+      });
+    });
   });
 });
 

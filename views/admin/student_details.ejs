@@ -163,6 +163,12 @@
               id="delete-btn"
               >Delete Student</a
             >
+            <button
+              id="deleteButton"
+              student-rollno="<%= studentDetails.rollno %>"
+            >
+              Delete
+            </button>
           </div>
         </div>
         <br />
@@ -202,20 +208,35 @@
     </section>
 
     <script>
-      function confirmMessage() {
-        const confirmation = confirm(
-          'Are you sure to Delete all details related to this rollno?'
-        );
+      // Delete Student
+      document
+        .getElementById('deleteButton')
+        .addEventListener('click', function () {
+          const rollno = this.getAttribute('student-rollno');
 
-        // If user confirms, submit the form
-        if (confirmation) {
-          return true;
-        } else {
-          // Optionally, you can handle if the user cancels the submission
-          console.log('Submission cancelled.');
-          return false;
-        }
-      }
+          if (
+            confirm(
+              `Are you sure you want to delete student with Roll No: ${rollno}?`
+            )
+          ) {
+            fetch(`/admin/students/delete/${rollno}`, {
+              method: 'DELETE',
+            })
+              .then((response) => {
+                if (!response.ok) throw new Error('Failed to delete student');
+                return response.json();
+              })
+              .then((data) => {
+                alert('Student deleted successfully!');
+                window.location.href = '/admin/students';
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+                alert('Failed to delete student.');
+              });
+          }
+        });
+
       // Go To History Page
       function goToHistoryPage(targetUrl) {
         let visitedPages =
