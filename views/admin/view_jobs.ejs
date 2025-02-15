@@ -7,118 +7,105 @@
     <link rel="stylesheet" href="/public/css/tailwind.css" />
     <link rel="stylesheet" href="/public/css-fontawesome/all.min.css" />
     <script src="/public/js/loadHeaderFooter.js"></script>
-    <style>
-      body {
-        font-family: 'Open Sans', sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      .job-container h1 {
-        margin: 25px 10px;
-      }
-
-      .job-container h3 {
-        max-width: 1100px;
-        margin: 40px auto;
-        text-align: center;
-        font-size: 1.3rem;
-        font-weight: 500;
-        font-family: sans-serif;
-        word-spacing: 3px;
-        padding: 2px;
-        padding-bottom: 5px;
-      }
-      .job-details table {
-        border-collapse: collapse;
-        width: 90%;
-        margin: auto;
-        font-size: large;
-      }
-
-      .job-details td,
-      .job-details th {
-        border: 1px solid #aeaeae;
-        text-align: left;
-        padding: 9px;
-      }
-
-      .job-details th {
-        background-color: #f2f2f2;
-      }
-
-      .job-details tr:nth-child(odd) {
-        background-color: #f2f2f2;
-      }
-    </style>
   </head>
-  <body>
+
+  <body class="bg-gray-100 text-gray-800">
+    <!-- Header Placeholder -->
     <div id="header" class="min-h-36"></div>
 
+    <!-- Back Button -->
     <div class="fixed top-4 right-4">
       <button
         onclick="window.history.back()"
-        class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
+        class="flex items-center bg-indigo-600 text-white py-2 px-2 rounded-md shadow-md hover:bg-indigo-700 transition"
       >
         <i class="fa-solid fa-arrow-left mr-2"></i>Back
       </button>
     </div>
 
-    <div class="job-container">
-      <h1>Job Details</h1>
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto my-10 p-6 mt-0 pt-0">
+      <h1 class="text-3xl font-bold text-gray-800 text-center my-4">
+        Student Jobs Details
+      </h1>
 
-      <h3>
+      <!-- Student Details -->
+      <h3 class="text-lg font-medium text-gray-700 text-center mb-6">
         Roll No.: <%= studentDetails.rollno %> | Name: <%=
         studentDetails.student_name %> | Father's Name: <%=
         studentDetails.father_name %> | Dept.: <%= studentDetails.department %>
         (<%= studentDetails.year_of_admission %>)
       </h3>
+
       <% if (jobDetails.length === 0) { %>
-      <p>No job details found.</p>
+      <p class="text-center text-gray-600">No job details found.</p>
       <% } else { %>
 
-      <div class="job-details">
-        <table>
-          <tr>
-            <th>S.No.</th>
-            <th>Company Name</th>
-            <th>Company Address</th>
-            <th>Date of Joining</th>
-            <th>Date of Leaving</th>
-            <th>Offer Letter</th>
-          </tr>
-          <tr>
+      <!-- Job Details Table -->
+      <div class="overflow-x-auto">
+        <table
+          class="w-full border-collapse border border-gray-300 bg-white shadow-md"
+        >
+          <thead>
+            <tr class="bg-gray-200 text-gray-900 text-left">
+              <th class="py-2 px-3 border border-gray-300 whitespace-nowrapss">
+                S.No.
+              </th>
+              <th class="py-2 px-3 border border-gray-300">Company Name</th>
+              <th class="py-2 px-3 border border-gray-300">Company Address</th>
+              <th class="py-2 px-3 border border-gray-300 whitespace-nowrap">
+                Date of Joining
+              </th>
+              <th class="py-2 px-3 border border-gray-300 whitespace-nowrap">
+                Date of Leaving
+              </th>
+              <th class="py-2 px-3 border border-gray-300 whitespace-nowrap">
+                Offer Letter
+              </th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-900">
             <% let serialNo = 1; %> <% jobDetails.forEach((job) => { %>
-            <td style="width: 30px"><%= serialNo++ %>.</td>
-            <td><%= job.company_name %></td>
-            <td><%= job.address_of_company %></td>
-            <td>
-              <%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
-              'short', day: 'numeric' }).format(new Date(job.date_of_joining));
-              %>
-            </td>
-
-            <td>
-              <%= job.date_of_leaving ? new Intl.DateTimeFormat('en-US', { year:
-              'numeric', month: 'short', day: 'numeric' }) .format(new
-              Date(job.date_of_leaving)) : 'N/A'; %>
-            </td>
-            <td>
-              <a
-                href="/public/uploads/offer_letters/<%= job.offer_letter %>"
-                class="offer-letter-link"
-                target="_blank"
-                >View Offer Letter</a
+            <tr class="odd:bg-gray-50 even:bg-white">
+              <td class="py-2 px-3 border border-gray-300 text-center">
+                <%= serialNo++ %>.
+              </td>
+              <td class="py-2 px-3 border border-gray-300">
+                <%= job.company_name %>
+              </td>
+              <td class="py-2 px-3 border border-gray-300">
+                <%= job.address_of_company %>
+              </td>
+              <td
+                class="py-2 px-3 border border-gray-300 text-center whitespace-nowrap"
               >
-            </td>
-          </tr>
-          <% }) %> <% } %>
+                <%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
+                'short', day: 'numeric' }).format(new
+                Date(job.date_of_joining)); %>
+              </td>
+              <td
+                class="py-2 px-3 border border-gray-300 text-center whitespace-nowrap"
+              >
+                <%= job.date_of_leaving ? new Intl.DateTimeFormat('en-US', {
+                year: 'numeric', month: 'short', day: 'numeric' }).format(new
+                Date(job.date_of_leaving)) : 'N/A'; %>
+              </td>
+              <td class="py-2 px-3 border border-gray-300 text-center">
+                <a
+                  href="/public/uploads/offer_letters/<%= job.offer_letter %>"
+                  target="_blank"
+                  class="text-indigo-600 font-medium hover:underline"
+                >
+                  View
+                </a>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
         </table>
       </div>
 
-      <hr />
-      <a href="/admin/students" class="back-link">Back to Dashboard</a>
+      <% } %>
     </div>
   </body>
 </html>
