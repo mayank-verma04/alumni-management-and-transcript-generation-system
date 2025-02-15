@@ -120,7 +120,7 @@
 
     <div class="fixed top-4 right-4">
       <button
-        onclick="window.history.back()"
+        onclick="goToHistoryPage('/student/dashboard')"
         class="flex items-center bg-indigo-700 text-white py-2 px-4 rounded font-bold hover:bg-indigo-800"
       >
         <i class="fa-solid fa-arrow-left mr-2"></i>Back
@@ -254,6 +254,27 @@
         .addEventListener('click', function () {
           window.print();
         });
+
+      // Go To History Page
+      function goToHistoryPage(targetUrl) {
+        let visitedPages =
+          JSON.parse(sessionStorage.getItem('visitedPages')) || [];
+
+        // Convert all stored URLs to relative paths for comparison
+        let normalizedHistory = visitedPages.map(
+          (url) => new URL(url, window.location.origin).pathname
+        );
+
+        // Convert targetUrl to absolute if needed
+        let normalizedTarget = new URL(targetUrl, window.location.origin)
+          .pathname;
+
+        if (normalizedHistory.includes(normalizedTarget)) {
+          window.location.href = normalizedTarget; // Navigate instantly if in history
+        } else {
+          window.location.href = targetUrl; // If not in history, still navigate
+        }
+      }
     </script>
   </body>
 </html>
