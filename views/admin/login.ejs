@@ -56,25 +56,20 @@
               >Password:</label
             >
             <div class="relative">
-              <input
-                type="password"
-                id="password"
-                name="password"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
-                required
-              />
-              <span
-                class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined"
-                id="visibility"
-              >
-                <i class="fa-regular fa-eye"></i>
-              </span>
-              <span
-                class="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer material-symbols-outlined"
-                id="visibility_off"
-              >
-                <i class="fa-regular fa-eye-slash"></i>
-              </span>
+              <div>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
+                  required
+                />
+                <i
+                  id="togglePassword"
+                  class="fa fa-eye absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                  onclick="togglePassword()"
+                ></i>
+              </div>
             </div>
           </div>
 
@@ -97,6 +92,20 @@
         </form>
       </div>
     </div>
-    <script src="/public/js/togglePasswordVisibility.js" defer></script>
+    <script>
+      // TOGGLE PASSWORD VISIBILITY
+      function togglePassword() {
+        let passwordField = document.getElementById('password');
+        let toggleIcon = document.getElementById('togglePassword');
+
+        if (passwordField.type === 'password') {
+          passwordField.type = 'text';
+          toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+          passwordField.type = 'password';
+          toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+      }
+    </script>
   </body>
 </html>
