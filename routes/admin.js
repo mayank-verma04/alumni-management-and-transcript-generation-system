@@ -363,14 +363,23 @@ router.get('/add-marks/:rollno/:semester', (req, res) => {
         total_min_marks = sum_marks[0].total_min_marks;
         total_max_marks = sum_marks[0].total_max_marks;
         total_credits = sum_marks[0].total_credits;
-        res.render('admin/add_marks', {
-          courses: results,
-          rollno,
-          semester,
-          total_min_marks,
-          total_max_marks,
-          total_credits,
-        });
+        db.query(
+          `SELECT student_name, year_of_admission FROM students WHERE rollno = ?`,
+          [rollno],
+          (err, student_detail) => {
+            if (err) throw err;
+            res.render('admin/add_marks', {
+              courses: results,
+              rollno,
+              student_name: student_detail[0].student_name,
+              student_admission_year: student_detail[0].year_of_admission,
+              semester,
+              total_min_marks,
+              total_max_marks,
+              total_credits,
+            });
+          }
+        );
       });
     });
   });
