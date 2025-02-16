@@ -441,7 +441,7 @@ router.post('/add-marks', (req, res) => {
 
 //
 
-// View Marks
+// View Student Marks
 router.get('/marks/:rollno', (req, res) => {
   if (!req.session.admin) return res.redirect('/admin/login');
   // else
@@ -500,11 +500,19 @@ router.get('/marks/:rollno', (req, res) => {
 
     const semesterNumber = Object.keys(semesters);
 
-    res.render('admin/student_marks', {
-      semesters,
-      sem: semesterNumber,
-      rollno,
-    });
+    db.query(
+      `SELECT student_name, department, profile_pic FROM students WHERE rollno = ?`,
+      [rollno],
+      (err, student_detail) => {
+        if (err) throw err;
+        res.render('admin/student_marks', {
+          semesters,
+          sem: semesterNumber,
+          rollno,
+          student_detail: student_detail[0],
+        });
+      }
+    );
   });
 });
 
