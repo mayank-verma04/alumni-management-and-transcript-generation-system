@@ -65,7 +65,6 @@ CREATE TABLE student_marks (
     marks_obtained INT NOT NULL,
     marks_internal INT,
     grade VARCHAR(4) NOT NULL,
-    attempts INT NOT NULL,
     PRIMARY KEY (rollno, course_code),
     FOREIGN KEY (rollno) REFERENCES students(rollno) ON DELETE CASCADE,
     FOREIGN KEY (course_code) REFERENCES courses(course_code)
