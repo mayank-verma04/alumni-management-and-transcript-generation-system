@@ -54,7 +54,18 @@ The **Alumni Management and Transcript Generation System** is a web application 
    - Create a database named `university_db`
    - Run the given SQL script [mysql_db_query.sql](https://github.com/aniket-thapa/alumni-management-and-transcript-generation-system/blob/main/mysql_db_query.sql) to create the necessary tables.
 
-4. Configure the database connection in `db.js`:
+4. Configure the database connection in `db.js` and create `.env` file:
+
+```
+SESSION_SECRET=
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=university_db
+DB_PORT=3306
+RECAPTCHA_SECRET_KEY=
+PORT=3000
+```
 
 5. Start the server:
    ```bash
@@ -72,8 +83,8 @@ The **Alumni Management and Transcript Generation System** is a web application 
 - **Home Route**:
 
   ```javascript
-  app.get("/", (req, res) => {
-    res.render("index");
+  app.get('/', (req, res) => {
+    res.render('index');
   });
   ```
 
