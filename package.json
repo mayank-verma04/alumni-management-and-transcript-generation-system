@@ -21,6 +21,7 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.10.2",
     "postcss": "^8.4.49",
+    "puppeteer": "^24.6.1",
     "tailwindcss": "^3.4.16"
   }
 }

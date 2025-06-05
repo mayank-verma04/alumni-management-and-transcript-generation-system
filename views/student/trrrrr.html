@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Official Academic Transcript</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/public/css/tailwind.css" />
+    <style>
+      @media print {
+        @page {
+          size: A4;
+          margin: 10mm;
+        }
+      }
+      body {
+        font-family: 'Times New Roman', serif;
+      }
+      .text-xs {
+        font-size: 0.7rem;
+      }
+    </style>
+  </head>
+  <body class="text-gray-900 text-sm leading-relaxed p-8">
+    <!-- Header -->
+    <div class="text-center border-b border-gray-800 pb-4 mb-6">
+      <div class="flex justify-evenly items-center">
+        <img src="file://<%= logoPath %>" class="h-16" alt="University Logo" />
+        <div>
+          <h1 class="text-xl font-bold uppercase tracking-widest">
+            University of Jammu, J&K
+          </h1>
+          <h2 class="text-sm font-semibold">
+            Branch <%= student.department %>
+          </h2>
+          <p class="text-sm italic font-semibold">
+            Official Academic Transcript
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student Info -->
+    <div class="grid grid-cols-2 gap-4 mb-4 text-xs">
+      <div>
+        <p><strong>Name:</strong> <%= student.student_name %></p>
+        <p><strong>Roll No:</strong> <%= student.rollno %></p>
+        <p><strong>DOB:</strong> <%= student.dob %></p>
+        <p><strong>Father's Name:</strong> <%= student.father_name %></p>
+      </div>
+      <div>
+        <p><strong>Department:</strong> <%= student.department %></p>
+        <p>
+          <strong>Year of Admission:</strong> <%= student.year_of_admission %>
+        </p>
+        <p><strong>Category:</strong> <%= student.category %></p>
+        <p><strong>Nationality:</strong> <%= student.nationality %></p>
+      </div>
+    </div>
+
+    <!-- Transcript Content -->
+    <% transcript.forEach(sem => { %>
+    <div class="mb-6">
+      <h3
+        class="font-semibold text-sm border-b border-gray-700 pb-1 mb-2 uppercase"
+      >
+        Semester <%= sem.semester %> - Session: <%= sem.session %>
+      </h3>
+
+      <table class="w-full text-xs border border-gray-700 mb-2">
+        <thead>
+          <tr class="bg-gray-200 text-left">
+            <th class="border px-2 py-1">Course Code</th>
+            <th class="border px-2 py-1">Course Title</th>
+            <th class="border px-2 py-1">Type</th>
+            <th class="border px-2 py-1">Max Marks</th>
+            <th class="border px-2 py-1">Min Marks</th>
+            <th class="border px-2 py-1">Marks Obt.</th>
+            <th class="border px-2 py-1">Internal Obt.</th>
+            <th class="border px-2 py-1">Grade</th>
+            <th class="border px-2 py-1">Credits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% sem.courses.forEach(course => { %>
+          <tr>
+            <td class="border px-2 py-1"><%= course.course_code %></td>
+            <td class="border px-2 py-1"><%= course.course_name %></td>
+            <td class="border px-2 py-1"><%= course.course_type %></td>
+            <td class="border px-2 py-1"><%= course.max_marks %></td>
+            <td class="border px-2 py-1"><%= course.min_marks %></td>
+            <td class="border px-2 py-1 text-center">
+              <%= course.marks_obtained %>
+            </td>
+            <td class="border px-2 py-1 text-center">
+              <%= course.marks_internal %>
+            </td>
+            <td class="border px-2 py-1 text-center"><%= course.grade %></td>
+            <td class="border px-2 py-1 text-center"><%= course.credits %></td>
+          </tr>
+          <% }) %>
+          <!-- </tbody>
+      </table> -->
+
+          <!-- <div class="text-xs flex justify-between">
+        <p>Semester Total:</p>
+        <p><%= sem.total_max_marks %></p>
+        <p><%= sem.total_min_marks %></p>
+        <p><%= sem.total_marks_obtained %></p>
+        <p><%= sem.total_credits %></p>
+      </div>
+      <div>
+        <p class="text-right"><strong>SGPA:</strong> <%= sem.gpa %></p>
+      </div> -->
+
+          <!-- TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -->
+
+          <tr>
+            <td colspan="3" class="border px-2 py-1">
+              <strong>Semester Total:</strong>
+            </td>
+            <td class="border px-2 py-1"><%= sem.total_max_marks %></td>
+            <td class="border px-2 py-1"><%= sem.total_min_marks %></td>
+            <td colspan="2" class="border px-2 py-1">
+              <%= sem.total_marks_obtained %>
+            </td>
+            <td class="border"></td>
+            <td class="border px-2 py-1"><%= sem.total_credits %></td>
+          </tr>
+          <tr>
+            <td colspan="7" class="border"></td>
+            <td><strong>SGPA:</strong></td>
+            <td class="border px-2 py-1 text-right"><%= sem.gpa %></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -->
+    </div>
+    <% }) %>
+
+    <!-- Footer -->
+    <div class="flex justify-between mt-12 text-xs">
+      <div class="text-center">
+        <p>This is computer generated transcript, doesn't require signature.</p>
+      </div>
+    </div>
+
+    <div class="mt-6 text-right text-xs italic">
+      <p>Generated on: <%= new Date().toLocaleDateString() %></p>
+    </div>
+  </body>
+</html>
