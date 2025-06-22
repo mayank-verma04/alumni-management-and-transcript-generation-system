@@ -4,8 +4,8 @@ const db = require('../db');
 const multer = require('multer');
 const path = require('path');
 const axios = require('axios');
-const fs = require('fs');
 const ejs = require('ejs');
+const puppeteer = require('puppeteer');
 
 // Multer setup for profile pics
 const storageProfilePic = multer.diskStorage({
@@ -644,94 +644,133 @@ router.get('/marks/:rollno', (req, res) => {
 //
 
 // Generate Transcript (Beta)
-const puppeteer = require('puppeteer');
-
 router.get('/transcript/:rollno', (req, res) => {
   const rollno = req.params.rollno;
 
-  // Load logo in base64
-  const logoPath = path.join(__dirname, '../public/images/JU_Logo.webp');
-  const logoBase64 = fs.readFileSync(logoPath, 'base64');
-
-  // Get student
+  // Get student info
   db.query(
     'SELECT * FROM students WHERE rollno = ?',
     [rollno],
     (err, studentResults) => {
-      if (err || studentResults.length === 0)
+      if (err) return res.status(500).send('Database error');
+      if (studentResults.length === 0)
         return res.status(404).send('Student not found');
       const student = studentResults[0];
 
-      // Get student marks
+      // Get unique semesters
       db.query(
-        'SELECT sm.*, c.course_name FROM student_marks sm JOIN courses c ON sm.course_code = c.course_code WHERE sm.rollno = ? ORDER BY semester, course_code',
+        'SELECT DISTINCT semester, session FROM student_marks WHERE rollno = ? ORDER BY semester',
         [rollno],
-        async (err, marksResults) => {
-          if (err) return res.status(500).send('Error loading marks');
+        (err, semesterResults) => {
+          if (err) return res.status(500).send('Database error');
 
-          // Group marks by semester
-          const groupedMarks = {};
-          marksResults.forEach((mark) => {
-            if (!groupedMarks[mark.semester]) groupedMarks[mark.semester] = [];
-            groupedMarks[mark.semester].push(mark);
-          });
+          let transcript = [];
+          let completed = 0;
 
-          try {
-            // Render EJS to HTML
-            const html = await ejs.renderFile(
-              path.join(__dirname, '../views/student/transcript.ejs'),
-              { student, groupedMarks, logoBase64 }
-            );
-
-            // Generate PDF
-            const browser = await puppeteer.launch({
-              headless: true,
-              args: ['--no-sandbox'],
-            });
-            const page = await browser.newPage();
-            await page.setContent(html, { waitUntil: 'networkidle0' });
-
-            const pdfBuffer = await page.pdf({
-              format: 'A4',
-              printBackground: true,
-              margin: {
-                top: '20mm',
-                bottom: '20mm',
-                left: '15mm',
-                right: '15mm',
-              },
-            });
-
-            await browser.close();
-
-            const outputPath = path.join(
-              __dirname,
-              `../public/Transcript-${rollno}.pdf`
-            );
-            fs.writeFileSync(outputPath, pdfBuffer); // TEMP for debugging
-
-            // ✅ Send the PDF
-            res.set({
-              'Content-Type': 'application/pdf',
-              'Content-Disposition': `attachment; filename=Transcript-${rollno}.pdf`,
-              'Content-Length': pdfBuffer.length,
-            });
-            const filePath = path.join(
-              __dirname,
-              `../public/Transcript-${rollno}.pdf`
-            );
-            res.download(filePath); // works with most browsers
-            // res.send(pdfBuffer);
-          } catch (pdfErr) {
-            console.error('PDF Generation Error:', pdfErr);
-            res.status(500).send('Error generating PDF');
+          if (semesterResults.length === 0) {
+            return res.status(404).send('No transcript data found.');
           }
+
+          semesterResults.forEach((sem) => {
+            const semester = sem.semester;
+            const session = sem.session;
+
+            // Query for courses in that semester
+            db.query(
+              `
+            SELECT sm.course_code, c.course_name, c.course_type, c.max_marks, c.min_marks, 
+                   c.credits, sm.marks_obtained, sm.marks_internal, sm.grade
+            FROM student_marks sm
+            JOIN courses c ON sm.course_code = c.course_code
+            WHERE sm.rollno = ? AND sm.semester = ? AND sm.session = ?
+            `,
+              [rollno, semester, session],
+              (err, courseResults) => {
+                if (err) return res.status(500).send('Database error');
+
+                // Query for semester totals
+                db.query(
+                  `
+                SELECT * FROM student_total_marks 
+                WHERE rollno = ? AND semester = ? AND session = ?
+                `,
+                  [rollno, semester, session],
+                  (err, totalResults) => {
+                    if (err) return res.status(500).send('Database error');
+
+                    const total = totalResults[0] || {
+                      total_min_marks: 0,
+                      total_max_marks: 0,
+                      total_marks_obtained: 0,
+                      total_credits: 0,
+                      gpa: 'N/A',
+                    };
+
+                    transcript.push({
+                      semester,
+                      session,
+                      courses: courseResults,
+                      total_min_marks: total.total_min_marks,
+                      total_max_marks: total.total_max_marks,
+                      total_marks_obtained: total.total_marks_obtained,
+                      total_credits: total.total_credits,
+                      gpa: total.gpa,
+                    });
+
+                    completed++;
+
+                    // When all semesters processed
+                    if (completed === semesterResults.length) {
+                      generatePDF(res, student, transcript);
+                    }
+                  }
+                );
+              }
+            );
+          });
         }
       );
     }
   );
 });
+function generatePDF(res, student, transcript) {
+  const templatePath = path.join(__dirname, '../views/student/transcript.ejs');
 
+  ejs.renderFile(templatePath, { student, transcript }, async (err, html) => {
+    if (err) {
+      console.error('EJS render error:', err);
+      return res.status(500).send('Template render error');
+    }
+
+    try {
+      const browser = await puppeteer.launch({
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      });
+
+      const page = await browser.newPage();
+      await page.setContent(html, { waitUntil: 'networkidle0' });
+
+      const pdf = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+      });
+
+      await browser.close();
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="Transcript_${student.rollno}.pdf"`
+      );
+      res.setHeader('Content-Length', pdf.length);
+      res.end(pdf);
+    } catch (pdfError) {
+      console.error('PDF generation error:', pdfError);
+      res.status(500).send('Error generating PDF');
+    }
+  });
+}
 //
 
 // For Wrong Routes redirect the user to " / "

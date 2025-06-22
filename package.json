@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "build:css": "npx tailwindcss -i ./public/css/styles.css -o ./public/css/tailwind.css --watch",
-    "start": "node app.js"
+    "start": "npx nodemon app.js"
   },
   "author": "Aniket Thapa and Mayank Verma",
   "license": "ISC",

@@ -77,25 +77,6 @@
         align-items: center;
         margin-bottom: 20px;
       }
-      #printButton {
-        font-family: 'Open Sans', sans-serif;
-        margin: 30px;
-        align-self: center;
-        padding: 10px;
-        border: 2px solid #002e65;
-        border-radius: 50px;
-        background-color: rgb(187, 232, 255);
-        transition: all 0.1s ease-out;
-        font-weight: 600;
-      }
-      #printButton:hover {
-        cursor: pointer;
-        background-color: #63a9ffc6;
-      }
-      #printButton:focus {
-        border: 2px solid #000000;
-        background-color: #0073ffcb;
-      }
       .back-link {
         display: block;
         text-align: center;
@@ -198,8 +179,14 @@
     <hr style="border: 1px dashed black; width: 84vw; margin: 0 auto" />
     <% } %>
 
-    <div id="print-div">
-      <button id="printButton" class="no-print">Print the Marksheet</button>
+    <div id="print-div" class="mt-8">
+      <button
+        id="downloadBtn"
+        onclick="downloadTranscript()"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+      >
+        <span>Download Transcript</span>
+      </button>
     </div>
 
     <script defer>
@@ -274,6 +261,16 @@
         } else {
           window.location.href = targetUrl; // If not in history, still navigate
         }
+      }
+
+      // Download Transcript
+      function downloadTranscript() {
+        const btn = document.getElementById('downloadBtn');
+        const rollno = '<%= studentDetails.rollno %>';
+        const url = `/student/transcript/${rollno}`;
+
+        btn.disabled = true;
+        window.location.href = url;
       }
     </script>
   </body>

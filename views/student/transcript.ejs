@@ -9,7 +9,7 @@
       @media print {
         @page {
           size: A4;
-          margin: 10mm;
+          margin: 5mm;
         }
       }
       body {
@@ -24,7 +24,11 @@
     <!-- Header -->
     <div class="text-center border-b border-gray-800 pb-4 mb-6">
       <div class="flex justify-evenly items-center">
-        <img src="file://<%= logoPath %>" class="h-16" alt="University Logo" />
+        <img
+          src="http://localhost:3000/public/images/JU_Logo.webp"
+          class="h-16"
+          alt="University Logo"
+        />
         <div>
           <h1 class="text-xl font-bold uppercase tracking-widest">
             University of Jammu, J&K
@@ -36,6 +40,11 @@
             Official Academic Transcript
           </p>
         </div>
+        <img
+          src="http://localhost:3000/public/uploads/profile_pics/<%= student.profile_pic %>"
+          class="h-16"
+          alt="Student Photo"
+        />
       </div>
     </div>
 
