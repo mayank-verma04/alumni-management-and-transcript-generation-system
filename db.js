@@ -11,9 +11,9 @@ const db = mysql.createConnection({
   port: process.env.DB_PORT,
 });
 
-db.connect((err) => {
+db.connect = (err) => {
   if (err) throw err;
   console.log('Connected to Local MySQL database');
-});
+};
 
 module.exports = db;

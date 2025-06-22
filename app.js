@@ -4,8 +4,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const app = express();
-
-// Setup database
 const db = require('./db');
 
 // Setup body-parser
@@ -50,9 +48,9 @@ app.use((req, res) => {
   res.redirect('/');
 });
 
-// Start Server
+// Start database and server
 const PORT = process.env.PORT || 3000;
-
-app.listen(3000, () => {
-  console.log(`Server started on port ${PORT}`);
+db.connect();
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
