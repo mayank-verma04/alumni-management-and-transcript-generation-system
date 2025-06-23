@@ -622,7 +622,6 @@ router.get('/marks/:rollno', (req, res) => {
       Object.keys(semesters).length === 0
     ) {
       // semesters is an empty object
-      console.log('Semesters is an empty object');
       res.status(404).send(`
         <script>
           alert("Marks Not Added!");
@@ -754,6 +753,19 @@ function generatePDF(res, student, transcript) {
       const pdf = await page.pdf({
         format: 'A4',
         printBackground: true,
+        displayHeaderFooter: true,
+        footerTemplate: `
+                      <div style="font-size:9px; width:100%; text-align:right; padding-right:20px;">
+                        Page <span class="pageNumber"></span> of <span class="totalPages"></span>
+                      </div>
+                        `,
+        headerTemplate: `<div></div>`,
+        margin: {
+          top: '20mm',
+          bottom: '20mm',
+          left: '10mm',
+          right: '10mm',
+        },
       });
 
       await browser.close();

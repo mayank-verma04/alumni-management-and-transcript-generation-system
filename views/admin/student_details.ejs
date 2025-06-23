@@ -163,6 +163,13 @@
             >
               Delete Student
             </button>
+            <button
+              id="downloadBtn"
+              onclick="downloadTranscript()"
+              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            >
+              <span>Download Transcript</span>
+            </button>
           </div>
         </div>
         <br />
@@ -250,6 +257,16 @@
         } else {
           window.location.href = targetUrl; // If not in history, still navigate
         }
+      }
+
+      // Download Transcript
+      function downloadTranscript() {
+        const btn = document.getElementById('downloadBtn');
+        const rollno = '<%= studentDetails.rollno %>';
+        const url = `/student/transcript/${rollno}`;
+
+        btn.disabled = true;
+        window.location.href = url;
       }
     </script>
   </body>
