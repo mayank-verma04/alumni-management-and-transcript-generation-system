@@ -65,6 +65,8 @@ DB_NAME=university_db
 DB_PORT=3306
 RECAPTCHA_SECRET_KEY=
 PORT=3000
+NODE_ENV=production
+DB_SSL_CA=
 ```
 
 5. Start the server:
