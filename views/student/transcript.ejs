@@ -20,9 +20,9 @@
       }
     </style>
   </head>
-  <body class="text-gray-900 text-sm leading-relaxed p-8">
+  <body class="text-gray-900 text-sm leading-relaxed p-6">
     <!-- Header -->
-    <div class="text-center border-b border-gray-800 pb-4 mb-6">
+    <div class="text-center border-b border-gray-800 pb-3 mb-4">
       <div class="flex justify-evenly items-center">
         <img
           src="http://localhost:3000/public/images/JU_Logo.webp"
@@ -69,34 +69,40 @@
     <!-- Transcript Content -->
     <% transcript.forEach(sem => { %>
     <div class="mb-6">
-      <h3
-        class="font-semibold text-sm border-b border-gray-700 pb-1 mb-2 uppercase"
-      >
+      <h3 class="font-semibold text-sm pb-1 mb-2 uppercase text-center">
         Semester <%= sem.semester %> - Session: <%= sem.session %>
       </h3>
 
       <table class="w-full text-xs border border-gray-700 mb-2">
         <thead>
           <tr class="bg-gray-200 text-left">
-            <th class="border px-2 py-1">Course Code</th>
+            <th class="border px-2 py-1 text-center">Course Code</th>
             <th class="border px-2 py-1">Course Title</th>
-            <th class="border px-2 py-1">Type</th>
-            <th class="border px-2 py-1">Max Marks</th>
-            <th class="border px-2 py-1">Min Marks</th>
-            <th class="border px-2 py-1">Marks Obt.</th>
-            <th class="border px-2 py-1">Internal Obt.</th>
-            <th class="border px-2 py-1">Grade</th>
-            <th class="border px-2 py-1">Credits</th>
+            <th class="border px-2 py-1 text-center">Type</th>
+            <th class="border px-2 py-1 text-center">Max Marks</th>
+            <th class="border px-2 py-1 text-center">Min Marks</th>
+            <th class="border px-2 py-1 text-center">Marks Obt.</th>
+            <th class="border px-2 py-1 text-center">Internal Obt.</th>
+            <th class="border px-2 py-1 text-center">Grade</th>
+            <th class="border px-2 py-1 text-center">Credits</th>
           </tr>
         </thead>
         <tbody>
           <% sem.courses.forEach(course => { %>
           <tr>
-            <td class="border px-2 py-1"><%= course.course_code %></td>
+            <td class="border px-2 py-1 text-center">
+              <%= course.course_code %>
+            </td>
             <td class="border px-2 py-1"><%= course.course_name %></td>
-            <td class="border px-2 py-1"><%= course.course_type %></td>
-            <td class="border px-2 py-1"><%= course.max_marks %></td>
-            <td class="border px-2 py-1"><%= course.min_marks %></td>
+            <td class="border px-2 py-1 text-center">
+              <%= course.course_type %>
+            </td>
+            <td class="border px-2 py-1 text-center">
+              <%= course.max_marks %>
+            </td>
+            <td class="border px-2 py-1 text-center">
+              <%= course.min_marks %>
+            </td>
             <td class="border px-2 py-1 text-center">
               <%= course.marks_obtained %>
             </td>
@@ -109,21 +115,29 @@
           <% }) %>
 
           <tr>
-            <td colspan="3" class="border px-2 py-1">
+            <td colspan="3" class="border px-2 py-1 pl-4 uppercase">
               <strong>Semester Total:</strong>
             </td>
-            <td class="border px-2 py-1"><%= sem.total_max_marks %></td>
-            <td class="border px-2 py-1"><%= sem.total_min_marks %></td>
-            <td colspan="2" class="border px-2 py-1">
+            <td class="border px-2 py-1 text-center">
+              <%= sem.total_max_marks %>
+            </td>
+            <td class="border px-2 py-1 text-center">
+              <%= sem.total_min_marks %>
+            </td>
+            <td colspan="2" class="border px-2 py-1 text-center">
               <%= sem.total_marks_obtained %>
             </td>
             <td class="border"></td>
-            <td class="border px-2 py-1"><%= sem.total_credits %></td>
+            <td class="border px-2 py-1 text-center">
+              <%= sem.total_credits %>
+            </td>
           </tr>
           <tr>
             <td colspan="7" class="border"></td>
-            <td><strong>SGPA:</strong></td>
-            <td class="border px-2 py-1 text-right"><%= sem.gpa %></td>
+            <td class="border px-2 py-1 text-center"><strong>SGPA:</strong></td>
+            <td class="border px-2 py-1 text-center">
+              <strong><%= sem.gpa %></strong>
+            </td>
           </tr>
         </tbody>
       </table>
