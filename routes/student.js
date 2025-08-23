@@ -926,7 +926,7 @@ function generatePDF(res, student, transcript) {
     pdfDoc.pipe(res);
     pdfDoc.end();
   } catch (err) {
-    console.error('❌ generatePDF error:', err.message);
+    console.error('❌ generatePDF error:', err);
     if (!res.headersSent) {
       res
         .status(500)
