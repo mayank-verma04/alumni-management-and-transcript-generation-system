@@ -5,6 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const axios = require('axios');
 const PdfPrinter = require('pdfmake');
+const fs = require('fs');
 
 // Multer setup for profile pics
 const storageProfilePic = multer.diskStorage({
@@ -640,6 +641,14 @@ router.get('/marks/:rollno', (req, res) => {
 
 //
 
+// Convert image to base64 once when needed
+function getBase64Image(fileName) {
+  const filePath = path.join(__dirname, '../public', fileName); // adjust path if needed
+  const fileExt = path.extname(fileName).substring(1); // e.g. "png", "jpg"
+  const imageBase64 = fs.readFileSync(filePath).toString('base64');
+  return `data:image/${fileExt};base64,${imageBase64}`;
+}
+
 // Generate Transcript (Beta)
 router.get('/transcript/:rollno', (req, res) => {
   const rollno = req.params.rollno;
@@ -742,8 +751,7 @@ function generatePDF(res, student, transcript) {
             (() => {
               try {
                 return {
-                  image:
-                    'C:/Users/thapa/Desktop/alumni-management-and-transcript-generation-system/public/images/JU_Logo.png',
+                  image: getBase64Image('images/JU_Logo.png'),
                   width: 60,
                 };
               } catch (e) {
@@ -767,7 +775,9 @@ function generatePDF(res, student, transcript) {
               if (student.profile_pic) {
                 try {
                   return {
-                    image: `C:/Users/thapa/Desktop/alumni-management-and-transcript-generation-system/public/uploads/profile_pics/${student.profile_pic}`,
+                    image: getBase64Image(
+                      `uploads/profile_pics/${student.profile_pic}`
+                    ),
                     width: 60,
                   };
                 } catch (e) {
