@@ -4,8 +4,7 @@ const db = require('../db');
 const multer = require('multer');
 const path = require('path');
 const axios = require('axios');
-const ejs = require('ejs');
-const puppeteer = require('puppeteer');
+const PdfPrinter = require('pdfmake');
 
 // Multer setup for profile pics
 const storageProfilePic = multer.diskStorage({
@@ -17,7 +16,6 @@ const storageProfilePic = multer.diskStorage({
       return cb(new Error('Session data missing'));
     }
     const rollno = req.session.student.rollno;
-    const extname = path.extname(file.originalname);
     cb(null, 'profile_pic_' + rollno + path.extname(file.originalname));
   },
 });
@@ -656,25 +654,22 @@ router.get('/transcript/:rollno', (req, res) => {
         return res.status(404).send('Student not found');
       const student = studentResults[0];
 
-      // Get unique semesters
+      // Get semesters
       db.query(
         'SELECT DISTINCT semester, session FROM student_marks WHERE rollno = ? ORDER BY semester',
         [rollno],
         (err, semesterResults) => {
           if (err) return res.status(500).send('Database error');
+          if (semesterResults.length === 0)
+            return res.status(404).send('No transcript data found.');
 
           let transcript = [];
           let completed = 0;
-
-          if (semesterResults.length === 0) {
-            return res.status(404).send('No transcript data found.');
-          }
 
           semesterResults.forEach((sem) => {
             const semester = sem.semester;
             const session = sem.session;
 
-            // Query for courses in that semester
             db.query(
               `
             SELECT sm.course_code, c.course_name, c.course_type, c.max_marks, c.min_marks, 
@@ -687,12 +682,8 @@ router.get('/transcript/:rollno', (req, res) => {
               (err, courseResults) => {
                 if (err) return res.status(500).send('Database error');
 
-                // Query for semester totals
                 db.query(
-                  `
-                SELECT * FROM student_total_marks 
-                WHERE rollno = ? AND semester = ? AND session = ?
-                `,
+                  'SELECT * FROM student_total_marks WHERE rollno = ? AND semester = ? AND session = ?',
                   [rollno, semester, session],
                   (err, totalResults) => {
                     if (err) return res.status(500).send('Database error');
@@ -717,8 +708,6 @@ router.get('/transcript/:rollno', (req, res) => {
                     });
 
                     completed++;
-
-                    // When all semesters processed
                     if (completed === semesterResults.length) {
                       generatePDF(res, student, transcript);
                     }
@@ -733,57 +722,218 @@ router.get('/transcript/:rollno', (req, res) => {
   );
 });
 function generatePDF(res, student, transcript) {
-  const templatePath = path.join(__dirname, '../views/student/transcript.ejs');
+  try {
+    const fonts = {
+      Times: {
+        normal: 'Times-Roman',
+        bold: 'Times-Bold',
+        italics: 'Times-Italic',
+        bolditalics: 'Times-BoldItalic',
+      },
+    };
 
-  ejs.renderFile(templatePath, { student, transcript }, async (err, html) => {
-    if (err) {
-      console.error('EJS render error:', err);
-      return res.status(500).send('Template render error');
-    }
+    const printer = new PdfPrinter(fonts);
 
-    try {
-      const browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      });
-
-      const page = await browser.newPage();
-      await page.setContent(html, { waitUntil: 'networkidle0' });
-
-      const pdf = await page.pdf({
-        format: 'A4',
-        printBackground: true,
-        displayHeaderFooter: true,
-        footerTemplate: `
-                      <div style="font-size:9px; width:100%; text-align:right; padding-right:20px;">
-                        Page <span class="pageNumber"></span> of <span class="totalPages"></span>
-                      </div>
-                        `,
-        headerTemplate: `<div></div>`,
-        margin: {
-          top: '20mm',
-          bottom: '20mm',
-          left: '10mm',
-          right: '10mm',
+    const docDefinition = {
+      content: [
+        // Header
+        {
+          columns: [
+            (() => {
+              try {
+                return {
+                  image:
+                    'C:/Users/thapa/Desktop/alumni-management-and-transcript-generation-system/public/images/JU_Logo.png',
+                  width: 60,
+                };
+              } catch (e) {
+                console.warn('⚠️ JU Logo missing:', e.message);
+                return { text: 'JU Logo Missing', fontSize: 8, italics: true };
+              }
+            })(),
+            {
+              stack: [
+                { text: 'University of Jammu, J&K', style: 'header' },
+                { text: `Branch: ${student.department}`, style: 'subheader' },
+                {
+                  text: 'Official Academic Transcript',
+                  italics: true,
+                  bold: true,
+                },
+              ],
+              alignment: 'center',
+            },
+            (() => {
+              if (student.profile_pic) {
+                try {
+                  return {
+                    image: `C:/Users/thapa/Desktop/alumni-management-and-transcript-generation-system/public/uploads/profile_pics/${student.profile_pic}`,
+                    width: 60,
+                  };
+                } catch (e) {
+                  console.warn('⚠️ Profile pic invalid:', e.message);
+                  return { text: 'No Photo', fontSize: 8, italics: true };
+                }
+              }
+              return {};
+            })(),
+          ],
         },
-      });
 
-      await browser.close();
+        { text: '\n' },
 
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader(
-        'Content-Disposition',
-        `attachment; filename="Transcript_${student.rollno}.pdf"`
-      );
-      res.setHeader('Content-Length', pdf.length);
-      res.end(pdf);
-    } catch (pdfError) {
-      console.error('PDF generation error:', pdfError);
-      res.status(500).send('Error generating PDF');
+        // Student Info
+        {
+          columns: [
+            [
+              { text: `Name: ${student.student_name}`, style: 'info' },
+              { text: `Roll No: ${student.rollno}`, style: 'info' },
+              { text: `DOB: ${student.dob}`, style: 'info' },
+              { text: `Father's Name: ${student.father_name}`, style: 'info' },
+            ],
+            [
+              { text: `Department: ${student.department}`, style: 'info' },
+              {
+                text: `Year of Admission: ${student.year_of_admission}`,
+                style: 'info',
+              },
+              { text: `Category: ${student.category}`, style: 'info' },
+              { text: `Nationality: ${student.nationality}`, style: 'info' },
+            ],
+          ],
+        },
+        { text: '\n\n' },
+
+        // Transcript
+        ...transcript.map((sem) => [
+          {
+            text: `Semester ${sem.semester} - Session: ${sem.session}`,
+            style: 'subheader',
+            alignment: 'center',
+            margin: [0, 5, 0, 5],
+          },
+          {
+            table: {
+              headerRows: 1,
+              widths: [
+                'auto',
+                '*',
+                'auto',
+                'auto',
+                'auto',
+                'auto',
+                'auto',
+                'auto',
+                'auto',
+              ],
+              body: [
+                [
+                  { text: 'Course Code', bold: true },
+                  { text: 'Course Title', bold: true },
+                  { text: 'Type', bold: true },
+                  { text: 'Max Marks', bold: true },
+                  { text: 'Min Marks', bold: true },
+                  { text: 'Marks Obt.', bold: true },
+                  { text: 'Internal Obt.', bold: true },
+                  { text: 'Grade', bold: true },
+                  { text: 'Credits', bold: true },
+                ],
+                ...sem.courses.map((c) => [
+                  c.course_code,
+                  c.course_name,
+                  c.course_type,
+                  c.max_marks,
+                  c.min_marks,
+                  c.marks_obtained,
+                  c.marks_internal,
+                  c.grade,
+                  c.credits,
+                ]),
+                [
+                  { text: 'Semester Total:', colSpan: 3, bold: true },
+                  {},
+                  {},
+                  sem.total_max_marks,
+                  sem.total_min_marks,
+                  {
+                    text: sem.total_marks_obtained,
+                    colSpan: 2,
+                    alignment: 'center',
+                  },
+                  {},
+                  '',
+                  sem.total_credits,
+                ],
+                [
+                  { text: '', colSpan: 7 },
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  { text: 'SGPA:', bold: true },
+                  { text: sem.gpa, bold: true },
+                ],
+              ],
+            },
+            fontSize: 8,
+            margin: [0, 0, 0, 10],
+          },
+        ]),
+
+        // Footer
+        {
+          text: "\nThis is a computer-generated transcript, doesn't require signature.",
+          style: 'footer',
+          alignment: 'center',
+        },
+        {
+          text: `Generated on: ${new Date().toLocaleDateString()}`,
+          style: 'footer',
+          italics: true,
+          alignment: 'right',
+        },
+      ],
+
+      styles: {
+        header: { fontSize: 16, bold: true },
+        subheader: { fontSize: 12, bold: true },
+        info: { fontSize: 9, margin: [0, 1, 0, 1] },
+        footer: { fontSize: 8, margin: [0, 10, 0, 0] },
+      },
+
+      defaultStyle: { font: 'Times' },
+      pageMargins: [40, 40, 40, 40],
+    };
+
+    const pdfDoc = printer.createPdfKitDocument(docDefinition);
+
+    // ✅ Handle stream errors so server won't crash
+    pdfDoc.on('error', (err) => {
+      console.error('❌ PDF generation failed:', err.message);
+      if (!res.headersSent) {
+        res.status(500).json({ error: 'Failed to generate PDF' });
+      }
+    });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="Transcript_${student.rollno}.pdf"`
+    );
+
+    pdfDoc.pipe(res);
+    pdfDoc.end();
+  } catch (err) {
+    console.error('❌ generatePDF error:', err.message);
+    if (!res.headersSent) {
+      res
+        .status(500)
+        .json({ error: 'Internal Server Error while generating PDF' });
     }
-  });
+  }
 }
-//
 
 // For Wrong Routes redirect the user to " / "
 router.use((req, res, next) => {
